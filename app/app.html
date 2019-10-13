@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Electron Boilerplate</title>
+    <link rel="stylesheet" href="../src/stylesheets/bootstrap.min.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../node_modules/tui-time-picker/dist/tui-time-picker.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../node_modules/tui-date-picker/dist/tui-date-picker.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../node_modules/tui-calendar/dist/tui-calendar.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../src/stylesheets/default.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../src/stylesheets/icons.css"
+    />
+  </head>
+  <body>
+    <div class="code-html">
+      <div id="menu">
+        <span id="menu-navi">
+          <button
+            type="button"
+            class="btn btn-default btn-sm move-today"
+            data-action="move-today"
+          >
+            Today
+          </button>
+          <button
+            type="button"
+            class="btn btn-default btn-sm move-day"
+            data-action="move-prev"
+          >
+            <i
+              class="calendar-icon ic-arrow-line-left"
+              data-action="move-prev"
+            ></i>
+          </button>
+          <button
+            type="button"
+            class="btn btn-default btn-sm move-day"
+            data-action="move-next"
+          >
+            <i
+              class="calendar-icon ic-arrow-line-right"
+              data-action="move-next"
+            ></i>
+          </button>
+            <button id="clearStorage" class="btn btn-default">clear</button>
+        </span>
+        <span id="renderRange" class="render-range"></span>
+      </div>
+
+      <div id="calendar"></div>
+    </div>
+    <script>
+      window.$ = window.jQuery = require("jquery");
+    </script>
+    <script src="../src/data/popper.js"></script>
+    <script src="../src/js//bootstrap.min.js"></script>
+    <script src="../node_modules/tui-code-snippet/dist/tui-code-snippet.min.js"></script>
+    <script src="../node_modules/tui-dom/dist/tui-dom.js"></script>
+    <script src="../node_modules/tui-time-picker/dist/tui-time-picker.min.js"></script>
+    <script src="../node_modules/tui-date-picker/dist/tui-date-picker.js"></script>
+    <script src="../node_modules/moment/min/moment.min.js"></script>
+    <script src="../node_modules/chance/dist/chance.min.js"></script>
+    <script src="../node_modules/tui-calendar/dist/tui-calendar.js"></script>
+    <script src="../src/data/calendars.js"></script>
+    <script src="../src/data/schedules.js"></script>
+    <script src="../src/default.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>
