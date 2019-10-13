@@ -5,10 +5,10 @@ const storage = require("electron-json-storage");
 const dataPath = storage.getDataPath();
 console.log(dataPath);
 
-var resizeThrottled;
-var useCreationPopup = true;
-var useDetailPopup = true;
-var datePicker, selectedCalendar;
+let resizeThrottled;
+let useCreationPopup = true;
+let useDetailPopup = true;
+let datePicker, selectedCalendar;
 
 let storageArr = [];
 
@@ -36,25 +36,18 @@ cal.on({
   beforeUpdateSchedule: function(e) {
     // drag event
     console.log("beforeUpdateSchedule", e);
-    // e.schedule.start = e.start;
-    // e.schedule.end = e.end;
-    let schedule = e.schedule;
-    let startTime = e.start;
-    let endTime = e.end;
-    storage.get(schedule.id, function(error, data) {
+    e.schedule.start = e.start;
+    e.schedule.end = e.end;
+    storage.get(e.schedule.id, function(error, data) {
       if (error) throw error;
       data.id = e.schedule.id;
       data.calendarId = e.schedule.calendarId;
       data = e.schedule;
+
       // console.log(data);
       storage.set(e.schedule.id, data);
     });
-    cal.updateSchedule(schedule.id, schedule.calendarId, {
-      start: startTime,
-      end: endTime
-    });
-
-    // saveNewSchedule(e);
+    cal.updateSchedule(e.schedule.id, e.schedule.calendarId, e.schedule);
   },
   beforeDeleteSchedule: function(e) {
     console.log("beforeDeleteSchedule", e);

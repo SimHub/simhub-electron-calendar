@@ -218,22 +218,13 @@ function setSchedules() {
   cal.clear();
 
   let arr = [];
-  let out = {
-    id: "1",
-    calendarId: "1",
-    title: "my schedule",
-    category: "time",
-    dueDateClass: "",
-    start: "2019-10-11T22:30:00+09:00",
-    end: "2019-10-12T02:30:00+09:00"
-  };
 
   var schedule = new ScheduleInfo();
 
   storage.getAll(function(error, data) {
     if (error) throw error;
 
-    // console.log(data);
+    console.log(data);
     Object.values(data).forEach(i => {
       // console.log(i);
       // console.log(i.raw )
@@ -261,7 +252,6 @@ function setSchedules() {
     refreshScheduleVisibility();
   });
   // cal.createSchedules([ScheduleList['TPJJYAIT']]);
-  // cal.createSchedules([out]);
 }
 
 function refreshScheduleVisibility() {
