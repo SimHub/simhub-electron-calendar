@@ -36,27 +36,39 @@ cal.on({
   beforeUpdateSchedule: function(e) {
     // drag event
     console.log("beforeUpdateSchedule", e);
-    e.schedule.start = e.start;
-    e.schedule.end = e.end;
-    storage.get(e.schedule.id, function(error, data) {
+    // e.schedule.start = e.start;
+    // e.schedule.end = e.end;
+    let schedule = e.schedule;
+    let startTime = e.start;
+    let endTime = e.end;
+    storage.get(schedule.id, function(error, data) {
       if (error) throw error;
       data.id = e.schedule.id;
       data.calendarId = e.schedule.calendarId;
       data = e.schedule;
-
       // console.log(data);
       storage.set(e.schedule.id, data);
     });
-    cal.updateSchedule(e.schedule.id, e.schedule.calendarId, e.schedule);
+    cal.updateSchedule(schedule.id, schedule.calendarId, {
+      start: startTime,
+      end: endTime
+    });
+
+    // saveNewSchedule(e);
   },
   beforeDeleteSchedule: function(e) {
     console.log("beforeDeleteSchedule", e);
+
+    storage.remove(e.schedule.id, function(error) {
+      if (error) throw error;
+    });
+
     cal.deleteSchedule(e.schedule.id, e.schedule.calendarId);
   },
   afterRenderSchedule: function(e) {
     var schedule = e.schedule;
     var element = cal.getElement(schedule.id, schedule.calendarId);
-    // console.log("afterRenderSchedule", element);
+    console.log("afterRenderSchedule", schedule);
   },
   clickTimezonesCollapseBtn: function(timezonesCollapsed) {
     console.log("timezonesCollapsed", timezonesCollapsed);
@@ -124,9 +136,10 @@ function saveNewSchedule(scheduleData) {
     dragBgColor: calendar.bgColor,
     borderColor: calendar.borderColor,
     location: scheduleData.location,
-    raw: {
-      class: scheduleData.raw["class"]
-    },
+    // raw: {
+    // class: scheduleData.raw["class"]
+    // },
+    raw: scheduleData.raw,
     state: scheduleData.state,
     calendarId: scheduleData.calendarId
   };
