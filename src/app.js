@@ -1,23 +1,24 @@
 // import $ from 'jquery';
 // import Calendar from 'tui-calendar'; [> ES6 <]
 const storage = require("electron-json-storage");
-
 const dataPath = storage.getDataPath();
 console.log(dataPath);
 
+const clearStorageBtn = $("#clearStorage");
 let resizeThrottled;
 let useCreationPopup = true;
 let useDetailPopup = true;
 let datePicker, selectedCalendar;
 
 let storageArr = [];
-
-$("#clearStorage").on("click", () => {
+clearStorageBtn.on("click", () => {
   storage.clear(function(error) {
     if (error) throw error;
   });
+  location.reload();
 });
 
+let lastSchedule = {};
 // event handlers
 cal.on({
   clickMore: function(e) {
@@ -25,6 +26,7 @@ cal.on({
   },
   clickSchedule: function(e) {
     console.log("clickSchedule", e);
+    lastSchedule = e.schedule;
   },
   clickDayname: function(date) {
     console.log("clickDayname", date);
@@ -35,19 +37,31 @@ cal.on({
   },
   beforeUpdateSchedule: function(e) {
     // drag event
-    console.log("beforeUpdateSchedule", e);
-    e.schedule.start = e.start;
-    e.schedule.end = e.end;
-    storage.get(e.schedule.id, function(error, data) {
-      if (error) throw error;
-      data.id = e.schedule.id;
-      data.calendarId = e.schedule.calendarId;
-      data = e.schedule;
+    lastSchedule.id = e.schedule.id;
+    lastSchedule.title = e.schedule.title;
+    lastSchedule.calendarId = e.schedule.calendarId;
+    lastSchedule.title = e.schedule.title;
+    lastSchedule.location = e.schedule.location;
+    lastSchedule.state = e.schedule.state;
+    lastSchedule.start = e.start;
+    lastSchedule.end = e.end;
+    lastSchedule.isAllDay = e.schedule.isAllDay;
 
-      // console.log(data);
-      storage.set(e.schedule.id, data);
+    console.log("lastSchedule ", lastSchedule);
+    console.log("beforeUpdateSchedule", e);
+
+    storage.get(lastSchedule.id, function(error, data) {
+      if (error) throw error;
+      if (e.triggerEventName === "click") {
+        storage.set(lastSchedule.id, lastSchedule);
+      } else {
+        storage.set(lastSchedule.id, e.schedule);
+      }
     });
-    cal.updateSchedule(e.schedule.id, e.schedule.calendarId, e.schedule);
+    cal.updateSchedule(lastSchedule.id, lastSchedule.calendarId, {
+      start: lastSchedule.start,
+      end: lastSchedule.end
+    });
   },
   beforeDeleteSchedule: function(e) {
     console.log("beforeDeleteSchedule", e);
@@ -55,7 +69,6 @@ cal.on({
     storage.remove(e.schedule.id, function(error) {
       if (error) throw error;
     });
-
     cal.deleteSchedule(e.schedule.id, e.schedule.calendarId);
   },
   afterRenderSchedule: function(e) {
