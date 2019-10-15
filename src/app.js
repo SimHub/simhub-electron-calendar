@@ -38,6 +38,7 @@ cal.on({
   beforeUpdateSchedule: function(e) {
     // drag event
     lastSchedule.id = e.schedule.id;
+    if (e.calendar) lastSchedule.bgColor = e.calendar.bgColor;
     lastSchedule.title = e.schedule.title;
     lastSchedule.calendarId = e.schedule.calendarId;
     lastSchedule.title = e.schedule.title;
@@ -101,10 +102,10 @@ cal.on({
  */
 
 // new schedule Btn
-$("#btn-new-schedule").on("click",(e)=>{
-e.preventDefault();
-  console.log('CLICKED!')
-  cal.openCreationPopup()
+$("#btn-new-schedule").on("click", e => {
+  e.preventDefault();
+  console.log("CLICKED!");
+  cal.openCreationPopup();
 });
 
 function onClickNavi(e) {
