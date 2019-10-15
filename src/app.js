@@ -174,7 +174,6 @@ function saveNewSchedule(scheduleData) {
   refreshScheduleVisibility();
 }
 
-
 function setRenderRangeText() {
   var renderRange = document.getElementById("renderRange");
   var options = cal.getOptions();
@@ -207,15 +206,24 @@ resizeThrottled = tui.util.throttle(function() {
 
 // set calendars
 (function() {
-    var calendarList = document.getElementById('calendarList');
-    var html = [];
-    CalendarList.forEach(function(calendar) {
-        html.push('<div class="lnb-calendars-item"><label>' +
-            '<input type="checkbox" class="tui-full-calendar-checkbox-round" value="' + calendar.id + '" checked>' +
-            '<span style="border-color: ' + calendar.borderColor + '; background-color: ' + calendar.borderColor + ';"></span>' +
-            '<span>' + calendar.name + '</span>' +
-            '</label></div>'
-        );
-    });
-    calendarList.innerHTML = html.join('\n');
+  var calendarList = document.getElementById("calendarList");
+  var html = [];
+  CalendarList.forEach(function(calendar) {
+    html.push(
+      '<div class="lnb-calendars-item"><label>' +
+        '<input type="checkbox" class="tui-full-calendar-checkbox-round" value="' +
+        calendar.id +
+        '" checked>' +
+        '<span style="border-color: ' +
+        calendar.borderColor +
+        "; background-color: " +
+        calendar.borderColor +
+        ';"></span>' +
+        "<span>" +
+        calendar.name +
+        "</span>" +
+        "</label></div>"
+    );
+  });
+  calendarList.innerHTML = html.join("\n");
 })();
