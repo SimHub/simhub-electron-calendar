@@ -240,7 +240,7 @@ function setSchedules() {
         dueDateClass: i.dueDateClass,
         start: i.start._date,
         end: i.end._date,
-        raw: i.raw,
+        raw: i.raw
       });
     });
     // console.log([arr[0]]);
@@ -278,10 +278,75 @@ resizeThrottled = tui.util.throttle(function() {
 }, 50);
 
 function setEventListener() {
-  $('.dropdown-menu a[role="menuitem"]').on("click", onClickMenu);
   $("#menu-navi").on("click", onClickNavi);
+  $('.dropdown-menu a[role="menuitem"]').on("click", onClickMenu);
+  $("#lnb-calendars").on("change", onChangeCalendars);
+
+
+
   window.addEventListener("resize", resizeThrottled);
 }
+
+function onChangeCalendars(e) {
+  console.log('CHANGE CAL!!')
+  var calendarId = e.target.value;
+  var checked = e.target.checked;
+  var viewAll = document.querySelector(".lnb-calendars-item input");
+  var calendarElements = Array.prototype.slice.call(
+    document.querySelectorAll("#calendarList input")
+  );
+  var allCheckedCalendars = true;
+
+  if (calendarId === "all") {
+    allCheckedCalendars = checked;
+
+    calendarElements.forEach(function(input) {
+      var span = input.parentNode;
+      input.checked = checked;
+      span.style.backgroundColor = checked
+        ? span.style.borderColor
+        : "transparent";
+    });
+
+    CalendarList.forEach(function(calendar) {
+      calendar.checked = checked;
+    });
+  } else {
+    findCalendar(calendarId).checked = checked;
+
+    allCheckedCalendars = calendarElements.every(function(input) {
+      return input.checked;
+    });
+
+    if (allCheckedCalendars) {
+      viewAll.checked = true;
+    } else {
+      viewAll.checked = false;
+    }
+  }
+
+  refreshScheduleVisibility();
+}
+
+function refreshScheduleVisibility() {
+  var calendarElements = Array.prototype.slice.call(
+    document.querySelectorAll("#calendarList input")
+  );
+
+  CalendarList.forEach(function(calendar) {
+    cal.toggleSchedules(calendar.id, !calendar.checked, false);
+  });
+
+  cal.render(true);
+
+  calendarElements.forEach(function(input) {
+    var span = input.nextElementSibling;
+    span.style.backgroundColor = input.checked
+      ? span.style.borderColor
+      : "transparent";
+  });
+}
+
 
 cal.on({
   clickTimezonesCollapseBtn: function(timezonesCollapsed) {

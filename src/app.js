@@ -174,64 +174,6 @@ function saveNewSchedule(scheduleData) {
   refreshScheduleVisibility();
 }
 
-function onChangeCalendars(e) {
-  var calendarId = e.target.value;
-  var checked = e.target.checked;
-  var viewAll = document.querySelector(".lnb-calendars-item input");
-  var calendarElements = Array.prototype.slice.call(
-    document.querySelectorAll("#calendarList input")
-  );
-  var allCheckedCalendars = true;
-
-  if (calendarId === "all") {
-    allCheckedCalendars = checked;
-
-    calendarElements.forEach(function(input) {
-      var span = input.parentNode;
-      input.checked = checked;
-      span.style.backgroundColor = checked
-        ? span.style.borderColor
-        : "transparent";
-    });
-
-    CalendarList.forEach(function(calendar) {
-      calendar.checked = checked;
-    });
-  } else {
-    findCalendar(calendarId).checked = checked;
-
-    allCheckedCalendars = calendarElements.every(function(input) {
-      return input.checked;
-    });
-
-    if (allCheckedCalendars) {
-      viewAll.checked = true;
-    } else {
-      viewAll.checked = false;
-    }
-  }
-
-  refreshScheduleVisibility();
-}
-
-function refreshScheduleVisibility() {
-  var calendarElements = Array.prototype.slice.call(
-    document.querySelectorAll("#calendarList input")
-  );
-
-  CalendarList.forEach(function(calendar) {
-    cal.toggleSchedules(calendar.id, !calendar.checked, false);
-  });
-
-  cal.render(true);
-
-  calendarElements.forEach(function(input) {
-    var span = input.nextElementSibling;
-    span.style.backgroundColor = input.checked
-      ? span.style.borderColor
-      : "transparent";
-  });
-}
 
 function setRenderRangeText() {
   var renderRange = document.getElementById("renderRange");
@@ -262,3 +204,18 @@ function getDataAction(target) {
 resizeThrottled = tui.util.throttle(function() {
   cal.render();
 }, 50);
+
+// set calendars
+(function() {
+    var calendarList = document.getElementById('calendarList');
+    var html = [];
+    CalendarList.forEach(function(calendar) {
+        html.push('<div class="lnb-calendars-item"><label>' +
+            '<input type="checkbox" class="tui-full-calendar-checkbox-round" value="' + calendar.id + '" checked>' +
+            '<span style="border-color: ' + calendar.borderColor + '; background-color: ' + calendar.borderColor + ';"></span>' +
+            '<span>' + calendar.name + '</span>' +
+            '</label></div>'
+        );
+    });
+    calendarList.innerHTML = html.join('\n');
+})();
