@@ -99,6 +99,14 @@ cal.on({
  * A listener for click the menu
  * @param {Event} e - click event
  */
+
+// new schedule Btn
+$("#btn-new-schedule").on("click",(e)=>{
+e.preventDefault();
+  console.log('CLICKED!')
+  cal.openCreationPopup()
+});
+
 function onClickNavi(e) {
   var action = getDataAction(e.target);
 
