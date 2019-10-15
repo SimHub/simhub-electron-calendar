@@ -1,8 +1,8 @@
 @import url(http://fonts.googleapis.com/css?family=Noto+Sans);
 
 body {
-  font-family: 'Noto Sans', sans-serif;
-  color: '#333';
+  font-family: "Noto Sans", sans-serif;
+  color: "#333";
   font-size: 12px;
 }
 
@@ -29,7 +29,9 @@ body {
   color: #bbb;
 }
 
-.btn:focus:active, .btn:focus, .btn:active {
+.btn:focus:active,
+.btn:focus,
+.btn:active {
   outline: none;
 }
 
@@ -162,6 +164,8 @@ body {
 }
 
 #menu {
+  display: flex;
+  justify-content: space-between;
   padding: 16px;
 }
 
@@ -206,28 +210,28 @@ body {
 }
 
 .calendar-name {
-    font-size: 14px;
-    font-weight: bold;
-    vertical-align: middle;
+  font-size: 14px;
+  font-weight: bold;
+  vertical-align: middle;
 }
 
 .schedule-time {
-    color: #005aff;
+  color: #005aff;
 }
 
 #calendar {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 5px;
-    top: 64px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 5px;
+  top: 64px;
 }
 
 /** custom fontawesome */
 .fa {
-    width: 12px;
-    height: 12px;
-    margin-right: 2px;
+  width: 12px;
+  height: 12px;
+  margin-right: 2px;
 }
 
 .weekday-grid-more-schedules {
