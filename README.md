@@ -1,8 +1,7 @@
 # simhub-electron-calendar
 
 
-![electron-calendar]("./src/images/calendar.png")
- <a href="./src/images/calendar.png">electron-calendar</a> 
+ <img src="./src/images/calendar.png" alt="electron-calendar"/>
 
 ## Quick start
 
