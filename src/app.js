@@ -2,7 +2,7 @@
 // import Calendar from 'tui-calendar'; [> ES6 <]
 const storage = require("electron-json-storage");
 const dataPath = storage.getDataPath();
-console.log(dataPath);
+// console.log(dataPath);
 
 const clearStorageBtn = $("#clearStorage");
 let resizeThrottled;
@@ -38,25 +38,39 @@ cal.on({
   beforeUpdateSchedule: function(e) {
     // drag event
     lastSchedule.id = e.schedule.id;
-    if (e.calendar) lastSchedule.bgColor = e.calendar.bgColor;
-    lastSchedule.title = e.schedule.title;
     lastSchedule.calendarId = e.schedule.calendarId;
     lastSchedule.title = e.schedule.title;
     lastSchedule.location = e.schedule.location;
     lastSchedule.state = e.schedule.state;
+    lastSchedule.isAllDay = e.schedule.isAllDay;
     lastSchedule.start = e.start;
     lastSchedule.end = e.end;
-    lastSchedule.isAllDay = e.schedule.isAllDay;
-
-    console.log("lastSchedule ", lastSchedule);
-    console.log("beforeUpdateSchedule", e);
+    // console.log(e.calendar);
+    if (e.calendar) {
+      lastSchedule.bgColor = e.calendar.bgColor;
+      lastSchedule.borderColor = e.calendar.borderColor;
+      lastSchedule.checked = e.calendar.checked;
+      lastSchedule.color = e.calendar.color;
+      lastSchedule.dragBgColor = e.calendar.dragBgColor;
+      lastSchedule.name = e.calendar.name;
+    }
+    if (lastSchedule.isAllDay) {
+      lastSchedule.category = "allday";
+      e.schedule.category = "allday";
+    } else if (!lastSchedule.isAllDay) {
+      lastSchedule.category = "time";
+      e.schedule.category = "time";
+    }
+    // console.log("lastSchedule ", lastSchedule);
+    // console.log("beforeUpdateSchedule", e);
 
     storage.get(lastSchedule.id, function(error, data) {
       if (error) throw error;
+      // console.log(e.triggerEventName);
       if (e.triggerEventName === "click") {
-        storage.set(lastSchedule.id, lastSchedule);
+        storage.set(e.schedule.id, lastSchedule);
       } else {
-        storage.set(lastSchedule.id, e.schedule);
+        storage.set(e.schedule.id, e.schedule);
       }
     });
     cal.updateSchedule(lastSchedule.id, lastSchedule.calendarId, {
@@ -104,7 +118,7 @@ cal.on({
 // new schedule Btn
 $("#btn-new-schedule").on("click", e => {
   e.preventDefault();
-  console.log("CLICKED!");
+  // console.log("CLICKED!");
   cal.openCreationPopup();
 });
 

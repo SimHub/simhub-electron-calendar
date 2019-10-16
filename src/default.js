@@ -23,9 +23,19 @@ const templates = {
     return "End date";
   },
   popupSave: function() {
+    setTimeout(() => {
+      $(
+        ".tui-full-calendar-popup-section-item.tui-full-calendar-section-allday"
+      ).css({ display: "none" });
+    }, 100);
     return "Save";
   },
   popupUpdate: function() {
+    setTimeout(() => {
+      $(
+        ".tui-full-calendar-popup-section-item.tui-full-calendar-section-allday"
+      ).css({ display: "none" });
+    }, 100);
     return "Update";
   },
   popupDetailDate: function(isAllDay, start, end) {
@@ -58,7 +68,7 @@ const templates = {
   popupDetailBody: function(schedule) {
     return "Body : " + schedule.body;
   },
-  popupEdit: function() {
+  popupEdit: function(e) {
     return "Edit";
   },
   popupDelete: function() {
@@ -240,7 +250,9 @@ function setSchedules() {
         dueDateClass: i.dueDateClass,
         start: i.start._date,
         end: i.end._date,
-        raw: i.raw
+        raw: i.raw,
+        isAllDay: i.isAllDay,
+        category: i.category
       });
     });
     // console.log([arr[0]]);
