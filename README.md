@@ -2,7 +2,7 @@
 
 
 ![electron-calendar]("./src/images/calendar.png")
-
+ <a href="./src/images/calendar.png">electron-calendar</a> 
 
 ## Quick start
 
