@@ -1,15 +1,15 @@
-# electron-boilerplate
+# simhub-electron-calendar
 
-A minimalistic boilerplate for [Electron runtime](http://electron.atom.io). Tested on Windows, macOS and Linux.  
 
-This project contains only bare minimum of tooling and dependencies to provide you with simple to understand and extensible base (but still, this is fully functional Electron environment). The boilerplate also doesn't impose on you any frontend technologies, so feel free to pick your favourite.
+![electron-calendar]("./src/images/calendar.png")
 
-# Quick start
+
+## Quick start
 
 Make sure you have [Node.js](https://nodejs.org) installed, then type the following commands known to every Node developer...
 ```
-git clone https://github.com/szwacz/electron-boilerplate.git
-cd electron-boilerplate
+git clone https://github.com/SimHub/simhub-electron-calendar.git
+cd /path/into/folder/
 npm install
 npm start
 ```
