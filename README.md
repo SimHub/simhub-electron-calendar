@@ -3,12 +3,25 @@
 
  <img src="./src/images/calendar.png" alt="electron-calendar"/>
 
-## Quick start
+# Download App  
+
+
+
+
+# For Developers  
+
+## ToastUi calendar 
+
+[tui-calendar]('https://github.com/nhn/tui.calendar')
+
+## Electron  
+
+### Quick start
 
 Make sure you have [Node.js](https://nodejs.org) installed, then type the following commands known to every Node developer...
 ```
 git clone https://github.com/SimHub/simhub-electron-calendar.git
-cd /path/into/folder/
+cd /simhub-electron-calendar/
 npm install
 npm start
 ```
