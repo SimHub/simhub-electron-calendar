@@ -1,5 +1,9 @@
 const storage = require("electron-json-storage");
 
+// const { app } = require('electron').remote;
+// const p=app.getPath('userData');
+// console.log(p)
+
 let resizeThrottled;
 
 const templates = {

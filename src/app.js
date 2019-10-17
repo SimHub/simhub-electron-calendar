@@ -1,6 +1,6 @@
-const storage = require("electron-json-storage");
+// const storage = require("electron-json-storage");
 const dataPath = storage.getDataPath();
-// console.log(dataPath);
+console.log(dataPath);
 
 const clearStorageBtn = $("#clearStorage");
 let datePicker, selectedCalendar;
