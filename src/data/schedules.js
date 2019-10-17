@@ -9,7 +9,7 @@ var SCHEDULE_CATEGORY = [
     'task'
 ];
 
-function ScheduleInfo() {
+export function ScheduleInfo() {
     this.id = null;
     this.calendarId = null;
 

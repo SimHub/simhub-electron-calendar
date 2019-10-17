@@ -1,4 +1,14 @@
+import moment from 'moment';
+import Calendar from 'tui-calendar'; /* ES6 */
+import {CalendarList,findCalendar} from './data/calendars.js'; /* ES6 */
+import {ScheduleInfo} from './data/schedules.js'; /* ES6 */
+var throttle = require('tui-code-snippet/tricks/throttle');
 const storage = require("electron-json-storage");
+var Chance = require('chance');
+
+// Instantiate Chance so it can be used
+var chance = new Chance();
+
 
 // const { app } = require('electron').remote;
 // const p=app.getPath('userData');
@@ -81,7 +91,7 @@ const templates = {
     return "Delete";
   }
 };
-var cal = new tui.Calendar("#calendar", {
+export const cal = new Calendar("#calendar", {
   defaultView: "month",
   template: templates,
   taskView: true,
@@ -89,7 +99,7 @@ var cal = new tui.Calendar("#calendar", {
   useDetailPopup: true
 });
 
-function init() {
+ function init() {
   cal.setCalendars(CalendarList);
 
   setRenderRangeText();
@@ -132,6 +142,7 @@ function setDropdownCalendarType() {
 }
 
 function onClickMenu(e) {
+  console.log('CKLICKED!!!')
   var target = $(e.target).closest('a[role="menuitem"]')[0];
   var action = getDataAction(target);
   var options = cal.getOptions();
@@ -230,7 +241,7 @@ function setRenderRangeText() {
   renderRange.innerHTML = html.join("");
 }
 
-function setSchedules() {
+export function setSchedules() {
   cal.clear();
 
   let arr = [];
@@ -272,7 +283,7 @@ function setSchedules() {
   // cal.createSchedules([ScheduleList['TPJJYAIT']]);
 }
 
-function saveNewSchedule(scheduleData) {
+export function saveNewSchedule(scheduleData) {
   // console.log(scheduleData);
   let Id = chance.string({
     length: 8,
@@ -336,7 +347,7 @@ function refreshScheduleVisibility() {
   });
 }
 
-resizeThrottled = tui.util.throttle(function() {
+resizeThrottled = throttle(function() {
   cal.render();
 }, 50);
 
@@ -385,25 +396,6 @@ function onChangeCalendars(e) {
   }
 
   refreshScheduleVisibility();
-}
-
-function refreshScheduleVisibility() {
-  var calendarElements = Array.prototype.slice.call(
-    document.querySelectorAll("#calendarList input")
-  );
-
-  CalendarList.forEach(function(calendar) {
-    cal.toggleSchedules(calendar.id, !calendar.checked, false);
-  });
-
-  cal.render(true);
-
-  calendarElements.forEach(function(input) {
-    var span = input.nextElementSibling;
-    span.style.backgroundColor = input.checked
-      ? span.style.borderColor
-      : "transparent";
-  });
 }
 
 cal.on({

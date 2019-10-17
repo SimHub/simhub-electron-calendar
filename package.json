@@ -39,6 +39,7 @@
     "moment": "^2.24.0",
     "popper.js": "^1.15.0",
     "tui-calendar": "^1.12.5",
+    "tui-code-snippet": "^2.0.0",
     "tui-dom": "^3.0.0"
   },
   "devDependencies": {

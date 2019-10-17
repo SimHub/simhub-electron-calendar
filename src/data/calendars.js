@@ -2,7 +2,7 @@
 
 /* eslint-disable require-jsdoc, no-unused-vars */
 
-var CalendarList = [];
+export var CalendarList = [];
 
 function CalendarInfo() {
     this.id = null;
@@ -17,7 +17,7 @@ function addCalendar(calendar) {
     CalendarList.push(calendar);
 }
 
-function findCalendar(id) {
+export function findCalendar(id) {
     var found;
 
     CalendarList.forEach(function(calendar) {
@@ -107,7 +107,7 @@ function hexToRGBA(hex) {
     calendar = new CalendarInfo();
     id += 1;
     calendar.id = String(id);
-    calendar.name = 'Birthdays';
+    calendar.name = 'Privat';
     calendar.color = '#ffffff';
     calendar.bgColor = '#ffbb3b';
     calendar.dragBgColor = '#ffbb3b';
@@ -124,3 +124,4 @@ function hexToRGBA(hex) {
     calendar.borderColor = '#ff4040';
     addCalendar(calendar);
 })();
+

@@ -3,31 +3,31 @@
   <head>
     <meta charset="utf-8" />
     <title>Electron Calendar</title>
-    <link rel="stylesheet" href="../src/stylesheets/bootstrap.min.css" />
+    <link rel="stylesheet" href="stylesheets/bootstrap.min.css" />
     <link
       rel="stylesheet"
       type="text/css"
-      href="../node_modules/tui-time-picker/dist/tui-time-picker.css"
+      href="tui-time-picker/tui-time-picker.css"
     />
     <link
       rel="stylesheet"
       type="text/css"
-      href="../node_modules/tui-date-picker/dist/tui-date-picker.css"
+      href="tui-date-picker/tui-date-picker.css"
     />
     <link
       rel="stylesheet"
       type="text/css"
-      href="../node_modules/tui-calendar/dist/tui-calendar.css"
+      href="tui-calendar/tui-calendar.css"
     />
     <link
       rel="stylesheet"
       type="text/css"
-      href="../src/stylesheets/default.css"
+      href="stylesheets/default.css"
     />
     <link
       rel="stylesheet"
       type="text/css"
-      href="../src/stylesheets/icons.css"
+      href="stylesheets/icons.css"
     />
   </head>
   <body>
@@ -193,7 +193,7 @@
         </span>
         <span id="renderRange" class="render-range"></span>
         <button id="clearStorage" class="btn btn-default">
-          <img src="../src/icons/trash_mid.svg" alt="" width="18"i style="vertical-align: -4px;"/>
+          <img src="icons/trash_mid.svg" alt="" width="18"i style="vertical-align: -4px;"/>
         </button>
       </div>
       <div id="calendar"></div>
@@ -201,18 +201,18 @@
     <script>
       window.$ = window.jQuery = require("jquery");
     </script>
-    <script src="../src/data/popper.js"></script>
-    <script src="../src/js//bootstrap.min.js"></script>
-    <script src="../node_modules/tui-code-snippet/dist/tui-code-snippet.min.js"></script>
-    <script src="../node_modules/tui-dom/dist/tui-dom.js"></script>
-    <script src="../node_modules/tui-time-picker/dist/tui-time-picker.min.js"></script>
-    <script src="../node_modules/tui-date-picker/dist/tui-date-picker.js"></script>
-    <script src="../node_modules/moment/min/moment.min.js"></script>
-    <script src="../node_modules/chance/dist/chance.min.js"></script>
-    <script src="../node_modules/tui-calendar/dist/tui-calendar.js"></script>
-    <script src="../src/data/calendars.js"></script>
-    <script src="../src/data/schedules.js"></script>
-    <script src="../src/default.js"></script>
+    <script src="js/popper.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <!-- <script src="tui-code-snippet/tui-code-snippet.min.js"></script> -->
+    <!-- <script src="tui-dom/tui-dom.js"></script> -->
+    <!-- <script src="tui-time-picker/tui-time-picker.min.js"></script> -->
+    <!-- <script src="tui-date-picker/tui-date-picker.js"></script> -->
+    <!-- <script src="moment/moment.min.js"></script> -->
+    <!-- <script src="chance/chance.min.js"></script> -->
+    <!-- <script src="tui-calendar/tui-calendar.js"></script> -->
+    <!-- <script src="data/calendars.js"></script> -->
+    <!-- <script src="data/schedules.js"></script> -->
+    <!-- <script src="data/default.js"></script> -->
     <script src="./app.js"></script>
   </body>
 </html>

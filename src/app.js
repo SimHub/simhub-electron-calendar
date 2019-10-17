@@ -1,4 +1,6 @@
-// const storage = require("electron-json-storage");
+import {cal,setSchedules,saveNewSchedule} from './default.js';
+import {CalendarList,findCalendar} from './data/calendars.js'; /* ES6 */
+const storage = require("electron-json-storage");
 const dataPath = storage.getDataPath();
 console.log(dataPath);
 
