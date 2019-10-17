@@ -1,5 +1,7 @@
 const storage = require("electron-json-storage");
 
+let resizeThrottled;
+
 const templates = {
   popupIsAllDay: function() {
     return "All Day";
@@ -234,7 +236,7 @@ function setSchedules() {
   storage.getAll(function(error, data) {
     if (error) throw error;
 
-    console.log(data);
+    // console.log(data);
     Object.values(data).forEach(i => {
       // console.log(i);
       // console.log(i.raw )
@@ -264,6 +266,51 @@ function setSchedules() {
     refreshScheduleVisibility();
   });
   // cal.createSchedules([ScheduleList['TPJJYAIT']]);
+}
+
+function saveNewSchedule(scheduleData) {
+  // console.log(scheduleData);
+  let Id = chance.string({
+    length: 8,
+    casing: "upper",
+    alpha: true,
+    numeric: true
+  });
+  var calendar = scheduleData.calendar || findCalendar(scheduleData.calendarId);
+  var schedule = {
+    id: Id,
+    title: scheduleData.title,
+    isAllDay: scheduleData.isAllDay,
+    start: scheduleData.start,
+    end: scheduleData.end,
+    category: scheduleData.isAllDay ? "allday" : "time",
+    dueDateClass: "",
+    color: calendar.color,
+    bgColor: calendar.bgColor,
+    dragBgColor: calendar.bgColor,
+    borderColor: calendar.borderColor,
+    location: scheduleData.location,
+    // raw: {
+    // class: scheduleData.raw["class"]
+    // },
+    raw: scheduleData.raw,
+    state: scheduleData.state,
+    calendarId: scheduleData.calendarId
+  };
+  // console.log(calendar);
+  if (calendar) {
+    schedule.calendarId = calendar.id;
+    // schedule.color = calendar.color;
+    // schedule.bgColor = calendar.bgColor;
+    // schedule.borderColor = calendar.borderColor;
+  }
+  // console.log(schedule)
+  storage.set(schedule.id, schedule, function(error) {
+    if (error) throw error;
+  });
+  cal.createSchedules([schedule]);
+
+  refreshScheduleVisibility();
 }
 
 function refreshScheduleVisibility() {

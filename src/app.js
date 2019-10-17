@@ -1,13 +1,8 @@
-// import $ from 'jquery';
-// import Calendar from 'tui-calendar'; [> ES6 <]
 const storage = require("electron-json-storage");
 const dataPath = storage.getDataPath();
 // console.log(dataPath);
 
 const clearStorageBtn = $("#clearStorage");
-let resizeThrottled;
-let useCreationPopup = true;
-let useDetailPopup = true;
 let datePicker, selectedCalendar;
 
 let storageArr = [];
@@ -89,7 +84,7 @@ cal.on({
   afterRenderSchedule: function(e) {
     var schedule = e.schedule;
     var element = cal.getElement(schedule.id, schedule.calendarId);
-    console.log("afterRenderSchedule", schedule);
+    // console.log("afterRenderSchedule", schedule);
   },
   clickTimezonesCollapseBtn: function(timezonesCollapsed) {
     console.log("timezonesCollapsed", timezonesCollapsed);
@@ -121,102 +116,6 @@ $("#btn-new-schedule").on("click", e => {
   // console.log("CLICKED!");
   cal.openCreationPopup();
 });
-
-function onClickNavi(e) {
-  var action = getDataAction(e.target);
-
-  switch (action) {
-    case "move-prev":
-      cal.prev();
-      break;
-    case "move-next":
-      cal.next();
-      break;
-    case "move-today":
-      cal.today();
-      break;
-    default:
-      return;
-  }
-
-  setRenderRangeText();
-  setSchedules();
-}
-
-function saveNewSchedule(scheduleData) {
-  // console.log(scheduleData);
-  let Id = chance.string({
-    length: 8,
-    casing: "upper",
-    alpha: true,
-    numeric: true
-  });
-  var calendar = scheduleData.calendar || findCalendar(scheduleData.calendarId);
-  var schedule = {
-    id: Id,
-    title: scheduleData.title,
-    isAllDay: scheduleData.isAllDay,
-    start: scheduleData.start,
-    end: scheduleData.end,
-    category: scheduleData.isAllDay ? "allday" : "time",
-    dueDateClass: "",
-    color: calendar.color,
-    bgColor: calendar.bgColor,
-    dragBgColor: calendar.bgColor,
-    borderColor: calendar.borderColor,
-    location: scheduleData.location,
-    // raw: {
-    // class: scheduleData.raw["class"]
-    // },
-    raw: scheduleData.raw,
-    state: scheduleData.state,
-    calendarId: scheduleData.calendarId
-  };
-  // console.log(calendar);
-  if (calendar) {
-    schedule.calendarId = calendar.id;
-    // schedule.color = calendar.color;
-    // schedule.bgColor = calendar.bgColor;
-    // schedule.borderColor = calendar.borderColor;
-  }
-  // console.log(schedule)
-  storage.set(schedule.id, schedule, function(error) {
-    if (error) throw error;
-  });
-  cal.createSchedules([schedule]);
-
-  refreshScheduleVisibility();
-}
-
-function setRenderRangeText() {
-  var renderRange = document.getElementById("renderRange");
-  var options = cal.getOptions();
-  var viewName = cal.getViewName();
-  var html = [];
-  if (viewName === "day") {
-    html.push(moment(cal.getDate().getTime()).format("YYYY.MM.DD"));
-  } else if (
-    viewName === "month" &&
-    (!options.month.visibleWeeksCount || options.month.visibleWeeksCount > 4)
-  ) {
-    html.push(moment(cal.getDate().getTime()).format("YYYY.MM"));
-  } else {
-    html.push(moment(cal.getDateRangeStart().getTime()).format("YYYY.MM.DD"));
-    html.push(" ~ ");
-    html.push(moment(cal.getDateRangeEnd().getTime()).format(" MM.DD"));
-  }
-  renderRange.innerHTML = html.join("");
-}
-
-function getDataAction(target) {
-  return target.dataset
-    ? target.dataset.action
-    : target.getAttribute("data-action");
-}
-
-resizeThrottled = tui.util.throttle(function() {
-  cal.render();
-}, 50);
 
 // set calendars
 (function() {
