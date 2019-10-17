@@ -120,12 +120,16 @@ function setDropdownCalendarType() {
   var type = cal.getViewName();
   var iconClassName;
 
+    $('#btn-new-schedule').slideDown('slow');
   if (type === "day") {
     type = "Daily";
     iconClassName = "calendar-icon ic_view_day";
+    $('#btn-new-schedule').slideUp('slow');
   } else if (type === "week") {
     type = "Weekly";
     iconClassName = "calendar-icon ic_view_week";
+    $('#btn-new-schedule').slideUp('slow');;
+    console.log('change')
   } else if (options.month.visibleWeeksCount === 2) {
     type = "2 weeks";
     iconClassName = "calendar-icon ic_view_week";
