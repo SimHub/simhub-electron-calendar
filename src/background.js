@@ -35,7 +35,7 @@ app.on("ready", () => {
 
   const mainWindow = createWindow("main", {
     width: 1220,
-    height: 600
+    height: 600,
   });
 
   mainWindow.loadURL(

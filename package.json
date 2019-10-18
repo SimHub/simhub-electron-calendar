@@ -1,12 +1,12 @@
 {
-  "name": "electron-boilerplate",
-  "productName": "Electron Boilerplate",
-  "description": "Starter for your Electron application",
+  "name": "electron-calendar",
+  "productName": "Electron Calendar",
+  "description": "tui-calendar for electron",
   "version": "0.0.0",
   "private": true,
-  "author": "Mr. Gumby <mr.gumby@example.com>",
-  "copyright": "© 2017, Gumby inc.",
-  "homepage": "http://example.com",
+  "author": "simhub.dev@gmail.com",
+  "copyright": "simon lackmann",
+  "homepage": "http://simhub.github.io/portfolio/",
   "main": "app/background.js",
   "build": {
     "appId": "com.example.electron-boilerplate",
