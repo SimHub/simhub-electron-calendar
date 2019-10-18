@@ -8,7 +8,7 @@
 
  <a href="https://github.com/SimHub/simhub-electron-calendar/releases"
  al="app">_Download built binaries from the releases section_  <img
- src="./resources/icons/icon.png" width="50" alt="electron-calendar"/></a> 
+ src="./resources/icons/512x512.png" width="50" alt="electron-calendar"/></a> 
 
 
 # For Developers  
