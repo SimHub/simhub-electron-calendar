@@ -1,4 +1,4 @@
-# simhub-electron-calendar tHub commit  
+#  <img src="./resources/icons/512x512.png" alt="electron-calendar" width="50"/>  simhub-electron-calendar 
  
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/simhub/simhub-electron-calendar?style=for-the-badge)
 ![GitHub
