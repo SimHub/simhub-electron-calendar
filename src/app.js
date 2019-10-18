@@ -1,5 +1,5 @@
-import {cal,setSchedules,saveNewSchedule} from './default.js';
-import {CalendarList,findCalendar} from './data/calendars.js'; /* ES6 */
+import { cal, setSchedules, saveNewSchedule } from "./default.js";
+import { CalendarList, findCalendar } from "./data/calendars.js"; /* ES6 */
 const storage = require("electron-json-storage");
 const dataPath = storage.getDataPath();
 console.log(dataPath);
@@ -141,4 +141,38 @@ $("#btn-new-schedule").on("click", e => {
     );
   });
   calendarList.innerHTML = html.join("\n");
+
+  $(".lnb-calendars-item").on("dblclick", function(e) {
+    let el = $(this)
+      .find("label")
+      .children()
+      .eq(2);
+    console.log("dbClick!!! ", e);
+    console.log("THIS ", el);
+
+    el.css({
+      width: "100%",
+      height: "25px",
+      "line-height": "19px",
+      border: "1px solid",
+      "border-radius": "3px",
+      "line-height": "0"
+    }).prop("contenteditable", true);
+
+    
+    el.focusout(function(e) {
+      console.log("focueOUT");
+      console.log($(e.target).text())
+      $(e.target)
+        .css({
+          width: "",
+          height: "",
+          "line-height": "",
+          border: "",
+          "border-radius": "",
+          "line-height": ""
+        })
+        .removeAttr("contenteditable");
+    });
+  });
 })();
