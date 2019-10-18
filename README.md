@@ -3,7 +3,7 @@
 
  <img src="./src/images/calendar.png" alt="electron-calendar"/>
 
- # <img src="./src/images/calendar.png" alt="electron-calendar" width="30"/>  Download App 
+ # <img src="./resources/icons/512x512.png" alt="electron-calendar" width="30"/>  Download App 
 
 
  <a href="https://github.com/SimHub/simhub-electron-calendar/releases"
