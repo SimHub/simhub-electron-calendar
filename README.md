@@ -1,14 +1,11 @@
 # simhub-electron-calendar
 
 
- <img src="./src/images/calendar.png" alt="electron-calendar"/>
-
-# Download App  
-
+ # <img src="./src/images/calendar.png" alt="electron-calendar" width="30"/>  Download App 
+ 
 
  <a href="https://github.com/SimHub/simhub-electron-calendar/releases"
- al="app"><img src="./resources/icons/512x512.png" width="50"
- alt="electron-calendar"/><em style="vertical-align: 18px;"> - Download built
+ al="app"><em style="vertical-align: 18px;">Download built
  binaries from the releases section</em> </a> 
 
 
