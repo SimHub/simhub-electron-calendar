@@ -1,7 +1,6 @@
 # simhub-electron-calendar tHub commit  
 
-![GitHub commit
-activity](https://img.shields.io/github/commit-activity/m/simhub/simhub-electron-calendar?style=for-the-badge)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/m/simhub/simhub-electron-calendar?style=for-the-badge)
 ![GitHub
 contributors](https://img.shields.io/github/contributors/simhub/simhub-electron-calendar?style=for-the-badge)
 ![GitHub All Releases](https://img.shields.io/github/downloads/simhub/simhub-electron-calendar/total?style=for-the-badge)
@@ -12,7 +11,7 @@ contributors](https://img.shields.io/github/contributors/simhub/simhub-electron-
 ![GitHub search hit counter](https://img.shields.io/github/search/simhub/simhub-electron-calendar/goto?style=for-the-badge)
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/simhub/simhub-electron-calendar?style=for-the-badge)
 ![GitHub repo size](https://img.shields.io/github/repo-size/simhub/simhub-electron-calendar?style=for-the-badge)
-
+![GitHub issues](https://img.shields.io/github/issues/simhub/simhub-electron-calendar?style=for-the-badge)
 
 
  <img src="./src/images/calendar.png" alt="electron-calendar"/>  
