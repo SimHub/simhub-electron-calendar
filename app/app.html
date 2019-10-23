@@ -43,7 +43,7 @@
       </div>
       <div id="lnb-calendars" class="lnb-calendars">
         <div>
-          <div class="lnb-calendars-item">
+          <div class="lnb-calendars-item" style="display: flex;justify-content: space-between;">
             <label>
               <input
                 class="tui-full-calendar-checkbox-square"
@@ -53,6 +53,16 @@
               />
               <span></span>
               <strong>View all</strong>
+            </label>
+
+            <label>
+              <input
+                class="tui-full-calendar-checkbox-square"
+                type="checkbox"
+                value="edit"
+              />
+              <span></span>
+              <strong>edit</strong>
             </label>
           </div>
         </div>
@@ -192,9 +202,9 @@
           </button>
         </span>
         <span id="renderRange" class="render-range"></span>
-        <button id="clearStorage" class="btn btn-default">
-          <img src="icons/trash_mid.svg" alt="" width="18"i style="vertical-align: -4px;"/>
-        </button>
+        <!-- <button id="clearStorage" class="btn btn-default"> -->
+          <!-- <img src="icons/trash_mid.svg" alt="" width="18"i style="vertical-align: -4px;"/> -->
+        <!-- </button> -->
       </div>
       <div id="calendar"></div>
     </div>

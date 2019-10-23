@@ -1,14 +1,19 @@
-import moment from 'moment';
-import Calendar from 'tui-calendar'; /* ES6 */
-import {CalendarList,findCalendar} from './data/calendars.js'; /* ES6 */
-import {ScheduleInfo} from './data/schedules.js'; /* ES6 */
-var throttle = require('tui-code-snippet/tricks/throttle');
+import moment from "moment";
+import Calendar from "tui-calendar"; /* ES6 */
+import {
+  initCalendar,
+  CalendarList,
+  findCalendar
+} from "./data/calendars.js"; /* ES6 */
+import { ScheduleInfo } from "./data/schedules.js"; /* ES6 */
+var throttle = require("tui-code-snippet/tricks/throttle");
 const storage = require("electron-json-storage");
-var Chance = require('chance');
+const dataPath = storage.getDataPath();
+console.log(dataPath);
+var Chance = require("chance");
 
 // Instantiate Chance so it can be used
 var chance = new Chance();
-
 
 // const { app } = require('electron').remote;
 // const p=app.getPath('userData');
@@ -99,12 +104,25 @@ export const cal = new Calendar("#calendar", {
   useDetailPopup: true
 });
 
- function init() {
-  cal.setCalendars(CalendarList);
+function init() {
+  storage.has("calendar", (e, hasKey) => {
+    if (e) throw e;
+    console.log(hasKey);
+    if (hasKey) {
+      storage.get("calendar", (e, d) => {
+        if (e) throw e;
+        console.log(d);
+        cal.setCalendars(d);
+      });
+    } else {
+      cal.setCalendars(CalendarList);
+    }
+  });
 
   setRenderRangeText();
   setSchedules();
   setEventListener();
+  initCalendar();
 }
 
 function getDataAction(target) {
@@ -120,16 +138,16 @@ function setDropdownCalendarType() {
   var type = cal.getViewName();
   var iconClassName;
 
-    $('#btn-new-schedule').slideDown('slow');
+  $("#btn-new-schedule").slideDown("slow");
   if (type === "day") {
     type = "Daily";
     iconClassName = "calendar-icon ic_view_day";
-    $('#btn-new-schedule').slideUp('slow');
+    $("#btn-new-schedule").slideUp("slow");
   } else if (type === "week") {
     type = "Weekly";
     iconClassName = "calendar-icon ic_view_week";
-    $('#btn-new-schedule').slideUp('slow');;
-    console.log('change')
+    $("#btn-new-schedule").slideUp("slow");
+    console.log("change");
   } else if (options.month.visibleWeeksCount === 2) {
     type = "2 weeks";
     iconClassName = "calendar-icon ic_view_week";
@@ -146,7 +164,7 @@ function setDropdownCalendarType() {
 }
 
 function onClickMenu(e) {
-  console.log('CKLICKED!!!')
+  console.log("CLICKED!!!");
   var target = $(e.target).closest('a[role="menuitem"]')[0];
   var action = getDataAction(target);
   var options = cal.getOptions();
@@ -254,36 +272,45 @@ export function setSchedules() {
 
   storage.getAll(function(error, data) {
     if (error) throw error;
+    try {
+      console.log("SCHEDULE: ", data);
 
-    // console.log(data);
-    Object.values(data).forEach(i => {
-      // console.log(i);
-      // console.log(i.raw )
-      arr.push({
-        id: i.id,
-        bgColor: i.bgColor,
-        borderColor: i.borderColor,
-        color: i.color,
-        state: i.state,
-        calendarId: i.calendarId,
-        title: i.title,
-        category: i.category,
-        dueDateClass: i.dueDateClass,
-        start: i.start._date,
-        end: i.end._date,
-        raw: i.raw,
-        isAllDay: i.isAllDay,
-        category: i.category
+      Object.values(data).forEach(i => {
+        console.log(typeof i);
+        console.log(i.length);
+        console.log(i);
+        // console.log(i.raw )
+        if (i.length === undefined) {
+          arr.push({
+            id: i.id,
+            bgColor: i.bgColor,
+            borderColor: i.borderColor,
+            color: i.color,
+            state: i.state,
+            calendarId: i.calendarId,
+            title: i.title,
+            category: i.category,
+            dueDateClass: i.dueDateClass,
+            start: i.start._date,
+            end: i.end._date,
+            raw: i.raw,
+            isAllDay: i.isAllDay,
+            category: i.category
+          });
+        }
       });
-    });
-    // console.log([arr[0]]);
-    arr.forEach(task => {
-      // console.log(task);
-      cal.createSchedules([task]);
-    });
-    //cal.createSchedules([arr[0]]);
-    refreshScheduleVisibility();
+      // console.log([arr[0]]);
+      arr.forEach(task => {
+        // console.log(task);
+        cal.createSchedules([task]);
+      });
+      //cal.createSchedules([arr[0]]);
+      refreshScheduleVisibility();
+    } catch (e) {
+      console.log("NOOP: ", e);
+    }
   });
+
   // cal.createSchedules([ScheduleList['TPJJYAIT']]);
 }
 
@@ -324,6 +351,7 @@ export function saveNewSchedule(scheduleData) {
     // schedule.borderColor = calendar.borderColor;
   }
   // console.log(schedule)
+  // storage.set("schedule", { [`${schedule.id}`]: schedule }, function(error) {
   storage.set(schedule.id, schedule, function(error) {
     if (error) throw error;
   });
@@ -363,6 +391,7 @@ function setEventListener() {
 }
 
 function onChangeCalendars(e) {
+  let calElement = e.target;
   var calendarId = e.target.value;
   var checked = e.target.checked;
   var viewAll = document.querySelector(".lnb-calendars-item input");
@@ -370,7 +399,7 @@ function onChangeCalendars(e) {
     document.querySelectorAll("#calendarList input")
   );
   var allCheckedCalendars = true;
-
+  console.log(calendarId);
   if (calendarId === "all") {
     allCheckedCalendars = checked;
 
@@ -398,6 +427,62 @@ function onChangeCalendars(e) {
       viewAll.checked = false;
     }
   }
+
+  /// Edit Calendar///
+  if (calendarId === "edit") {
+    console.log(calElement.checked);
+    if (calElement.checked) {
+      calendarElements.forEach(function(el) {
+        var span = $(el)
+          .siblings()
+          .eq(1);
+        console.log(span);
+        span
+          .css({
+            width: "100%",
+            height: "25px",
+            "line-height": "19px",
+            border: "2px solid #000",
+            "border-radius": "3px",
+            "line-height": "0",
+            "box-sizing": "border-box",
+            padding: "1px",
+            color: "grey"
+          })
+          .prop("contenteditable", true);
+      });
+    } else {
+      calendarElements.forEach(function(el) {
+        var span = $(el)
+          .siblings()
+          .eq(1);
+        let id = span
+          .siblings()
+          .eq(0)
+          .val();
+        let txt = span.text();
+        span
+          .css({
+            width: "",
+            height: "",
+            "line-height": "",
+            border: "",
+            "border-radius": "",
+            "line-height": "",
+            color: "#000"
+          })
+          .removeAttr("contenteditable");
+        console.log(id, txt);
+        CalendarList[parseInt(id) - 1].id = id;
+        CalendarList[parseInt(id) - 1].name = txt;
+        // console.log(CalendarList[parseInt(id)-1]);
+      });
+      console.log(CalendarList);
+      storage.set("calendar", CalendarList);
+    }
+  }
+
+  ////////////
 
   refreshScheduleVisibility();
 }

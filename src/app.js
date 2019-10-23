@@ -8,12 +8,13 @@ const clearStorageBtn = $("#clearStorage");
 let datePicker, selectedCalendar;
 
 let storageArr = [];
-clearStorageBtn.on("click", () => {
-  storage.clear(function(error) {
-    if (error) throw error;
-  });
-  location.reload();
-});
+// clearStorageBtn.on("click", () => {
+// storage.clear(function(error) {
+// if (error) throw error;
+// storage.set("calendar", CalendarList);
+// });
+// location.reload();
+// });
 
 let lastSchedule = {};
 // event handlers
@@ -33,9 +34,13 @@ cal.on({
     saveNewSchedule(e);
   },
   beforeUpdateSchedule: function(e) {
+    console.log(e);
     // drag event
     lastSchedule.id = e.schedule.id;
     lastSchedule.calendarId = e.schedule.calendarId;
+    lastSchedule.bgColor = e.schedule.bgColor;
+    lastSchedule.borderColor = e.schedule.borderColor;
+    lastSchedule.color = e.schedule.color;
     lastSchedule.title = e.schedule.title;
     lastSchedule.location = e.schedule.location;
     lastSchedule.state = e.schedule.state;
@@ -58,16 +63,18 @@ cal.on({
       lastSchedule.category = "time";
       e.schedule.category = "time";
     }
-    // console.log("lastSchedule ", lastSchedule);
-    // console.log("beforeUpdateSchedule", e);
+    console.log("lastSchedule ", lastSchedule);
+    console.log("beforeUpdateSchedule", e);
 
     storage.get(lastSchedule.id, function(error, data) {
       if (error) throw error;
-      // console.log(e.triggerEventName);
+      console.log(e.triggerEventName);
       if (e.triggerEventName === "click") {
+        // storage.set("schedule", { [`${e.schedule.id}`]: lastSchedule });
         storage.set(e.schedule.id, lastSchedule);
       } else {
-        storage.set(e.schedule.id, e.schedule);
+        // storage.set("schedule", { [`${e.schedule.id}`]: e.schedule });
+        storage.set(e.schedule.id, lastSchedule);
       }
     });
     cal.updateSchedule(lastSchedule.id, lastSchedule.calendarId, {
@@ -123,56 +130,78 @@ $("#btn-new-schedule").on("click", e => {
 (function() {
   var calendarList = document.getElementById("calendarList");
   var html = [];
-  CalendarList.forEach(function(calendar) {
-    html.push(
-      '<div class="lnb-calendars-item"><label>' +
-        '<input type="checkbox" class="tui-full-calendar-checkbox-round" value="' +
-        calendar.id +
-        '" checked>' +
-        '<span style="border-color: ' +
-        calendar.borderColor +
-        "; background-color: " +
-        calendar.borderColor +
-        ';"></span>' +
-        "<span>" +
-        calendar.name +
-        "</span>" +
-        "</label></div>"
-    );
+  let calArr = [];
+  let storageCal = storage.get("calendar", (e, d) => {
+    if (e) console.error(e);
+    console.log(d);
+    calArr.push(d);
   });
-  calendarList.innerHTML = html.join("\n");
+  console.log(CalendarList);
+  console.log(calArr);
+  storage.get("calendar", (e, cal) => {
+    if (e) console.error(e);
+    let c = cal.length !== undefined ? cal : CalendarList;
+    console.log(cal.length);
+    console.log(cal);
+    console.log("WHAAAAT");
+    c.forEach(calendar => {
+      console.log(calendar);
+      html.push(
+        '<div class="lnb-calendars-item"><label>' +
+          '<input type="checkbox" class="tui-full-calendar-checkbox-round" value="' +
+          calendar.id +
+          '" checked>' +
+          '<span style="border-color: ' +
+          calendar.borderColor +
+          "; background-color: " +
+          calendar.borderColor +
+          ';"></span>' +
+          "<span>" +
+          calendar.name +
+          "</span>" +
+          "</label></div>"
+      );
 
-  $(".lnb-calendars-item").on("dblclick", function(e) {
-    let el = $(this)
-      .find("label")
-      .children()
-      .eq(2);
-    console.log("dbClick!!! ", e);
-    console.log("THIS ", el);
-
-    el.css({
-      width: "100%",
-      height: "25px",
-      "line-height": "19px",
-      border: "1px solid",
-      "border-radius": "3px",
-      "line-height": "0"
-    }).prop("contenteditable", true);
-
-    
-    el.focusout(function(e) {
-      console.log("focueOUT");
-      console.log($(e.target).text())
-      $(e.target)
-        .css({
-          width: "",
-          height: "",
-          "line-height": "",
-          border: "",
-          "border-radius": "",
-          "line-height": ""
-        })
-        .removeAttr("contenteditable");
+      calendarList.innerHTML = html.join("\n");
     });
-  });
+
+    // $("#calendarList .lnb-calendars-item").on("dblclick", function(e) {
+    // let el = $(this)
+    // .find("label")
+    // .children()
+    // .eq(2);
+    // console.log("dbClick!!! ", e);
+    // console.log("THIS ", el);
+
+    // el.css({
+    // width: "100%",
+    // height: "25px",
+    // "line-height": "19px",
+    // border: "1px solid",
+    // "border-radius": "3px",
+    // "line-height": "0"
+    // }).prop("contenteditable", true);
+
+    // el.focusout(function(e) {
+    // console.log("focueOUT");
+    // console.log($(e.target).text());
+    // $(".lnb-calendars-item").each(item => {
+    // console.log(item);
+    // });
+    // $(e.target)
+    // .css({
+    // width: "",
+    // height: "",
+    // "line-height": "",
+    // border: "",
+    // "border-radius": "",
+    // "line-height": ""
+    // })
+    // .removeAttr("contenteditable");
+    // });
+
+    // // storage.set("calendar", CalendarList);
+    // console.log(CalendarList);
+    // });
+  }); // End Storage
 })();
