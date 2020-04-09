@@ -37,7 +37,7 @@
     "fs-jetpack": "^2.1.0",
     "jquery": "^3.4.1",
     "moment": "^2.24.0",
-    "popper.js": "^1.15.0",
+    "popper.js": "^1.16.1",
     "tui-calendar": "^1.12.6",
     "tui-code-snippet": "^2.0.0",
     "tui-dom": "^3.0.0"
