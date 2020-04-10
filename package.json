@@ -38,7 +38,7 @@
     "jquery": "^3.4.1",
     "moment": "^2.24.0",
     "popper.js": "^1.15.0",
-    "tui-calendar": "^1.12.6",
+    "tui-calendar": "^1.12.11",
     "tui-code-snippet": "^2.0.0",
     "tui-dom": "^3.0.0"
   },
