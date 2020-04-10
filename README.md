@@ -1,4 +1,7 @@
 #  <img src="./resources/icons/512x512.png" alt="electron-calendar" width="100"/>  simhub-electron-calendar 
+
+###Tui-calendar wrapper for electron 🤭 
+
  
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/simhub/simhub-electron-calendar?style=for-the-badge)
 ![GitHub
