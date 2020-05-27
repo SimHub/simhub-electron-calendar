@@ -28,7 +28,9 @@
     "e2e": "mocha temp/e2e.js --require source-map-support/register",
     "test": "npm run unit && npm run e2e",
     "start": "node build/start.js",
-    "release": "npm test && webpack --config=build/webpack.app.config.js --env=production && electron-builder"
+    "release": "npm test && webpack --config=build/webpack.app.config.js --env=production && electron-builder",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "dependencies": {
     "chance": "^1.1.4",
@@ -40,7 +42,8 @@
     "popper.js": "^1.16.1",
     "tui-code-snippet": "^2.3.2",
     "tui-calendar": "^1.12.13",
-    "tui-dom": "^3.0.0"
+    "tui-dom": "^3.0.0",
+    "snyk": "^1.330.0"
   },
   "devDependencies": {
     "@babel/core": "^7.5.5",
@@ -60,5 +63,6 @@
     "webpack-cli": "^3.3.6",
     "webpack-merge": "^4.1.3",
     "webpack-node-externals": "^1.7.2"
-  }
+  },
+  "snyk": true
 }
