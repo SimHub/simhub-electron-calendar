@@ -33,7 +33,7 @@
     "prepare": "npm run snyk-protect"
   },
   "dependencies": {
-    "chance": "^1.1.4",
+    "chance": "^1.1.5",
     "bootstrap": "^4.4.1",
     "electron-json-storage": "^4.1.8",
     "jquery": "^3.5.1",
