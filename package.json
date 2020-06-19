@@ -43,7 +43,7 @@
     "tui-code-snippet": "^2.3.2",
     "tui-calendar": "^1.12.13",
     "tui-dom": "^3.0.0",
-    "snyk": "^1.330.0"
+    "snyk": "^1.332.1"
   },
   "devDependencies": {
     "@babel/core": "^7.5.5",
