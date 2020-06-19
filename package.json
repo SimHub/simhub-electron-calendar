@@ -34,10 +34,10 @@
   },
   "dependencies": {
     "chance": "^1.1.5",
-    "bootstrap": "^4.4.1",
+    "bootstrap": "^4.5.0",
     "electron-json-storage": "^4.1.8",
     "jquery": "^3.5.1",
-    "fs-jetpack": "^2.3.0",
+    "fs-jetpack": "^2.4.0",
     "moment": "^2.25.1",
     "popper.js": "^1.16.1",
     "tui-code-snippet": "^2.3.2",
