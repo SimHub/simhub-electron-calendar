@@ -33,12 +33,12 @@
     "prepare": "npm run snyk-protect"
   },
   "dependencies": {
-    "chance": "^1.1.4",
-    "bootstrap": "^4.4.1",
+    "chance": "^1.1.5",
+    "bootstrap": "^4.5.0",
     "electron-json-storage": "^4.1.8",
     "jquery": "^3.5.1",
-    "fs-jetpack": "^2.3.0",
     "moment": "^2.25.3",
+    "fs-jetpack": "^2.4.0",
     "popper.js": "^1.16.1",
     "tui-code-snippet": "^2.3.2",
     "tui-calendar": "^1.12.13",
