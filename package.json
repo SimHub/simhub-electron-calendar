@@ -41,7 +41,7 @@
     "fs-jetpack": "^2.4.0",
     "popper.js": "^1.16.1",
     "tui-code-snippet": "^2.3.2",
-    "tui-calendar": "^1.12.14",
+    "tui-calendar": "^1.13.0",
     "tui-dom": "^3.0.0",
     "snyk": "^1.426.0"   
   },
