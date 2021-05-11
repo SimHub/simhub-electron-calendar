@@ -2,7 +2,7 @@
   "name": "electron-calendar",
   "productName": "Electron Calendar",
   "description": "tui-calendar for electron",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "private": true,
   "author": "simhub.dev@gmail.com",
   "copyright": "simon lackmann",
