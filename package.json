@@ -34,16 +34,17 @@
   },
   "dependencies": {
     "chance": "^1.1.7",
-    "electron-json-storage": "^4.4.0",
-    "bootstrap": "^4.5.3",
+
+    "electron-json-storage": "^4.3.0",
+    "bootstrap": "^4.6.0",
     "jquery": "^3.5.1",
     "moment": "^2.29.1",
     "fs-jetpack": "^2.4.0",
     "popper.js": "^1.16.1",
     "tui-code-snippet": "^2.3.2",
-    "tui-calendar": "^1.12.14",
+    "tui-calendar": "^1.13.0",
     "tui-dom": "^3.0.0",
-    "snyk": "^1.426.0"   
+    "snyk": "^1.437.3"   
   },
   "devDependencies": {
     "@babel/core": "^7.5.5",
@@ -51,7 +52,7 @@
     "babel-loader": "^8.0.0-beta.4",
     "chai": "^4.1.0",
     "css-loader": "^3.1.0",
-    "electron": "^7.2.4",
+    "electron": "^9.4.0",
     "electron-builder": "^21.1.5",
     "electron-mocha": "^8.1.1",
     "friendly-errors-webpack-plugin": "^1.7.0",
