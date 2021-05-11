@@ -1,5 +1,7 @@
 import { cal, setSchedules, saveNewSchedule } from "./default.js";
 import { CalendarList, findCalendar } from "./data/calendars.js"; /* ES6 */
+import * as $ from "jquery";
+
 const storage = require("electron-json-storage");
 const dataPath = storage.getDataPath();
 console.log(dataPath);
@@ -19,21 +21,21 @@ let storageArr = [];
 let lastSchedule = {};
 // event handlers
 cal.on({
-  clickMore: function(e) {
+  clickMore: function (e) {
     console.log("clickMore", e);
   },
-  clickSchedule: function(e) {
+  clickSchedule: function (e) {
     console.log("clickSchedule", e);
     lastSchedule = e.schedule;
   },
-  clickDayname: function(date) {
+  clickDayname: function (date) {
     console.log("clickDayname", date);
   },
-  beforeCreateSchedule: function(e) {
+  beforeCreateSchedule: function (e) {
     console.log("beforeCreateSchedule", e);
     saveNewSchedule(e);
   },
-  beforeUpdateSchedule: function(e) {
+  beforeUpdateSchedule: function (e) {
     console.log(e);
     // drag event
     lastSchedule.id = e.schedule.id;
@@ -66,7 +68,7 @@ cal.on({
     console.log("lastSchedule ", lastSchedule);
     console.log("beforeUpdateSchedule", e);
 
-    storage.get(lastSchedule.id, function(error, data) {
+    storage.get(lastSchedule.id, function (error, data) {
       if (error) throw error;
       console.log(e.triggerEventName);
       if (e.triggerEventName === "click") {
@@ -79,39 +81,39 @@ cal.on({
     });
     cal.updateSchedule(lastSchedule.id, lastSchedule.calendarId, {
       start: lastSchedule.start,
-      end: lastSchedule.end
+      end: lastSchedule.end,
     });
   },
-  beforeDeleteSchedule: function(e) {
+  beforeDeleteSchedule: function (e) {
     console.log("beforeDeleteSchedule", e);
 
-    storage.remove(e.schedule.id, function(error) {
+    storage.remove(e.schedule.id, function (error) {
       if (error) throw error;
     });
     cal.deleteSchedule(e.schedule.id, e.schedule.calendarId);
   },
-  afterRenderSchedule: function(e) {
+  afterRenderSchedule: function (e) {
     var schedule = e.schedule;
     var element = cal.getElement(schedule.id, schedule.calendarId);
     // console.log("afterRenderSchedule", schedule);
   },
-  clickTimezonesCollapseBtn: function(timezonesCollapsed) {
+  clickTimezonesCollapseBtn: function (timezonesCollapsed) {
     console.log("timezonesCollapsed", timezonesCollapsed);
 
     if (timezonesCollapsed) {
       cal.setTheme({
         "week.daygridLeft.width": "77px",
-        "week.timegridLeft.width": "77px"
+        "week.timegridLeft.width": "77px",
       });
     } else {
       cal.setTheme({
         "week.daygridLeft.width": "60px",
-        "week.timegridLeft.width": "60px"
+        "week.timegridLeft.width": "60px",
       });
     }
 
     return true;
-  }
+  },
 });
 
 /**
@@ -120,14 +122,14 @@ cal.on({
  */
 
 // new schedule Btn
-$("#btn-new-schedule").on("click", e => {
+$("#btn-new-schedule").on("click", (e) => {
   e.preventDefault();
   // console.log("CLICKED!");
   cal.openCreationPopup();
 });
 
 // set calendars
-(function() {
+(function () {
   var calendarList = document.getElementById("calendarList");
   var html = [];
   let calArr = [];
@@ -144,7 +146,7 @@ $("#btn-new-schedule").on("click", e => {
     console.log(cal.length);
     console.log(cal);
     console.log("WHAAAAT");
-    c.forEach(calendar => {
+    c.forEach((calendar) => {
       console.log(calendar);
       html.push(
         '<div class="lnb-calendars-item"><label>' +

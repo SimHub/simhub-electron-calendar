@@ -33,20 +33,17 @@
     "prepare": "npm run snyk-protect"
   },
   "dependencies": {
-    "chance": "^1.1.7",
-
-    "electron-json-storage": "^4.3.0",
     "bootstrap": "^4.6.0",
+    "chance": "^1.1.7",
+    "electron-json-storage": "^4.3.0",
+    "fs-jetpack": "^2.4.0",
     "jquery": "^3.5.1",
     "moment": "^2.29.1",
-    "fs-jetpack": "^2.4.0",
     "popper.js": "^1.16.1",
-    "tui-code-snippet": "^2.3.2",
+    "snyk": "^1.518.0",
     "tui-calendar": "^1.13.0",
-    "tui-dom": "^3.0.0",
-
-    "snyk": "^1.518.0"   
-
+    "tui-code-snippet": "^2.3.2",
+    "tui-dom": "^3.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.5.5",

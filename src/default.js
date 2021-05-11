@@ -1,9 +1,10 @@
 import moment from "moment";
+import * as $ from "jquery";
 import Calendar from "tui-calendar"; /* ES6 */
 import {
   initCalendar,
   CalendarList,
-  findCalendar
+  findCalendar,
 } from "./data/calendars.js"; /* ES6 */
 import { ScheduleInfo } from "./data/schedules.js"; /* ES6 */
 var throttle = require("tui-code-snippet/tricks/throttle");
@@ -22,28 +23,28 @@ var chance = new Chance();
 let resizeThrottled;
 
 const templates = {
-  popupIsAllDay: function() {
+  popupIsAllDay: function () {
     return "All Day";
   },
-  popupStateFree: function() {
+  popupStateFree: function () {
     return "Free";
   },
-  popupStateBusy: function() {
+  popupStateBusy: function () {
     return "Busy";
   },
-  titlePlaceholder: function() {
+  titlePlaceholder: function () {
     return "Subject";
   },
-  locationPlaceholder: function() {
+  locationPlaceholder: function () {
     return "Location";
   },
-  startDatePlaceholder: function() {
+  startDatePlaceholder: function () {
     return "Start date";
   },
-  endDatePlaceholder: function() {
+  endDatePlaceholder: function () {
     return "End date";
   },
-  popupSave: function() {
+  popupSave: function () {
     setTimeout(() => {
       $(
         ".tui-full-calendar-popup-section-item.tui-full-calendar-section-allday"
@@ -51,7 +52,7 @@ const templates = {
     }, 100);
     return "Save";
   },
-  popupUpdate: function() {
+  popupUpdate: function () {
     setTimeout(() => {
       $(
         ".tui-full-calendar-popup-section-item.tui-full-calendar-section-allday"
@@ -59,7 +60,7 @@ const templates = {
     }, 100);
     return "Update";
   },
-  popupDetailDate: function(isAllDay, start, end) {
+  popupDetailDate: function (isAllDay, start, end) {
     var isSameDate = moment(start).isSame(end);
     var endFormat = (isSameDate ? "" : "YYYY.MM.DD ") + "hh:mm a";
     if (isAllDay) {
@@ -74,34 +75,34 @@ const templates = {
       moment(end).format(endFormat)
     );
   },
-  popupDetailLocation: function(schedule) {
+  popupDetailLocation: function (schedule) {
     return "Location : " + schedule.location;
   },
-  popupDetailUser: function(schedule) {
+  popupDetailUser: function (schedule) {
     return "User : " + (schedule.attendees || []).join(", ");
   },
-  popupDetailState: function(schedule) {
+  popupDetailState: function (schedule) {
     return "State : " + schedule.state || "Busy";
   },
-  popupDetailRepeat: function(schedule) {
+  popupDetailRepeat: function (schedule) {
     return "Repeat : " + schedule.recurrenceRule;
   },
-  popupDetailBody: function(schedule) {
+  popupDetailBody: function (schedule) {
     return "Body : " + schedule.body;
   },
-  popupEdit: function(e) {
+  popupEdit: function (e) {
     return "Edit";
   },
-  popupDelete: function() {
+  popupDelete: function () {
     return "Delete";
-  }
+  },
 };
 export const cal = new Calendar("#calendar", {
   defaultView: "month",
   template: templates,
   taskView: true,
   useCreationPopup: true,
-  useDetailPopup: true
+  useDetailPopup: true,
 });
 
 function init() {
@@ -270,12 +271,12 @@ export function setSchedules() {
 
   var schedule = new ScheduleInfo();
 
-  storage.getAll(function(error, data) {
+  storage.getAll(function (error, data) {
     if (error) throw error;
     try {
       console.log("SCHEDULE: ", data);
 
-      Object.values(data).forEach(i => {
+      Object.values(data).forEach((i) => {
         console.log(typeof i);
         console.log(i.length);
         console.log(i);
@@ -295,12 +296,12 @@ export function setSchedules() {
             end: i.end._date,
             raw: i.raw,
             isAllDay: i.isAllDay,
-            category: i.category
+            category: i.category,
           });
         }
       });
       // console.log([arr[0]]);
-      arr.forEach(task => {
+      arr.forEach((task) => {
         // console.log(task);
         cal.createSchedules([task]);
       });
@@ -320,7 +321,7 @@ export function saveNewSchedule(scheduleData) {
     length: 8,
     casing: "upper",
     alpha: true,
-    numeric: true
+    numeric: true,
   });
   var calendar = scheduleData.calendar || findCalendar(scheduleData.calendarId);
   var schedule = {
@@ -341,7 +342,7 @@ export function saveNewSchedule(scheduleData) {
     // },
     raw: scheduleData.raw,
     state: scheduleData.state,
-    calendarId: scheduleData.calendarId
+    calendarId: scheduleData.calendarId,
   };
   // console.log(calendar);
   if (calendar) {
@@ -352,7 +353,7 @@ export function saveNewSchedule(scheduleData) {
   }
   // console.log(schedule)
   // storage.set("schedule", { [`${schedule.id}`]: schedule }, function(error) {
-  storage.set(schedule.id, schedule, function(error) {
+  storage.set(schedule.id, schedule, function (error) {
     if (error) throw error;
   });
   cal.createSchedules([schedule]);
@@ -365,13 +366,13 @@ function refreshScheduleVisibility() {
     document.querySelectorAll("#calendarList input")
   );
 
-  CalendarList.forEach(function(calendar) {
+  CalendarList.forEach(function (calendar) {
     cal.toggleSchedules(calendar.id, !calendar.checked, false);
   });
 
   cal.render(true);
 
-  calendarElements.forEach(function(input) {
+  calendarElements.forEach(function (input) {
     var span = input.nextElementSibling;
     span.style.backgroundColor = input.checked
       ? span.style.borderColor
@@ -379,7 +380,7 @@ function refreshScheduleVisibility() {
   });
 }
 
-resizeThrottled = throttle(function() {
+resizeThrottled = throttle(function () {
   cal.render();
 }, 50);
 
@@ -403,7 +404,7 @@ function onChangeCalendars(e) {
   if (calendarId === "all") {
     allCheckedCalendars = checked;
 
-    calendarElements.forEach(function(input) {
+    calendarElements.forEach(function (input) {
       var span = input.parentNode;
       input.checked = checked;
       span.style.backgroundColor = checked
@@ -411,13 +412,13 @@ function onChangeCalendars(e) {
         : "transparent";
     });
 
-    CalendarList.forEach(function(calendar) {
+    CalendarList.forEach(function (calendar) {
       calendar.checked = checked;
     });
   } else {
     findCalendar(calendarId).checked = checked;
 
-    allCheckedCalendars = calendarElements.every(function(input) {
+    allCheckedCalendars = calendarElements.every(function (input) {
       return input.checked;
     });
 
@@ -432,10 +433,8 @@ function onChangeCalendars(e) {
   if (calendarId === "edit") {
     console.log(calElement.checked);
     if (calElement.checked) {
-      calendarElements.forEach(function(el) {
-        var span = $(el)
-          .siblings()
-          .eq(1);
+      calendarElements.forEach(function (el) {
+        var span = $(el).siblings().eq(1);
         console.log(span);
         span
           .css({
@@ -447,19 +446,14 @@ function onChangeCalendars(e) {
             "line-height": "0",
             "box-sizing": "border-box",
             padding: "1px",
-            color: "grey"
+            color: "grey",
           })
           .prop("contenteditable", true);
       });
     } else {
-      calendarElements.forEach(function(el) {
-        var span = $(el)
-          .siblings()
-          .eq(1);
-        let id = span
-          .siblings()
-          .eq(0)
-          .val();
+      calendarElements.forEach(function (el) {
+        var span = $(el).siblings().eq(1);
+        let id = span.siblings().eq(0).val();
         let txt = span.text();
         span
           .css({
@@ -469,7 +463,7 @@ function onChangeCalendars(e) {
             border: "",
             "border-radius": "",
             "line-height": "",
-            color: "#000"
+            color: "#000",
           })
           .removeAttr("contenteditable");
         console.log(id, txt);
@@ -488,21 +482,21 @@ function onChangeCalendars(e) {
 }
 
 cal.on({
-  clickTimezonesCollapseBtn: function(timezonesCollapsed) {
+  clickTimezonesCollapseBtn: function (timezonesCollapsed) {
     if (timezonesCollapsed) {
       cal.setTheme({
         "week.daygridLeft.width": "77px",
-        "week.timegridLeft.width": "77px"
+        "week.timegridLeft.width": "77px",
       });
     } else {
       cal.setTheme({
         "week.daygridLeft.width": "60px",
-        "week.timegridLeft.width": "60px"
+        "week.timegridLeft.width": "60px",
       });
     }
 
     return true;
-  }
+  },
 });
 
 init();
