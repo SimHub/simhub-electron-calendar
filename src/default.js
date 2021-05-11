@@ -10,7 +10,7 @@ import { ScheduleInfo } from "./data/schedules.js"; /* ES6 */
 var throttle = require("tui-code-snippet/tricks/throttle");
 const storage = require("electron-json-storage");
 const dataPath = storage.getDataPath();
-console.log(dataPath);
+// console.log(dataPath);
 var Chance = require("chance");
 
 // Instantiate Chance so it can be used
@@ -108,11 +108,11 @@ export const cal = new Calendar("#calendar", {
 function init() {
   storage.has("calendar", (e, hasKey) => {
     if (e) throw e;
-    console.log(hasKey);
+    // console.log(hasKey);
     if (hasKey) {
       storage.get("calendar", (e, d) => {
         if (e) throw e;
-        console.log(d);
+        // console.log(d);
         cal.setCalendars(d);
       });
     } else {
@@ -148,7 +148,7 @@ function setDropdownCalendarType() {
     type = "Weekly";
     iconClassName = "calendar-icon ic_view_week";
     $("#btn-new-schedule").slideUp("slow");
-    console.log("change");
+    // console.log("change");
   } else if (options.month.visibleWeeksCount === 2) {
     type = "2 weeks";
     iconClassName = "calendar-icon ic_view_week";
@@ -165,7 +165,7 @@ function setDropdownCalendarType() {
 }
 
 function onClickMenu(e) {
-  console.log("CLICKED!!!");
+  // console.log("CLICKED!!!");
   var target = $(e.target).closest('a[role="menuitem"]')[0];
   var action = getDataAction(target);
   var options = cal.getOptions();
@@ -274,12 +274,12 @@ export function setSchedules() {
   storage.getAll(function (error, data) {
     if (error) throw error;
     try {
-      console.log("SCHEDULE: ", data);
+      // console.log("SCHEDULE: ", data);
 
       Object.values(data).forEach((i) => {
-        console.log(typeof i);
-        console.log(i.length);
-        console.log(i);
+        // console.log(typeof i);
+        // console.log(i.length);
+        // console.log(i);
         // console.log(i.raw )
         if (i.length === undefined) {
           arr.push({
@@ -308,7 +308,7 @@ export function setSchedules() {
       //cal.createSchedules([arr[0]]);
       refreshScheduleVisibility();
     } catch (e) {
-      console.log("NOOP: ", e);
+      // console.log("NOOP: ", e);
     }
   });
 
@@ -316,7 +316,7 @@ export function setSchedules() {
 }
 
 export function saveNewSchedule(scheduleData) {
-  console.log("saved ", scheduleData);
+  // console.log("saved ", scheduleData);
   let Id = chance.string({
     length: 8,
     casing: "upper",
@@ -431,11 +431,11 @@ function onChangeCalendars(e) {
 
   /// Edit Calendar///
   if (calendarId === "edit") {
-    console.log(calElement.checked);
+    // console.log(calElement.checked);
     if (calElement.checked) {
       calendarElements.forEach(function (el) {
         var span = $(el).siblings().eq(1);
-        console.log(span);
+        // console.log(span);
         span
           .css({
             width: "100%",
@@ -466,12 +466,12 @@ function onChangeCalendars(e) {
             color: "#000",
           })
           .removeAttr("contenteditable");
-        console.log(id, txt);
+        // console.log(id, txt);
         CalendarList[parseInt(id) - 1].id = id;
         CalendarList[parseInt(id) - 1].name = txt;
         // console.log(CalendarList[parseInt(id)-1]);
       });
-      console.log(CalendarList);
+      // console.log(CalendarList);
       storage.set("calendar", CalendarList);
     }
   }

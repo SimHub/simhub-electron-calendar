@@ -4,7 +4,7 @@ import * as $ from "jquery";
 
 const storage = require("electron-json-storage");
 const dataPath = storage.getDataPath();
-console.log(dataPath);
+// console.log(dataPath);
 
 const clearStorageBtn = $("#clearStorage");
 let datePicker, selectedCalendar;
@@ -22,21 +22,21 @@ let lastSchedule = {};
 // event handlers
 cal.on({
   clickMore: function (e) {
-    console.log("clickMore", e);
+    // console.log("clickMore", e);
   },
   clickSchedule: function (e) {
-    console.log("clickSchedule", e);
+    // console.log("clickSchedule", e);
     lastSchedule = e.schedule;
   },
   clickDayname: function (date) {
-    console.log("clickDayname", date);
+    // console.log("clickDayname", date);
   },
   beforeCreateSchedule: function (e) {
-    console.log("beforeCreateSchedule", e);
+    // console.log("beforeCreateSchedule", e);
     saveNewSchedule(e);
   },
   beforeUpdateSchedule: function (e) {
-    console.log(e);
+    // console.log(e);
     // drag event
     lastSchedule.id = e.schedule.id;
     lastSchedule.calendarId = e.changes.calendarId
@@ -76,12 +76,12 @@ cal.on({
       lastSchedule.category = "time";
       e.schedule.category = "time";
     }
-    console.log("lastSchedule ", lastSchedule);
-    console.log("beforeUpdateSchedule", e);
+    // console.log("lastSchedule ", lastSchedule);
+    // console.log("beforeUpdateSchedule", e);
 
     storage.get(lastSchedule.id, function (error, data) {
       if (error) throw error;
-      console.log(e.triggerEventName);
+      // console.log(e.triggerEventName);
       if (e.triggerEventName === "click") {
         // storage.set("schedule", { [`${e.schedule.id}`]: lastSchedule });
         storage.set(e.schedule.id, lastSchedule);
@@ -96,7 +96,7 @@ cal.on({
     });
   },
   beforeDeleteSchedule: function (e) {
-    console.log("beforeDeleteSchedule", e);
+    // console.log("beforeDeleteSchedule", e);
 
     storage.remove(e.schedule.id, function (error) {
       if (error) throw error;
@@ -109,7 +109,7 @@ cal.on({
     // console.log("afterRenderSchedule", schedule);
   },
   clickTimezonesCollapseBtn: function (timezonesCollapsed) {
-    console.log("timezonesCollapsed", timezonesCollapsed);
+    // console.log("timezonesCollapsed", timezonesCollapsed);
 
     if (timezonesCollapsed) {
       cal.setTheme({
@@ -146,19 +146,19 @@ $("#btn-new-schedule").on("click", (e) => {
   let calArr = [];
   let storageCal = storage.get("calendar", (e, d) => {
     if (e) console.error(e);
-    console.log(d);
+    // console.log(d);
     calArr.push(d);
   });
-  console.log(CalendarList);
-  console.log(calArr);
+  // console.log(CalendarList);
+  // console.log(calArr);
   storage.get("calendar", (e, cal) => {
     if (e) console.error(e);
     let c = cal.length !== undefined ? cal : CalendarList;
-    console.log(cal.length);
-    console.log(cal);
-    console.log("WHAAAAT");
+    // console.log(cal.length);
+    // console.log(cal);
+    // console.log("WHAAAAT");
     c.forEach((calendar) => {
-      console.log(calendar);
+      // console.log(calendar);
       html.push(
         '<div class="lnb-calendars-item"><label>' +
           '<input type="checkbox" class="tui-full-calendar-checkbox-round" value="' +
