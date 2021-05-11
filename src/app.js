@@ -39,14 +39,25 @@ cal.on({
     console.log(e);
     // drag event
     lastSchedule.id = e.schedule.id;
-    lastSchedule.calendarId = e.schedule.calendarId;
-    lastSchedule.bgColor = e.schedule.bgColor;
-    lastSchedule.borderColor = e.schedule.borderColor;
-    lastSchedule.color = e.schedule.color;
-    lastSchedule.title = e.schedule.title;
-    lastSchedule.location = e.schedule.location;
-    lastSchedule.state = e.schedule.state;
-    lastSchedule.isAllDay = e.schedule.isAllDay;
+    lastSchedule.calendarId = e.changes.calendarId
+      ? e.changes.calendarId
+      : e.schedule.calendarId;
+    lastSchedule.bgColor = e.changes.bgColor
+      ? e.changes.bgColor
+      : e.schedule.bgColor;
+    lastSchedule.borderColor = e.changes.borderColor
+      ? e.changes.borderColor
+      : e.schedule.borderColor;
+    lastSchedule.color = e.changes.color ? e.changes.color : e.schedule.color;
+    lastSchedule.title = e.changes.title ? e.changes.title : e.schedule.title;
+    lastSchedule.location =
+      e.changes.location && e.changes.location !== ""
+        ? e.changes.location
+        : e.schedule.location;
+    lastSchedule.state = e.changes.state ? e.changes.state : e.schedule.state;
+    lastSchedule.isAllDay = e.changes.isAllDay
+      ? e.changes.isAllDay
+      : e.schedule.isAllDay;
     lastSchedule.start = e.start;
     lastSchedule.end = e.end;
     // console.log(e.calendar);

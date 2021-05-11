@@ -316,7 +316,7 @@ export function setSchedules() {
 }
 
 export function saveNewSchedule(scheduleData) {
-  // console.log(scheduleData);
+  console.log("saved ", scheduleData);
   let Id = chance.string({
     length: 8,
     casing: "upper",
