@@ -400,7 +400,7 @@ function onChangeCalendars(e) {
     document.querySelectorAll("#calendarList input")
   );
   var allCheckedCalendars = true;
-  console.log(calendarId);
+  // console.log(calendarId);
   if (calendarId === "all") {
     allCheckedCalendars = checked;
 
@@ -471,7 +471,7 @@ function onChangeCalendars(e) {
         CalendarList[parseInt(id) - 1].name = txt;
         // console.log(CalendarList[parseInt(id)-1]);
       });
-      // console.log(CalendarList);
+      // console.log(CalendarList)
       storage.set("calendar", CalendarList);
     }
   }
