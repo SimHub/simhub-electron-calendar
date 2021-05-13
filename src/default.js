@@ -308,7 +308,7 @@ export function setSchedules() {
       //cal.createSchedules([arr[0]]);
       refreshScheduleVisibility();
     } catch (e) {
-      // console.log("NOOP: ", e);
+      console.log("NOOP: ", e);
     }
   });
 
@@ -432,6 +432,7 @@ function onChangeCalendars(e) {
   /// Edit Calendar///
   if (calendarId === "edit") {
     // console.log(calElement.checked);
+    // console.log("edit element ", calElement);
     if (calElement.checked) {
       calendarElements.forEach(function (el) {
         var span = $(el).siblings().eq(1);
@@ -477,7 +478,11 @@ function onChangeCalendars(e) {
   }
 
   ////////////
-
+  // setRenderRangeText();
+  // setSchedules();
+  // setEventListener();
+  // initCalendar();
+  /////////////////
   refreshScheduleVisibility();
 }
 

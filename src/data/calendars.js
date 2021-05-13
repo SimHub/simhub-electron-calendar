@@ -15,13 +15,13 @@ function CalendarInfo() {
 }
 
 function addCalendar(calendar) {
-   CalendarList.push(calendar);
+  CalendarList.push(calendar);
 }
 
 export function findCalendar(id) {
   var found;
 
-  CalendarList.forEach(function(calendar) {
+  CalendarList.forEach(function (calendar) {
     if (calendar.id === id) {
       found = calendar;
     }
@@ -128,12 +128,11 @@ export function initCalendar() {
 
   const storage = require("electron-json-storage");
 
-  storage.has("calendar", function(error, hasKey) {
+  storage.has("calendar", function (error, hasKey) {
     if (error) throw error;
     if (!hasKey) {
       console.log("There is data stored as `foobar`");
       storage.set("calendar", CalendarList);
     }
   }); // End storage.hasKey
-
 }
