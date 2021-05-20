@@ -43,6 +43,9 @@ body {
   border-radius: 2px;
   border: 1px solid #bbb;
 }
+.dropdown-menu.show {
+  width: 230px;
+}
 
 .dropdown-menu > li > a {
   padding: 9px 12px;
