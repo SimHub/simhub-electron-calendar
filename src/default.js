@@ -45,19 +45,19 @@ const templates = {
     return "End date";
   },
   popupSave: function () {
-    setTimeout(() => {
-      $(
-        ".tui-full-calendar-popup-section-item.tui-full-calendar-section-allday"
-      ).css({ display: "none" });
-    }, 100);
+    // setTimeout(() => {
+    // $(
+    // ".tui-full-calendar-popup-section-item.tui-full-calendar-section-allday"
+    // ).css({ display: "none" });
+    // }, 100);
     return "Save";
   },
   popupUpdate: function () {
-    setTimeout(() => {
-      $(
-        ".tui-full-calendar-popup-section-item.tui-full-calendar-section-allday"
-      ).css({ display: "none" });
-    }, 100);
+    // setTimeout(() => {
+    // $(
+    // ".tui-full-calendar-popup-section-item.tui-full-calendar-section-allday"
+    // ).css({ display: "none" });
+    // }, 100);
     return "Update";
   },
   popupDetailDate: function (isAllDay, start, end) {
