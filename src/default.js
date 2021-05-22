@@ -61,18 +61,20 @@ const templates = {
     return "Update";
   },
   popupDetailDate: function (isAllDay, start, end) {
-    var isSameDate = moment(start).isSame(end);
+    var isSameDate = moment(start._date).isSame(end._date);
     var endFormat = (isSameDate ? "" : "YYYY.MM.DD ") + "hh:mm a";
     if (isAllDay) {
+      console.log(start._date);
       return (
-        moment(start).format("YYYY.MM.DD") +
-        (isSameDate ? "" : " - " + moment(end).format("YYYY.MM.DD"))
+        moment(start._date).format("YYYY.MM.DD") +
+        (isSameDate ? "" : " - " + moment(end._date).format("YYYY.MM.DD"))
       );
     }
+    console.log(isSameDate, endFormat);
     return (
-      moment(start).format("YYYY.MM.DD hh:mm a") +
+      moment(start._date).format("YYYY.MM.DD hh:mm a") +
       " - " +
-      moment(end).format(endFormat)
+      moment(end._date).format(endFormat)
     );
   },
   popupDetailLocation: function (schedule) {
@@ -316,7 +318,6 @@ export function setSchedules() {
 }
 
 export function saveNewSchedule(scheduleData) {
-  // console.log("saved ", scheduleData);
   let Id = chance.string({
     length: 8,
     casing: "upper",
