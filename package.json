@@ -40,7 +40,7 @@
     "jquery": "^3.6.0",
     "moment": "^2.29.1",
     "popper.js": "^1.16.1",
-    "snyk": "^1.595.0",
+    "snyk": "^1.596.0",
     "tui-calendar": "^1.13.0",
     "tui-code-snippet": "^2.3.2",
     "tui-dom": "^3.0.0"
