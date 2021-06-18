@@ -6,6 +6,9 @@ Thumbs.db
 /dist
 /temp
 
+# ignore electron-json-storage .json files
+/src/storage/*.json
+
 # ignore everything in 'app' folder what had been generated from 'src' folder
 /app/app.js
 /app/background.js
