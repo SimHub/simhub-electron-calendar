@@ -8,11 +8,13 @@ import {
 } from "./data/calendars.js"; /* ES6 */
 import { ScheduleInfo } from "./data/schedules.js"; /* ES6 */
 var throttle = require("tui-code-snippet/tricks/throttle");
-const path = require("path");
+const p = require("path");
+const path = p.resolve(__dirname, "storage");
 const storage = require("electron-json-storage");
 const dataPath = storage.getDataPath();
+// console.log(path);
 // console.log(dataPath);
-storage.setDataPath(path.resolve("src/storage/"));
+storage.setDataPath(path);
 var Chance = require("chance");
 
 // Instantiate Chance so it can be used
