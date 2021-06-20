@@ -24,6 +24,7 @@ let resizeThrottled;
 
 const templates = {
   popupIsAllDay: function () {
+    setTimeout(isAllDayChecked, 100);
     return "All Day";
   },
   popupStateFree: function () {
@@ -45,29 +46,9 @@ const templates = {
     return "End date";
   },
   popupSave: function () {
-    // isAllDay checkbox event
-    setTimeout(() => {
-      $(".tui-full-calendar-popup .tui-full-calendar-section-allday").on(
-        "click",
-        () => {
-          console.log($("#tui-full-calendar-schedule-allday").prop("checked"));
-        }
-      );
-    }, 100);
-    //////////////////
     return "Save";
   },
   popupUpdate: function () {
-    // isAllDay checkbox event
-    setTimeout(() => {
-      $(".tui-full-calendar-popup .tui-full-calendar-section-allday").on(
-        "click",
-        () => {
-          console.log($("#tui-full-calendar-schedule-allday").prop("checked"));
-        }
-      );
-    }, 100);
-    //////////////////
     return "Update";
   },
   popupDetailDate: function (isAllDay, start, end) {
@@ -138,6 +119,16 @@ function init() {
   setSchedules();
   setEventListener();
   initCalendar();
+}
+
+function isAllDayChecked() {
+  $(".tui-full-calendar-popup .tui-full-calendar-section-allday").on(
+    "click",
+    function () {
+      let checked = $("#tui-full-calendar-schedule-allday").prop("checked");
+      console.log(checked);
+    }
+  );
 }
 
 function getDataAction(target) {
