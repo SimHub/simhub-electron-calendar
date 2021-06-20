@@ -45,24 +45,36 @@ const templates = {
     return "End date";
   },
   popupSave: function () {
-    // setTimeout(() => {
-    // $(
-    // ".tui-full-calendar-popup-section-item.tui-full-calendar-section-allday"
-    // ).css({ display: "none" });
-    // }, 100);
+    // isAllDay checkbox event
+    setTimeout(() => {
+      $(".tui-full-calendar-popup .tui-full-calendar-section-allday").on(
+        "click",
+        () => {
+          console.log($("#tui-full-calendar-schedule-allday").prop("checked"));
+        }
+      );
+    }, 100);
+    //////////////////
     return "Save";
   },
   popupUpdate: function () {
-    // setTimeout(() => {
-    // $(
-    // ".tui-full-calendar-popup-section-item.tui-full-calendar-section-allday"
-    // ).css({ display: "none" });
-    // }, 100);
+    // isAllDay checkbox event
+    setTimeout(() => {
+      $(".tui-full-calendar-popup .tui-full-calendar-section-allday").on(
+        "click",
+        () => {
+          console.log($("#tui-full-calendar-schedule-allday").prop("checked"));
+        }
+      );
+    }, 100);
+    //////////////////
     return "Update";
   },
   popupDetailDate: function (isAllDay, start, end) {
     var isSameDate = moment(start._date).isSame(end._date);
     var endFormat = (isSameDate ? "" : "YYYY.MM.DD ") + "hh:mm a";
+    console.log("popupDetailDate");
+    console.log(isAllDay);
     if (isAllDay) {
       console.log(start._date);
       return (
@@ -92,7 +104,7 @@ const templates = {
   popupDetailBody: function (schedule) {
     return "Body : " + schedule.body;
   },
-  popupEdit: function (e) {
+  popupEdit: function () {
     return "Edit";
   },
   popupDelete: function () {
@@ -505,4 +517,5 @@ cal.on({
   },
 });
 
+/// INIT()
 init();
