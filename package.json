@@ -4,8 +4,11 @@
   "description": "tui-calendar for electron",
   "version": "1.0.0",
   "private": true,
-  "author": "simhub.dev@gmail.com",
+  "author": "SimHub <simhub.dev@gmail.com>",
   "copyright": "simon lackmann",
+  "contributors": [
+    "louisefindlay23 <louise@louisefindlay.com> (https://louisefindlay.com)"
+  ],
   "homepage": "http://simhub.github.io/portfolio/",
   "main": "app/background.js",
   "build": {
