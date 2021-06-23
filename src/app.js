@@ -36,28 +36,46 @@ cal.on({
     saveNewSchedule(e);
   },
   beforeUpdateSchedule: function (e) {
-    // console.log(e);
+    // console.log("beforeUpdateSchedule: ", e);
     // drag event
+    // debugger;
+
     lastSchedule.id = e.schedule.id;
-    lastSchedule.calendarId = e.changes.calendarId
-      ? e.changes.calendarId
-      : e.schedule.calendarId;
-    lastSchedule.bgColor = e.changes.bgColor
-      ? e.changes.bgColor
-      : e.schedule.bgColor;
-    lastSchedule.borderColor = e.changes.borderColor
-      ? e.changes.borderColor
-      : e.schedule.borderColor;
-    lastSchedule.color = e.changes.color ? e.changes.color : e.schedule.color;
-    lastSchedule.title = e.changes.title ? e.changes.title : e.schedule.title;
-    lastSchedule.location =
-      e.changes.location && e.changes.location !== ""
-        ? e.changes.location
-        : e.schedule.location;
-    lastSchedule.state = e.changes.state ? e.changes.state : e.schedule.state;
-    lastSchedule.isAllDay = e.changes.isAllDay
-      ? e.changes.isAllDay
-      : e.schedule.isAllDay;
+
+    // if (e.changes === null) {
+    // lastSchedule.calendarId = e.schedule.calendarId;
+    // } else {
+    // lastSchedule.calendarId = e.changes.calendarId;
+    // }
+    // lastSchedule.calendarId = e.changes.calendarId
+    // ? e.changes.calendarId
+    // : e.schedule.calendarId;
+    let _s = e.schedule;
+    if (e.changes !== null) {
+      let _c = e.changes;
+      lastSchedule.calendarId = _c.calendarId ? _c.calendarId : _s.calendarId;
+      lastSchedule.bgColor = e.changes.bgColor ? _c.bgColor : _s.bgColor;
+      lastSchedule.borderColor = e.changes.borderColor
+        ? _c.borderColor
+        : _s.borderColor;
+      lastSchedule.color = e.changes.color ? _c.color : _s.color;
+      lastSchedule.title = e.changes.title ? _c.title : _s.title;
+      lastSchedule.location =
+        e.changes.location !== "" ? _c.location : _s.location;
+      lastSchedule.state = e.changes.state ? _c.state : _s.state;
+      lastSchedule.isAllDay = e.changes.isAllDay ? _c.isAllDay : _s.isAllDay;
+    } //End if
+    else {
+      lastSchedule.calendarId = e.schedule.calendarId;
+      lastSchedule.bgColor = e.schedule.bgColor;
+      lastSchedule.borderColor = e.schedule.borderColor;
+      lastSchedule.color = e.schedule.color;
+      lastSchedule.title = e.schedule.title;
+      lastSchedule.location = e.schedule.location;
+      lastSchedule.state = e.schedule.state;
+      lastSchedule.isAllDay = e.schedule.isAllDay;
+    }
+    ////
     lastSchedule.start = e.start;
     lastSchedule.end = e.end;
     // console.log(e.calendar);
@@ -104,9 +122,9 @@ cal.on({
     cal.deleteSchedule(e.schedule.id, e.schedule.calendarId);
   },
   afterRenderSchedule: function (e) {
+    // console.log("afterRenderSchedule", e);
     var schedule = e.schedule;
     var element = cal.getElement(schedule.id, schedule.calendarId);
-    // console.log("afterRenderSchedule", schedule);
   },
   clickTimezonesCollapseBtn: function (timezonesCollapsed) {
     // console.log("timezonesCollapsed", timezonesCollapsed);

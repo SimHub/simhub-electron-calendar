@@ -7,6 +7,7 @@ import {
   findCalendar,
 } from "./data/calendars.js"; /* ES6 */
 import { ScheduleInfo } from "./data/schedules.js"; /* ES6 */
+import { updatePopupWindowIsAllDayChecked } from "./data/updatePopupWindowIsAllDayChecked.js";
 var throttle = require("tui-code-snippet/tricks/throttle");
 const storage = require("electron-json-storage");
 // const dataPath = storage.getDataPath();
@@ -23,8 +24,10 @@ var chance = new Chance();
 let resizeThrottled;
 
 const templates = {
-  popupIsAllDay: function () {
-    setTimeout(isAllDayChecked, 100);
+  popupIsAllDay: function (e) {
+    let _e = e.data.root;
+    // console.log("POPUPISALLDAY: ", _e);
+    updatePopupWindowIsAllDayChecked(cal, _e);
     return "All Day";
   },
   popupStateFree: function () {
@@ -48,22 +51,23 @@ const templates = {
   popupSave: function () {
     return "Save";
   },
-  popupUpdate: function () {
+  popupUpdate: function (e) {
+    // console.log("popupUpdate: ", e);
     return "Update";
   },
   popupDetailDate: function (isAllDay, start, end) {
     var isSameDate = moment(start._date).isSame(end._date);
     var endFormat = (isSameDate ? "" : "YYYY.MM.DD ") + "hh:mm a";
-    console.log("popupDetailDate");
-    console.log(isAllDay);
+    // console.log("popupDetailDate");
+    // console.log(isAllDay);
     if (isAllDay) {
-      console.log(start._date);
+      // console.log(start._date);
       return (
         moment(start._date).format("YYYY.MM.DD") +
         (isSameDate ? "" : " - " + moment(end._date).format("YYYY.MM.DD"))
       );
     }
-    console.log(isSameDate, endFormat);
+    // console.log(isSameDate, endFormat);
     return (
       moment(start._date).format("YYYY.MM.DD hh:mm a") +
       " - " +
@@ -85,7 +89,8 @@ const templates = {
   popupDetailBody: function (schedule) {
     return "Body : " + schedule.body;
   },
-  popupEdit: function () {
+  popupEdit: function (e) {
+    // console.log("popupEdit: ", e);
     return "Edit";
   },
   popupDelete: function () {
@@ -121,12 +126,11 @@ function init() {
   initCalendar();
 }
 
-function isAllDayChecked() {
+function isAllDayChecked(_e) {
   $(".tui-full-calendar-popup .tui-full-calendar-section-allday").on(
     "click",
-    function () {
+    function (_e) {
       let checked = $("#tui-full-calendar-schedule-allday").prop("checked");
-      console.log(checked);
     }
   );
 }
@@ -169,6 +173,41 @@ function setDropdownCalendarType() {
   calendarTypeIcon.className = iconClassName;
 }
 
+/**
+ * Get time template for time and all-day
+ * @param {Schedule} schedule - schedule
+ * @param {boolean} isAllDay - isAllDay or hasMultiDates
+ * @returns {string}
+ */
+function getTimeTemplate(schedule, isAllDay) {
+  var html = [];
+  var start = moment(schedule.start.toUTCString());
+  if (!isAllDay) {
+    html.push("<strong>" + start.format("HH:mm") + "</strong> ");
+  }
+  if (schedule.isPrivate) {
+    html.push('<span class="calendar-font-icon ic-lock-b"></span>');
+    html.push(" Private");
+  } else {
+    if (schedule.isReadOnly) {
+      html.push('<span class="calendar-font-icon ic-readonly-b"></span>');
+    } else if (schedule.recurrenceRule) {
+      html.push('<span class="calendar-font-icon ic-repeat-b"></span>');
+    } else if (schedule.attendees.length) {
+      html.push('<span class="calendar-font-icon ic-user-b"></span>');
+    } else if (schedule.location) {
+      html.push('<span class="calendar-font-icon ic-location-b"></span>');
+    }
+    html.push(" " + schedule.title);
+  }
+
+  return html.join("");
+}
+
+/**
+ * A listener for click the menu
+ * @param {Event} e - click event
+ */
 function onClickMenu(e) {
   // console.log("CLICKED!!!");
   var target = $(e.target).closest('a[role="menuitem"]')[0];
@@ -280,6 +319,7 @@ export function setSchedules() {
     if (error) throw error;
     try {
       // console.log("SCHEDULE: ", data);
+      // console.log("CAL: ", cal);
 
       Object.values(data).forEach((i) => {
         // console.log(typeof i);
