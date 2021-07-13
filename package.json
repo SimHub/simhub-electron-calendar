@@ -32,6 +32,7 @@
     "test": "npm run unit && npm run e2e",
     "start": "node build/start.js",
     "release": "webpack --config=build/webpack.app.config.js --env=production && electron-builder",
+    "release:pi": "webpack --config=build/webpack.app.config.js --env=production && electron-builder --dir --armv7l --linux AppImage",
     "snyk-protect": "snyk protect",
     "prepare": "npm run snyk-protect"
   },
