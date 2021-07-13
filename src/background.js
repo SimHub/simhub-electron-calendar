@@ -36,17 +36,13 @@ app.on("ready", () => {
   const mainWindow = createWindow("main", {
     width: 1220,
     height: 600,
+    icon: path.join(`${__dirname}/icons/256x256.png`),
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
       enableRemoteModule: true,
     },
   });
-
-  //AppImage has bug for icon
-  if (process.platform === "linux") {
-    mainWindow.icon = path.join(`${__dirname}/resources/icons/512x512.png`);
-  }
 
   mainWindow.loadURL(
     url.format({
