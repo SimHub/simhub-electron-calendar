@@ -45,7 +45,7 @@ app.on("ready", () => {
 
   //AppImage has bug for icon
   if (process.platform === "linux") {
-    mainWindow.icon = path.join(`${__dirname}/icon/icon.png`);
+    mainWindow.icon = path.join(`${__dirname}/resources/icon/icon.png`);
   }
 
   mainWindow.loadURL(
