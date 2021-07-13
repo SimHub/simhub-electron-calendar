@@ -43,6 +43,11 @@ app.on("ready", () => {
     },
   });
 
+  //AppImage has bug for icon
+  if (process.platform === "linux") {
+    mainWindow.icon = path.join(`${__dirname}/icon/icon.png`);
+  }
+
   mainWindow.loadURL(
     url.format({
       pathname: path.join(__dirname, "app.html"),
