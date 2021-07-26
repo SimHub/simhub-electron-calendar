@@ -261,15 +261,9 @@ export default class Reminder {
   }
 
   static notify(date, title) {
-    console.log("NOTIFY");
-    const NOTIFICATION_TITLE = title;
-    const NOTIFICATION_BODY =
-      date +
-      " Notification from the Renderer process. Click to log to console.";
-    const CLICK_MESSAGE = "Notification clicked";
-
-    let _n = new Notification(NOTIFICATION_TITLE, {
-      body: NOTIFICATION_BODY,
+    let _n = new Notification({
+      title: title,
+      body: date,
     });
     return _n.show();
   }
