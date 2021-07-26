@@ -7,21 +7,15 @@ import {
   findCalendar,
 } from "./data/calendars.js"; /* ES6 */
 import { ScheduleInfo } from "./data/schedules.js"; /* ES6 */
-import { updatePopupWindowIsAllDayChecked } from "./data/updatePopupWindowIsAllDayChecked.js";
-var throttle = require("tui-code-snippet/tricks/throttle");
+import { updatePopupWindowIsAllDayChecked } from "./features/updatePopupWindowIsAllDayChecked.js";
+import Reminder from "./features/Reminder.js";
 const storage = require("electron-json-storage");
-// const dataPath = storage.getDataPath();
-// console.log(dataPath);
+var throttle = require("tui-code-snippet/tricks/throttle");
 var Chance = require("chance");
-
 // Instantiate Chance so it can be used
 var chance = new Chance();
-
-// const { app } = require('electron').remote;
-// const p=app.getPath('userData');
-// console.log(p)
-
 let resizeThrottled;
+let rmSet = new Set();
 
 const templates = {
   popupIsAllDay: function (e) {
@@ -49,10 +43,16 @@ const templates = {
     return "End date";
   },
   popupSave: function () {
+    setTimeout(() => {
+      Reminder.notificationReminderSelection();
+    }, 300);
     return "Save";
   },
   popupUpdate: function (e) {
     // console.log("popupUpdate: ", e);
+    setTimeout(() => {
+      Reminder.notificationReminderSelection(storage, e.data.root.id, "Update");
+    }, 300);
     return "Update";
   },
   popupDetailDate: function (isAllDay, start, end) {
@@ -314,35 +314,41 @@ export function setSchedules() {
   let arr = [];
 
   var schedule = new ScheduleInfo();
-
   storage.getAll(function (error, data) {
     if (error) throw error;
     try {
-      // console.log("SCHEDULE: ", data);
+      console.log("SCHEDULE: ", data);
       // console.log("CAL: ", cal);
 
       Object.values(data).forEach((i) => {
         // console.log(typeof i);
         // console.log(i.length);
-        // console.log(i);
+        console.log(i);
+        console.log(i.hasOwnProperty("isSchedule"));
         // console.log(i.raw )
-        if (i.length === undefined) {
-          arr.push({
-            id: i.id,
-            bgColor: i.bgColor,
-            borderColor: i.borderColor,
-            color: i.color,
-            state: i.state,
-            calendarId: i.calendarId,
-            title: i.title,
-            category: i.category,
-            dueDateClass: i.dueDateClass,
-            start: i.start._date,
-            end: i.end._date,
-            raw: i.raw,
-            isAllDay: i.isAllDay,
-            category: i.category,
-          });
+        if (i.hasOwnProperty("isSchedule")) {
+          if (i.length === undefined) {
+            arr.push({
+              id: i.id,
+              bgColor: i.bgColor,
+              borderColor: i.borderColor,
+              color: i.color,
+              state: i.state,
+              reminder: i.reminder,
+              reminderIsActive: i.reminderIsActive,
+              reminderDate: i.reminderDate || i !== "reminderIsActive",
+              reminderIsSet: i.reminderIsSet,
+              calendarId: i.calendarId,
+              title: i.title,
+              category: i.category,
+              dueDateClass: i.dueDateClass,
+              start: i.start._date,
+              end: i.end._date,
+              raw: i.raw,
+              isAllDay: i.isAllDay,
+              category: i.category,
+            });
+          }
         }
       });
       // console.log([arr[0]]);
@@ -361,12 +367,20 @@ export function setSchedules() {
 }
 
 export function saveNewSchedule(scheduleData) {
+  let rmArr = [];
   let Id = chance.string({
     length: 8,
     casing: "upper",
     alpha: true,
     numeric: true,
   });
+  rmSet.add({ id: Id, reminderIsActive: false });
+  for (let item of rmSet) {
+    rmArr.push(item);
+  }
+  storage.set("reminder_" + Id, { id: Id, reminderIsActive: false });
+  // Save Reminder
+
   var calendar = scheduleData.calendar || findCalendar(scheduleData.calendarId);
   var schedule = {
     id: Id,
@@ -381,6 +395,10 @@ export function saveNewSchedule(scheduleData) {
     dragBgColor: calendar.bgColor,
     borderColor: calendar.borderColor,
     location: scheduleData.location,
+    reminder: Reminder.getReminder(),
+    reminderIsActive: false,
+    reminderIsSet: Reminder.reminderIsSet(Reminder.getReminder()),
+    isSchedule: true,
     // raw: {
     // class: scheduleData.raw["class"]
     // },

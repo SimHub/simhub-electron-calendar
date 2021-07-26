@@ -31,7 +31,7 @@
   zoom: 1;
 }
 .tui-full-calendar-clear:after {
-  content: '';
+  content: "";
   display: block;
   clear: both;
 }
@@ -42,7 +42,7 @@
   display: inline-block;
   position: relative;
   top: -1px;
-  content: '';
+  content: "";
   width: 7px;
   height: 7px;
   border-radius: 50%;
@@ -51,7 +51,7 @@
   color: #f00;
 }
 .tui-full-calendar-today {
-  background: rgba(218,229,249,0.3);
+  background: rgba(218, 229, 249, 0.3);
 }
 .handle-x {
   background-position: center center;
@@ -63,7 +63,11 @@
   background-repeat: no-repeat;
   background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAICAMAAADp7a43AAAACVBMVEX///////////+OSuX+AAAAA3RSTlMrQJG5H4EIAAAAEUlEQVR4AWNgYmRiZABB/CwAAtgAIUTUNkMAAAAASUVORK5CYII=);
 }
-@media only screen and (-moz-min-device-pixel-ratio: 1.5), only screen and (-o-min-device-pixel-ratio: 3/2), only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (min-devicepixel-ratio: 1.5), only screen and (min-resolution: 1.5dppx) {
+@media only screen and (-moz-min-device-pixel-ratio: 1.5),
+  only screen and (-o-min-device-pixel-ratio: 3/2),
+  only screen and (-webkit-min-device-pixel-ratio: 1.5),
+  only screen and (min-devicepixel-ratio: 1.5),
+  only screen and (min-resolution: 1.5dppx) {
   .handle-x {
     background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAICAMAAADHqI+lAAAACVBMVEX///////////+OSuX+AAAAA3RSTlMZK5EY+QKaAAAAGUlEQVR4AWNgYmJAwegCIMDIiIwxBKhhBgAcSABh8gN42gAAAABJRU5ErkJggg==);
     background-size: 8px 4px;
@@ -86,7 +90,9 @@
 .tui-full-calendar-month-week-item .tui-full-calendar-today {
   background: none;
 }
-.tui-full-calendar-month-week-item .tui-full-calendar-today .tui-full-calendar-weekday-grid-date-decorator {
+.tui-full-calendar-month-week-item
+  .tui-full-calendar-today
+  .tui-full-calendar-weekday-grid-date-decorator {
   display: inline-block;
   width: 27px;
   height: 27px;
@@ -115,7 +121,7 @@
 .tui-full-calendar-weekday-container {
   position: relative;
 }
-.tui-full-calendar-weekday-container>div {
+.tui-full-calendar-weekday-container > div {
   height: 100%;
 }
 .tui-full-calendar-weekday-grid-line {
@@ -133,11 +139,13 @@
   line-height: 27px;
   text-align: center;
 }
-.tui-full-calendar-weekday-grid-line .tui-full-calendar-weekday-grid-date-title {
+.tui-full-calendar-weekday-grid-line
+  .tui-full-calendar-weekday-grid-date-title {
   line-height: 27px;
   margin-right: 5px;
 }
-.tui-full-calendar-weekday-grid-line .tui-full-calendar-weekday-grid-more-schedules {
+.tui-full-calendar-weekday-grid-line
+  .tui-full-calendar-weekday-grid-more-schedules {
   float: right;
   display: inline-block;
   height: 27px;
@@ -185,7 +193,8 @@
 .tui-full-calendar-weekday-schedule.tui-full-calendar-weekday-schedule-time {
   border-left-width: 0;
 }
-.tui-full-calendar-weekday-schedule.tui-full-calendar-weekday-schedule-time .tui-full-calendar-weekday-schedule-title {
+.tui-full-calendar-weekday-schedule.tui-full-calendar-weekday-schedule-time
+  .tui-full-calendar-weekday-schedule-title {
   padding-left: 9px;
 }
 .tui-full-calendar-weekday-schedule-bullet {
@@ -217,8 +226,8 @@
   top: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0,0,0,0.2);
-  box-shadow: 0 2px 6px 0 rgba(0,0,0,0.1);
+  background-color: rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.1);
 }
 .tui-full-calendar-weekday-exceed-left .tui-full-calendar-weekday-schedule {
   margin-left: 0;
@@ -227,7 +236,8 @@
 .tui-full-calendar-weekday-exceed-right .tui-full-calendar-weekday-schedule {
   margin-right: 0;
 }
-.tui-full-calendar-weekday-exceed-right .tui-full-calendar-weekday-resize-handle {
+.tui-full-calendar-weekday-exceed-right
+  .tui-full-calendar-weekday-resize-handle {
   display: none;
 }
 .tui-full-calendar-weekday-exceed-in-month {
@@ -464,15 +474,15 @@
   opacity: 0.3;
 }
 .tui-full-calendar-time-date-schedule-block-focused {
-  box-shadow: 0 0 8px 0 rgba(0,0,0,0.2);
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.2);
 }
 .tui-full-calendar-time-date-schedule-block-cover {
   position: absolute;
   top: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0,0,0,0.2);
-  box-shadow: 0 2px 6px 0 rgba(0,0,0,0.1);
+  background-color: rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.1);
 }
 .tui-full-calendar-time-schedule {
   position: relative;
@@ -539,7 +549,7 @@
 .tui-full-calendar-month-week-item {
   position: relative;
 }
-.tui-full-calendar-month-week-item>div {
+.tui-full-calendar-month-week-item > div {
   height: 100%;
 }
 .tui-full-calendar-month-more {
@@ -595,7 +605,7 @@
   z-index: 20;
 }
 .tui-full-calendar-month-guide-focused {
-  box-shadow: 0 0 8px 0 rgba(0,0,0,0.2);
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.2);
 }
 .tui-full-calendar-month-guide {
   position: relative;
@@ -610,8 +620,8 @@
   position: absolute;
   top: -50%;
   left: -50%;
-  background-color: rgba(0,0,0,0.2);
-  box-shadow: 0 2px 6px 0 rgba(0,0,0,0.1);
+  background-color: rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.1);
 }
 .tui-full-calendar-month-exceed-left .tui-full-calendar-month-guide {
   margin-left: 0px;
@@ -654,12 +664,12 @@
 .tui-full-calendar-popup {
   position: absolute;
   font-weight: 2.5;
-  box-shadow: 0 2px 6px 0 rgba(0,0,0,0.1);
+  box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.1);
   clear: both;
 }
 .tui-full-calendar-popup-container {
   min-width: 474px;
-  box-shadow: 0 2px 6px 0 rgba(0,0,0,0.1);
+  box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.1);
   background-color: #fff;
   border: solid 1px #d5d5d5;
   padding: 17px;
@@ -689,8 +699,10 @@
   font-size: 0;
   margin-left: 4px;
 }
-.tui-full-calendar-section-private.tui-full-calendar-public .tui-full-calendar-ic-private {
-  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAAAXNSR0IArs4c6QAAAKdJREFUKBVjYCATMKLri46Olvn9+3fX////HUByjIyMB1hZWcuWLl36BFktikaQpl+/fl0EKhBCVgRkv2NjY9NH1syErABkE1TTdqBCWRAG8reDxKBycOUoGmHOA2pIA5kOwiA2SDVMDq4TmREaGvofhJHFcLHhfgwLC9sKNNULl0KQODCgtq1atcobxIY7lZAmkGJkNXCNIAlSwIjSCApqIgJnK0wNALoOPwSpOcq0AAAAAElFTkSuQmCC) no-repeat;
+.tui-full-calendar-section-private.tui-full-calendar-public
+  .tui-full-calendar-ic-private {
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAAAXNSR0IArs4c6QAAAKdJREFUKBVjYCATMKLri46Olvn9+3fX////HUByjIyMB1hZWcuWLl36BFktikaQpl+/fl0EKhBCVgRkv2NjY9NH1syErABkE1TTdqBCWRAG8reDxKBycOUoGmHOA2pIA5kOwiA2SDVMDq4TmREaGvofhJHFcLHhfgwLC9sKNNULl0KQODCgtq1atcobxIY7lZAmkGJkNXCNIAlSwIjSCApqIgJnK0wNALoOPwSpOcq0AAAAAElFTkSuQmCC)
+    no-repeat;
 }
 .tui-full-calendar-section-start-date,
 .tui-full-calendar-section-end-date {
@@ -700,9 +712,11 @@
 .tui-full-calendar-section-end-date input {
   width: 139px;
 }
-.tui-full-calendar-section-start-date:hover .tui-full-calendar-popup-section-item,
+.tui-full-calendar-section-start-date:hover
+  .tui-full-calendar-popup-section-item,
 .tui-full-calendar-section-end-date:hover .tui-full-calendar-popup-section-item,
-.tui-full-calendar-section-start-date:focus .tui-full-calendar-popup-section-item,
+.tui-full-calendar-section-start-date:focus
+  .tui-full-calendar-popup-section-item,
 .tui-full-calendar-section-end-date:focus .tui-full-calendar-popup-section-item,
 .tui-full-calendar-section-start-date:hover .tui-datepicker,
 .tui-full-calendar-section-end-date:hover .tui-datepicker,
@@ -731,10 +745,12 @@
 .tui-full-calendar-popup-section-item.tui-full-calendar-section-location input {
   width: 400px;
 }
-.tui-full-calendar-section-allday .tui-full-calendar-icon.tui-full-calendar-ic-checkbox {
+.tui-full-calendar-section-allday
+  .tui-full-calendar-icon.tui-full-calendar-ic-checkbox {
   margin: 0;
 }
-.tui-full-calendar-popup-section-item.tui-full-calendar-section-allday .tui-full-calendar-content {
+.tui-full-calendar-popup-section-item.tui-full-calendar-section-allday
+  .tui-full-calendar-content {
   padding-left: 4px;
 }
 .tui-full-calendar-section-state {
@@ -773,7 +789,9 @@
   position: relative;
   padding-left: 8px;
 }
-.tui-full-calendar-section-calendar .tui-full-calendar-dropdown-button .tui-full-calendar-content {
+.tui-full-calendar-section-calendar
+  .tui-full-calendar-dropdown-button
+  .tui-full-calendar-content {
   width: 125px;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -801,11 +819,13 @@
   top: -1px;
 }
 .tui-full-calendar-dropdown-arrow {
-  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAAAXNSR0IArs4c6QAAAHlJREFUKBVjYBgFOEOAEVkmPDxc89+/f6eAYjzI4kD2FyYmJrOVK1deh4kzwRggGiQBVJCELAZig8SQNYHEmEEEMrh69eo1HR0dfqCYJUickZGxf9WqVf3IakBsFBthklpaWmVA9mEQhrJhUoTp0NBQCRAmrHL4qgAAuu4cWZOZIGsAAAAASUVORK5CYII=) no-repeat;
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAAAXNSR0IArs4c6QAAAHlJREFUKBVjYBgFOEOAEVkmPDxc89+/f6eAYjzI4kD2FyYmJrOVK1deh4kzwRggGiQBVJCELAZig8SQNYHEmEEEMrh69eo1HR0dfqCYJUickZGxf9WqVf3IakBsFBthklpaWmVA9mEQhrJhUoTp0NBQCRAmrHL4qgAAuu4cWZOZIGsAAAAASUVORK5CYII=)
+    no-repeat;
 }
 .dropdown.open .tui-full-calendar-dropdown-arrow,
 .tui-full-calendar-open .tui-full-calendar-dropdown-arrow {
-  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAAAXNSR0IArs4c6QAAAIFJREFUKBVjYBj+gBmXF2NiYiTV1dV5rl279gWbGiZsgg0NDSw/f/5cCZRbBWJjU4PVRjExsR6g4nAgln/z5g3v1atXd6JrxtAYHh4e+v///z4khZa6urrXgJqvIYkxMCJzgJo0//37dwooxoMsDmR/YWJiMlu5cuV1NPFRLrYQAADMVCaUtbG7XwAAAABJRU5ErkJggg==) no-repeat;
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAAAXNSR0IArs4c6QAAAIFJREFUKBVjYBj+gBmXF2NiYiTV1dV5rl279gWbGiZsgg0NDSw/f/5cCZRbBWJjU4PVRjExsR6g4nAgln/z5g3v1atXd6JrxtAYHh4e+v///z4khZa6urrXgJqvIYkxMCJzgJo0//37dwooxoMsDmR/YWJiMlu5cuV1NPFRLrYQAADMVCaUtbG7XwAAAABJRU5ErkJggg==)
+    no-repeat;
 }
 .tui-full-calendar-dropdown-menu {
   position: absolute;
@@ -839,7 +859,7 @@
   width: 100%;
 }
 .tui-full-calendar-dropdown-menu-item:hover {
-  background-color: rgba(81,92,230,0.05);
+  background-color: rgba(81, 92, 230, 0.05);
 }
 .tui-full-calendar-dropdown-menu-item .tui-full-calendar-content {
   line-height: 30px;
@@ -978,26 +998,28 @@
   height: 12px;
   margin: 1px;
 }
-input[type='checkbox'].tui-full-calendar-checkbox-square {
+input[type="checkbox"].tui-full-calendar-checkbox-square {
   display: none;
 }
-input[type='checkbox'].tui-full-calendar-checkbox-square + span {
+input[type="checkbox"].tui-full-calendar-checkbox-square + span {
   display: inline-block;
   cursor: pointer;
   line-height: 14px;
   margin-right: 8px;
   width: 14px;
   height: 14px;
-  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAAAXNSR0IArs4c6QAAADpJREFUKBVjPHfu3O5///65MJAAmJiY9jCcOXPmP6kApIeJBItQlI5qRAkOVM5o4KCGBwqPkcxEvhsAbzRE+Jhb9IwAAAAASUVORK5CYII=) no-repeat;
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAAAXNSR0IArs4c6QAAADpJREFUKBVjPHfu3O5///65MJAAmJiY9jCcOXPmP6kApIeJBItQlI5qRAkOVM5o4KCGBwqPkcxEvhsAbzRE+Jhb9IwAAAAASUVORK5CYII=)
+    no-repeat;
   vertical-align: middle;
 }
-input[type='checkbox'].tui-full-calendar-checkbox-square:checked + span {
-  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAAAXNSR0IArs4c6QAAAMBJREFUKBWVkjEOwjAMRe2WgZW7IIHEDdhghhuwcQ42rlJugAQS54Cxa5cq1QM5TUpByZfS2j9+dlJVt/tX5ZxbS4ZU9VLkQvSHKTIGRaVJYFmKrBbTCJxE2UgCdDzMZDkHrOV6b95V0US6UmgKodujEZbJg0B0ZgEModO5lrY1TMQf1TpyJGBEjD+E2NPN7ukIUDiF/BfEXgRiGEw8NgkffYGYwCi808fpn/6OvfUfsDr/Vc1IfRf8sKnFVqeiVQfDu0tf/nWH9gAAAABJRU5ErkJggg==) no-repeat;
+input[type="checkbox"].tui-full-calendar-checkbox-square:checked + span {
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAAAXNSR0IArs4c6QAAAMBJREFUKBWVkjEOwjAMRe2WgZW7IIHEDdhghhuwcQ42rlJugAQS54Cxa5cq1QM5TUpByZfS2j9+dlJVt/tX5ZxbS4ZU9VLkQvSHKTIGRaVJYFmKrBbTCJxE2UgCdDzMZDkHrOV6b95V0US6UmgKodujEZbJg0B0ZgEModO5lrY1TMQf1TpyJGBEjD+E2NPN7ukIUDiF/BfEXgRiGEw8NgkffYGYwCi808fpn/6OvfUfsDr/Vc1IfRf8sKnFVqeiVQfDu0tf/nWH9gAAAABJRU5ErkJggg==)
+    no-repeat;
 }
-input[type='checkbox'].tui-full-calendar-checkbox-round {
+input[type="checkbox"].tui-full-calendar-checkbox-round {
   display: none;
 }
-input[type='checkbox'].tui-full-calendar-checkbox-round + span {
+input[type="checkbox"].tui-full-calendar-checkbox-round + span {
   display: inline-block;
   cursor: pointer;
   width: 14px;
@@ -1031,16 +1053,20 @@ input[type='checkbox'].tui-full-calendar-checkbox-round + span {
 .tui-full-calendar-popup-detail .tui-full-calendar-icon {
   margin-right: 8px;
 }
-.tui-full-calendar-popup-detail .tui-full-calendar-icon.tui-full-calendar-ic-location-b {
+.tui-full-calendar-popup-detail
+  .tui-full-calendar-icon.tui-full-calendar-ic-location-b {
   top: -2px;
 }
-.tui-full-calendar-popup-detail .tui-full-calendar-icon.tui-full-calendar-ic-user-b {
+.tui-full-calendar-popup-detail
+  .tui-full-calendar-icon.tui-full-calendar-ic-user-b {
   top: -2px;
 }
-.tui-full-calendar-popup-detail .tui-full-calendar-icon.tui-full-calendar-ic-state-b {
+.tui-full-calendar-popup-detail
+  .tui-full-calendar-icon.tui-full-calendar-ic-state-b {
   top: -1px;
 }
-.tui-full-calendar-popup-detail .tui-full-calendar-icon.tui-full-calendar-calendar-dot {
+.tui-full-calendar-popup-detail
+  .tui-full-calendar-icon.tui-full-calendar-calendar-dot {
   width: 10px;
   height: 10px;
   margin-right: 8px;
@@ -1072,9 +1098,12 @@ input[type='checkbox'].tui-full-calendar-checkbox-round + span {
   display: none;
   width: 16px;
   height: 16px;
-  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAAAXNSR0IArs4c6QAAAKpJREFUKBVjYCATMKLri46Olvn9+3fX////HUByjIyMB1hZWcuWLl36BFktikaQpl+/fl0EKhBCVgRkv2NjY9NH1syErABkE1TTdqBCWRAG8reDxKBycOUoGmHOA2pIA5kOwiA2SDVMDqYTRSNQUBIkgewkJDZYDqYR7sewsLCtQFO9YBLYaGBAbVu1apU3SA5uIyFNIMXIauAaQRKkgBGlERTURATOVpgaABRQQOK46wEAAAAAAElFTkSuQmCC) no-repeat 16px;
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAAAXNSR0IArs4c6QAAAKpJREFUKBVjYCATMKLri46Olvn9+3fX////HUByjIyMB1hZWcuWLl36BFktikaQpl+/fl0EKhBCVgRkv2NjY9NH1syErABkE1TTdqBCWRAG8reDxKBycOUoGmHOA2pIA5kOwiA2SDVMDqYTRSNQUBIkgewkJDZYDqYR7sewsLCtQFO9YBLYaGBAbVu1apU3SA5uIyFNIMXIauAaQRKkgBGlERTURATOVpgaABRQQOK46wEAAAAAAElFTkSuQmCC)
+    no-repeat 16px;
 }
-.tui-full-calendar-popup-detail .tui-full-calendar-schedule-private .tui-full-calendar-ic-private {
+.tui-full-calendar-popup-detail
+  .tui-full-calendar-schedule-private
+  .tui-full-calendar-ic-private {
   display: block;
 }
 .tui-full-calendar-popup-detail .tui-full-calendar-section-detail {
@@ -1122,25 +1151,39 @@ input[type='checkbox'].tui-full-calendar-checkbox-round + span {
   vertical-align: middle;
 }
 .tui-full-calendar-icon.tui-full-calendar-ic-title {
-  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAAAXNSR0IArs4c6QAAAO5JREFUKBVjYCATMOLSFxkZqfHnz5+1QHktNDVbV69e7cOCJgjmQjXtB3IksMh7g8SY0CXQNTEyMlYD1fBCabhyFI3omkCq/v//PwnotC8gGq4LyIBrxKYJpBBoU15oaCgPiEbWCPYjUEIFGBBY/QS0qRWooRVIg/UBDXgMYoBtBHJSgWxsAQFWjET8BBqQBuLDNM4Can6GpAAb8ydQMADo3x0gSbDGlStX3gVqdMSjGUUTSCNKAggPD1cDOmU/EEuBJKEAQxNIHEUjSABNM1ZNIHXMIAIZXL169a2+vv5moK18QKeXAv20B1meYjYAr7xrljpOzc0AAAAASUVORK5CYII=) no-repeat;
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAAAXNSR0IArs4c6QAAAO5JREFUKBVjYCATMOLSFxkZqfHnz5+1QHktNDVbV69e7cOCJgjmQjXtB3IksMh7g8SY0CXQNTEyMlYD1fBCabhyFI3omkCq/v//PwnotC8gGq4LyIBrxKYJpBBoU15oaCgPiEbWCPYjUEIFGBBY/QS0qRWooRVIg/UBDXgMYoBtBHJSgWxsAQFWjET8BBqQBuLDNM4Can6GpAAb8ydQMADo3x0gSbDGlStX3gVqdMSjGUUTSCNKAggPD1cDOmU/EEuBJKEAQxNIHEUjSABNM1ZNIHXMIAIZXL169a2+vv5moK18QKeXAv20B1meYjYAr7xrljpOzc0AAAAASUVORK5CYII=)
+    no-repeat;
 }
 .tui-full-calendar-icon.tui-full-calendar-ic-location {
-  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAAAXNSR0IArs4c6QAAAR1JREFUKBWdUTtPg1AUBiT8CydHJtv/0MTJRWAgcTK1bq0/pO3k4E4IYLo2Me46tS4wumjSpV07kAb6HXLPzaGPRZLL+c73uE/D+OdnHuaCIOhVVTUEf620pWVZ0yRJ3qW3FfR9f1zX9UgaGJumOUnT9Fn3DDzPuwPOuD9TvSzL3kizhOFJ4LnjOJc0wM0FP2Asgx0mEehHUfRHgzDzqF3GOogzbJg8V6XHFqYv4Cvqy7J8DcOwWYmw8Hwy1kHMRjcaKuEGgV82caWbZay3indagJyxcKLOlKeRdJA627YfUVaN0v6tlKbZVjCO4zW2cw91px3AxJEmOONCNoTzPP9xXZfOd6u0Bzz60RGOgmQuiuIb4S3gB0IvaoJW2QMDs1bBoH1CAQAAAABJRU5ErkJggg==) no-repeat;
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAAAXNSR0IArs4c6QAAAR1JREFUKBWdUTtPg1AUBiT8CydHJtv/0MTJRWAgcTK1bq0/pO3k4E4IYLo2Me46tS4wumjSpV07kAb6HXLPzaGPRZLL+c73uE/D+OdnHuaCIOhVVTUEf620pWVZ0yRJ3qW3FfR9f1zX9UgaGJumOUnT9Fn3DDzPuwPOuD9TvSzL3kizhOFJ4LnjOJc0wM0FP2Asgx0mEehHUfRHgzDzqF3GOogzbJg8V6XHFqYv4Cvqy7J8DcOwWYmw8Hwy1kHMRjcaKuEGgV82caWbZay3indagJyxcKLOlKeRdJA627YfUVaN0v6tlKbZVjCO4zW2cw91px3AxJEmOONCNoTzPP9xXZfOd6u0Bzz60RGOgmQuiuIb4S3gB0IvaoJW2QMDs1bBoH1CAQAAAABJRU5ErkJggg==)
+    no-repeat;
 }
 .tui-full-calendar-icon.tui-full-calendar-ic-date {
-  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAAAXNSR0IArs4c6QAAAGpJREFUKBVjYKAGCA0N/Q/C6GZhE2cEKQoLC9v6//9/L3QN2PiMjIzbVq1a5c0EkiRWE7JasEZsJhMSI1sjC7LJq1evBvsZWQyZjRxwZNs4hDSiBA6y55EDBRsb7EdQasAmiUNsKw5x4oQBkUAeDPJ53KsAAAAASUVORK5CYII=) no-repeat;
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAAAXNSR0IArs4c6QAAAGpJREFUKBVjYKAGCA0N/Q/C6GZhE2cEKQoLC9v6//9/L3QN2PiMjIzbVq1a5c0EkiRWE7JasEZsJhMSI1sjC7LJq1evBvsZWQyZjRxwZNs4hDSiBA6y55EDBRsb7EdQasAmiUNsKw5x4oQBkUAeDPJ53KsAAAAASUVORK5CYII=)
+    no-repeat;
 }
 .tui-full-calendar-icon.tui-full-calendar-ic-state {
-  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAAAXNSR0IArs4c6QAAAIxJREFUKBVjYCATMKLrCw8P9/z3798soLgMVO4JExNT2sqVK7cjq2VC5oDYME2MjIyNIAwUkoGKoShlQeFBOGCbVq1a1QDihoaG1gMpmO0gITAAOzUsLGzr////vWCC+GigK7YBDfUGO5VYTSADYWox/IjPNmS5UY3IoYHGBgcOKG7QxPFxt+KTJCgHAGcZJbGLRuJ2AAAAAElFTkSuQmCC) no-repeat;
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAAAXNSR0IArs4c6QAAAIxJREFUKBVjYCATMKLrCw8P9/z3798soLgMVO4JExNT2sqVK7cjq2VC5oDYME2MjIyNIAwUkoGKoShlQeFBOGCbVq1a1QDihoaG1gMpmO0gITAAOzUsLGzr////vWCC+GigK7YBDfUGO5VYTSADYWox/IjPNmS5UY3IoYHGBgcOKG7QxPFxt+KTJCgHAGcZJbGLRuJ2AAAAAElFTkSuQmCC)
+    no-repeat;
 }
+
+/**custom**/
+.tui-full-calendar-icon.tui-full-calendar-ic-alarm {
+  background: url("../images/ic-alarm.png") no-repeat;
+}
+/*****/
+
 .tui-full-calendar-icon.tui-full-calendar-ic-private {
-  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAAAXNSR0IArs4c6QAAAKpJREFUKBVjYCATMKLri46Olvn9+3fX////HUByjIyMB1hZWcuWLl36BFktikaQpl+/fl0EKhBCVgRkv2NjY9NH1syErABkE1TTdqBCWRAG8reDxKBycOUoGmHOA2pIA5kOwiA2SDVMDqYTRSNQUBIkgewkJDZYDqYR7sewsLCtQFO9YBLYaGBAbVu1apU3SA5uIyFNIMXIauAaQRKkgBGlERTURATOVpgaABRQQOK46wEAAAAAAElFTkSuQmCC) no-repeat;
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAAAXNSR0IArs4c6QAAAKpJREFUKBVjYCATMKLri46Olvn9+3fX////HUByjIyMB1hZWcuWLl36BFktikaQpl+/fl0EKhBCVgRkv2NjY9NH1syErABkE1TTdqBCWRAG8reDxKBycOUoGmHOA2pIA5kOwiA2SDVMDqYTRSNQUBIkgewkJDZYDqYR7sewsLCtQFO9YBLYaGBAbVu1apU3SA5uIyFNIMXIauAaQRKkgBGlERTURATOVpgaABRQQOK46wEAAAAAAElFTkSuQmCC)
+    no-repeat;
 }
 .tui-full-calendar-icon.tui-full-calendar-ic-public {
-  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAAAXNSR0IArs4c6QAAAKdJREFUKBVjYCATMKLri46Olvn9+3fX////HUByjIyMB1hZWcuWLl36BFktikaQpl+/fl0EKhBCVgRkv2NjY9NH1syErABkE1TTdqBCWRAG8reDxKBycOUoGmHOA2pIA5kOwiA2SDVMDq4TmREaGvofhJHFcLHhfgwLC9sKNNULl0KQODCgtq1atcobxIY7lZAmkGJkNXCNIAlSwIjSCApqIgJnK0wNALoOPwSpOcq0AAAAAElFTkSuQmCC) no-repeat;
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAAAXNSR0IArs4c6QAAAKdJREFUKBVjYCATMKLri46Olvn9+3fX////HUByjIyMB1hZWcuWLl36BFktikaQpl+/fl0EKhBCVgRkv2NjY9NH1syErABkE1TTdqBCWRAG8reDxKBycOUoGmHOA2pIA5kOwiA2SDVMDq4TmREaGvofhJHFcLHhfgwLC9sKNNULl0KQODCgtq1atcobxIY7lZAmkGJkNXCNIAlSwIjSCApqIgJnK0wNALoOPwSpOcq0AAAAAElFTkSuQmCC)
+    no-repeat;
 }
 .tui-full-calendar-icon.tui-full-calendar-ic-close {
-  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAAAXNSR0IArs4c6QAAAJRJREFUKBXFkNERhCAMREUbuEKohzq0Eq2DDq6Da4B60KezDORkxj+ZwchmX0IYhtdWCGFl9y5g82NtzDnPdzAaudo76ZBS+nrvPxiInMkJcs5tMcZFfqcfxdqIRiELof+BiIJPg+mExmpmvKRn3zKj7OrG9Y79szPL14A1xEP0Hgy4gBZS5R7czHj3ehSgOzkVeyfuGrBw/WLm0hsAAAAASUVORK5CYII=) no-repeat;
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAAAXNSR0IArs4c6QAAAJRJREFUKBXFkNERhCAMREUbuEKohzq0Eq2DDq6Da4B60KezDORkxj+ZwchmX0IYhtdWCGFl9y5g82NtzDnPdzAaudo76ZBS+nrvPxiInMkJcs5tMcZFfqcfxdqIRiELof+BiIJPg+mExmpmvKRn3zKj7OrG9Y79szPL14A1xEP0Hgy4gBZS5R7czHj3ehSgOzkVeyfuGrBw/WLm0hsAAAAASUVORK5CYII=)
+    no-repeat;
 }
 .tui-full-calendar-ic-location-b {
   background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAAXNSR0IArs4c6QAAAOZJREFUKBWVUT0KwjAUbkzGTuJWPYNDpV0cXD2ETuIRBK+gs4ubp3BwcXBp6eINBKWDgydoid9X8oKCggYeee/7S9IGwZ9LverTNO3Wdb2y1o6IK6WOWutFlmU30XmDE58hbgvpTA+Y+mJqCemS20jdG2N6LPYMICc6b5BrIG3ONBZ7CoVj7w0cfllGRDj+gKQpjt/iPU0ye/LkROcNANaoCUzjqqquIsBuHddAWoiyLO9RFHUwJ4JxR/qmKIqdYG9vCMNwCeIiJHuHecj/B0GSJBng7ifO+ErDPM8L4b7ucRzPWJ8ET1E7YC7tmi9qAAAAAElFTkSuQmCC);
@@ -1158,16 +1201,20 @@ input[type='checkbox'].tui-full-calendar-checkbox-round + span {
   background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAAXNSR0IArs4c6QAAAFhJREFUKBVjYCARMKKrNzEx2fr//38vkDgjI+O2M2fOeCOrAWtAVoQsicyGaWZCFsTHBtr6H588Tjm4H4yNjfGacPbsWbBaop0Es3JYaQBFDMxjWOitMDEA3EEZfFEISwUAAAAASUVORK5CYII=);
 }
 .tui-full-calendar-icon.tui-full-calendar-ic-arrow-solid-top {
-  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAAAXNSR0IArs4c6QAAAIFJREFUKBVjYBj+gBmXF2NiYiTV1dV5rl279gWbGiZsgg0NDSw/f/5cCZRbBWJjU4PVRjExsR6g4nAgln/z5g3v1atXd6JrxtAYHh4e+v///z4khZa6urrXgJqvIYkxMCJzgJo0//37dwooxoMsDmR/YWJiMlu5cuV1NPFRLrYQAADMVCaUtbG7XwAAAABJRU5ErkJggg==) no-repeat;
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAAAXNSR0IArs4c6QAAAIFJREFUKBVjYBj+gBmXF2NiYiTV1dV5rl279gWbGiZsgg0NDSw/f/5cCZRbBWJjU4PVRjExsR6g4nAgln/z5g3v1atXd6JrxtAYHh4e+v///z4khZa6urrXgJqvIYkxMCJzgJo0//37dwooxoMsDmR/YWJiMlu5cuV1NPFRLrYQAADMVCaUtbG7XwAAAABJRU5ErkJggg==)
+    no-repeat;
 }
 .tui-full-calendar-icon.tui-full-calendar-ic-milestone {
-  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAAXNSR0IArs4c6QAAAGFJREFUKBVjYCARMILU/3dw+I+hj5FxG+P+/d7o4rg1IKtE0syELI6T/f+/F0yOOA0w1UCa9hpYkGxjYDxwABwIILH/jo5bGWBuZ2TcClOHogEmCKKxBSlInPZ+ANlCEgAA37EU4AHbBQUAAAAASUVORK5CYII=) no-repeat;
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAAXNSR0IArs4c6QAAAGFJREFUKBVjYCARMILU/3dw+I+hj5FxG+P+/d7o4rg1IKtE0syELI6T/f+/F0yOOA0w1UCa9hpYkGxjYDxwABwIILH/jo5bGWBuZ2TcClOHogEmCKKxBSlInPZ+ANlCEgAA37EU4AHbBQUAAAAASUVORK5CYII=)
+    no-repeat;
 }
 .tui-full-calendar-icon.tui-full-calendar-ic-arrow-left {
-  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAHCAYAAAAvZezQAAAAAXNSR0IArs4c6QAAAFZJREFUCB1jZICCyspK83///hUxgvhVVVV6f//+3c3ExJTMVFNTowqU2cHMzJzf3t6+hen379/zgIp2t7W1rQCpZmJlZU0C0q5AbREgAQwzwAIgGZgtADMCJqH/QyvhAAAAAElFTkSuQmCC) no-repeat;
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAHCAYAAAAvZezQAAAAAXNSR0IArs4c6QAAAFZJREFUCB1jZICCyspK83///hUxgvhVVVV6f//+3c3ExJTMVFNTowqU2cHMzJzf3t6+hen379/zgIp2t7W1rQCpZmJlZU0C0q5AbREgAQwzwAIgGZgtADMCJqH/QyvhAAAAAElFTkSuQmCC)
+    no-repeat;
 }
 .tui-full-calendar-icon.tui-full-calendar-ic-arrow-right {
-  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAHCAYAAAAvZezQAAAAAXNSR0IArs4c6QAAAFxJREFUCB1jKC8vX1lZWWnOAAVMQLD4379/m6qqqvRAYowgAsiJAAr2sbCw2IMFQIIVFRUL////r8SCpMKVlZXVnhFooA9Q+VxmZmbXtra2S0xATizQYD8QB6QaAJMLJ9BqE9yTAAAAAElFTkSuQmCC) no-repeat;
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAHCAYAAAAvZezQAAAAAXNSR0IArs4c6QAAAFxJREFUCB1jKC8vX1lZWWnOAAVMQLD4379/m6qqqvRAYowgAsiJAAr2sbCw2IMFQIIVFRUL////r8SCpMKVlZXVnhFooA9Q+VxmZmbXtra2S0xATizQYD8QB6QaAJMLJ9BqE9yTAAAAAElFTkSuQmCC)
+    no-repeat;
 }
 .tui-full-calendar-ic-repeat-b {
   background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAAXNSR0IArs4c6QAAAQpJREFUKBVjYCARMCKrNzU1tf/3718lUMwQiP8yMjKeYWJi6j516tRhExOThjNnzjTANQAFqv///98CVHQPSO8A0ixATa5AtjyQPgDETmfPngULMpiZmbn//fu3BSg4B6ggCyjxG8hm8PT0ZH/9+vUJoJgTiA8CTCACqDgXaOJ9Xl7eTJhikDhQcSVQsQGITT8A9rSxsfF/mJVApzWCQgPGd3BwYPny5cstoNOuAZ3rAwoJOAAqviAqKtoOEwAaxPr58+dpQL4iEGeAxJFt2AfkOwA1PQTSu4Em/gGyPYC0EpCuAdraCtIADiWgQCPQOmdmZmYHoNgVoCJfIB0CpG8DI84BphgoRjoAAAzgdELI91E5AAAAAElFTkSuQmCC);
@@ -1175,3 +1222,4 @@ input[type='checkbox'].tui-full-calendar-checkbox-round + span {
 /*# sourceMappingURL=src/css/main.css.map */
 
 /*# sourceMappingURL=tui-calendar.css.map*/
+

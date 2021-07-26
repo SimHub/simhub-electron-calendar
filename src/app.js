@@ -1,7 +1,7 @@
 import { cal, setSchedules, saveNewSchedule } from "./default.js";
 import { CalendarList, findCalendar } from "./data/calendars.js"; /* ES6 */
 import * as $ from "jquery";
-
+import Reminder from "./features/Reminder.js";
 const storage = require("electron-json-storage");
 const dataPath = storage.getDataPath();
 // console.log(dataPath);
@@ -26,6 +26,7 @@ cal.on({
   },
   clickSchedule: function (e) {
     // console.log("clickSchedule", e);
+    setTimeout(Reminder.showReminderOnEditPopup(storage, e.schedule.id), 300);
     lastSchedule = e.schedule;
   },
   clickDayname: function (date) {
@@ -64,6 +65,16 @@ cal.on({
         e.changes.location !== "" ? _c.location : _s.location;
       lastSchedule.state = e.changes.state ? _c.state : _s.state;
       lastSchedule.isAllDay = e.changes.isAllDay ? _c.isAllDay : _s.isAllDay;
+      lastSchedule.reminder = Reminder.getReminder();
+      lastSchedule.reminderDate = Reminder.reminderDate(
+        e.end,
+        Reminder.getReminder()
+      );
+      lastSchedule.reminderIsSet = Reminder.reminderIsSet(
+        Reminder.getReminder()
+      );
+      lastSchedule.reminderIsActive = false;
+      lastSchedule.isSchedule = true;
     } //End if
     else {
       lastSchedule.calendarId = e.schedule.calendarId;
@@ -74,6 +85,16 @@ cal.on({
       lastSchedule.location = e.schedule.location;
       lastSchedule.state = e.schedule.state;
       lastSchedule.isAllDay = e.schedule.isAllDay;
+      lastSchedule.reminder = Reminder.getReminder();
+      lastSchedule.reminderDate = Reminder.reminderDate(
+        e.end,
+        Reminder.getReminder()
+      );
+      lastSchedule.reminderIsActive = false;
+      lastSchedule.reminderIsSet = Reminder.reminderIsSet(
+        Reminder.getReminder()
+      );
+      lastSchedule.isSchedule = true;
     }
     ////
     lastSchedule.start = e.start;
@@ -111,6 +132,12 @@ cal.on({
     cal.updateSchedule(lastSchedule.id, lastSchedule.calendarId, {
       start: lastSchedule.start,
       end: lastSchedule.end,
+    });
+
+    //set storage reminder->reminderIsActive to false
+    storage.set("reminder_" + lastSchedule.id, {
+      id: lastSchedule.id,
+      reminderIsActive: false,
     });
   },
   beforeDeleteSchedule: function (e) {
