@@ -31,6 +31,7 @@ if (env.name !== "production") {
 }
 
 app.on("ready", () => {
+  app.allowRendererProcessReuse = false;
   setApplicationMenu();
 
   const mainWindow = createWindow("main", {
