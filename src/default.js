@@ -1,3 +1,5 @@
+import { getSessionState } from "electron-notification-state";
+
 import moment from "moment";
 import * as $ from "jquery";
 import Calendar from "tui-calendar"; /* ES6 */
@@ -15,7 +17,6 @@ var Chance = require("chance");
 // Instantiate Chance so it can be used
 var chance = new Chance();
 let resizeThrottled;
-let rmSet = new Set();
 
 const templates = {
   popupIsAllDay: function (e) {
@@ -42,14 +43,15 @@ const templates = {
   endDatePlaceholder: function () {
     return "End date";
   },
-  popupSave: function () {
+  popupSave: function (e) {
+    console.log("PopupSave: ", e);
     setTimeout(() => {
       Reminder.notificationReminderSelection();
     }, 300);
     return "Save";
   },
   popupUpdate: function (e) {
-    // console.log("popupUpdate: ", e);
+    console.log("popupUpdate: ", e);
     setTimeout(() => {
       Reminder.notificationReminderSelection(storage, e.data.root.id, "Update");
     }, 300);
@@ -124,6 +126,9 @@ function init() {
   setSchedules();
   setEventListener();
   initCalendar();
+
+  console.log("SESSIONSTATE:");
+  console.log(getSessionState());
 }
 
 function isAllDayChecked(_e) {
@@ -367,17 +372,12 @@ export function setSchedules() {
 }
 
 export function saveNewSchedule(scheduleData) {
-  let rmArr = [];
   let Id = chance.string({
     length: 8,
     casing: "upper",
     alpha: true,
     numeric: true,
   });
-  rmSet.add({ id: Id, reminderIsActive: false });
-  for (let item of rmSet) {
-    rmArr.push(item);
-  }
   storage.set("reminder_" + Id, { id: Id, reminderIsActive: false });
   // Save Reminder
 
@@ -399,6 +399,10 @@ export function saveNewSchedule(scheduleData) {
     reminderIsActive: false,
     reminderIsSet: Reminder.reminderIsSet(Reminder.getReminder()),
     isSchedule: true,
+    reminderDate: Reminder.reminderDate(
+      scheduleData.end,
+      Reminder.getReminder()
+    ),
     // raw: {
     // class: scheduleData.raw["class"]
     // },

@@ -21,13 +21,13 @@ export default class Reminder {
           if (i.reminderIsSet) {
             console.log(nDate, _date);
             // console.log(moment(_date), moment(nDate));
-            console.log(moment(_date).isSame(nDate));
+            // console.log(moment(_date).isSame(nDate));
             if (moment(_date).isSame(nDate)) {
               // console.log("REMINDER IS ACTIVE: ", i.reminderIsActive);
               storage.get("reminder_" + i.id, function (error, data) {
                 if (error) throw error;
 
-                console.log(data);
+                // console.log("DATA: ", data);
                 if (!data.reminderIsActive) {
                   Reminder.notify(nDate, i.title);
                   ////set storage reminderIsActive to true
@@ -127,7 +127,7 @@ export default class Reminder {
       if (storage !== "" && id !== "") {
         storage.get(id, function (error, data) {
           if (error) throw error;
-          console.log("pupopUpdate Button: ", data.reminder);
+          // console.log("pupopUpdate Button: ", data.reminder);
           let reminderBtn = data.reminder;
           if (data.reminder === "") reminderBtn = "Reminder";
           document.querySelector("button#reminderBtn").innerHTML = `
@@ -159,13 +159,13 @@ export default class Reminder {
 
   static reminderDate(date, func) {
     let _date = moment(date._date).toISOString(true).slice(0, -13);
-    console.log("FUNC: ", func);
+    // console.log("FUNC: ", func);
     if (func === "No Reminder" || func === "Reminder" || func === "-----") {
-      console.log(false);
+      // console.log(false);
       return "";
     }
     if (func === "Event start") {
-      console.log(_date);
+      // console.log(_date);
       return _date;
     }
     if (func === "30 Min. before") {
@@ -175,7 +175,7 @@ export default class Reminder {
       return Reminder.momentSubstract(date._date, 1, "hour");
     }
     if (func === "1 Day before") {
-      console.log(Reminder.momentSubstract(date._date, 1, "day"));
+      // console.log(Reminder.momentSubstract(date._date, 1, "day"));
       return Reminder.momentSubstract(date._date, 1, "day");
     }
   }
@@ -199,7 +199,7 @@ export default class Reminder {
   }
 
   static showReminderOnEditPopup(storage, id) {
-    console.log(storage, id);
+    // console.log(storage, id);
     const tuiFullCalendarSectionDetail = document.querySelector(
       ".tui-full-calendar-section-detail"
     );
@@ -256,11 +256,12 @@ export default class Reminder {
   static momentSubstract(date, time1, time2) {
     let _oldDate = moment(date).subtract(time1, time2);
     let _newDate = moment(_oldDate._d).toISOString(true).slice(0, -13);
-    console.log(_newDate);
+    // console.log(_newDate);
     return _newDate;
   }
 
   static notify(date, title) {
+    // console.log("NOTIFY");
     let _n = new Notification({
       title: title,
       body: date,
