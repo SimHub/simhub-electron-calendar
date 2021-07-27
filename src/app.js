@@ -142,9 +142,11 @@ cal.on({
   },
   beforeDeleteSchedule: function (e) {
     // console.log("beforeDeleteSchedule", e);
-
     storage.remove(e.schedule.id, function (error) {
       if (error) throw error;
+      storage.remove("reminder_" + e.schedule.id, function (error) {
+        if (error) throw error;
+      });
     });
     cal.deleteSchedule(e.schedule.id, e.schedule.calendarId);
   },
