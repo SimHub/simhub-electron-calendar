@@ -1,5 +1,4 @@
 import { getSessionState } from "electron-notification-state";
-
 import moment from "moment";
 import * as $ from "jquery";
 import Calendar from "tui-calendar"; /* ES6 */
@@ -11,6 +10,7 @@ import {
 import { ScheduleInfo } from "./data/schedules.js"; /* ES6 */
 import { updatePopupWindowIsAllDayChecked } from "./features/updatePopupWindowIsAllDayChecked.js";
 import Reminder from "./features/Reminder.js";
+import { triggerEventName } from "./features/utility/utils.js";
 const storage = require("electron-json-storage");
 var throttle = require("tui-code-snippet/tricks/throttle");
 var Chance = require("chance");
@@ -20,8 +20,8 @@ let resizeThrottled;
 
 const templates = {
   popupIsAllDay: function (e) {
+    // console.log("POPUP_ISALLDAY ",e)
     let _e = e.data.root;
-    // console.log("POPUPISALLDAY: ", _e);
     updatePopupWindowIsAllDayChecked(cal, _e);
     return "All Day";
   },
@@ -45,31 +45,23 @@ const templates = {
   },
   popupSave: function (e) {
     console.log("PopupSave: ", e);
-    setTimeout(() => {
-      Reminder.notificationReminderSelection();
-    }, 300);
+    Reminder.notificationReminderSelection();
     return "Save";
   },
   popupUpdate: function (e) {
     console.log("popupUpdate: ", e);
-    setTimeout(() => {
-      Reminder.notificationReminderSelection(storage, e.data.root.id, "Update");
-    }, 300);
+    Reminder.notificationReminderSelection(e.data.root, "Update");
     return "Update";
   },
   popupDetailDate: function (isAllDay, start, end) {
     var isSameDate = moment(start._date).isSame(end._date);
     var endFormat = (isSameDate ? "" : "YYYY.MM.DD ") + "hh:mm a";
-    // console.log("popupDetailDate");
-    // console.log(isAllDay);
     if (isAllDay) {
-      // console.log(start._date);
       return (
         moment(start._date).format("YYYY.MM.DD") +
         (isSameDate ? "" : " - " + moment(end._date).format("YYYY.MM.DD"))
       );
     }
-    // console.log(isSameDate, endFormat);
     return (
       moment(start._date).format("YYYY.MM.DD hh:mm a") +
       " - " +
@@ -400,7 +392,7 @@ export function saveNewSchedule(scheduleData) {
     reminderIsSet: Reminder.reminderIsSet(Reminder.getReminder()),
     isSchedule: true,
     reminderDate: Reminder.reminderDate(
-      scheduleData.end,
+      scheduleData.start,
       Reminder.getReminder()
     ),
     // raw: {

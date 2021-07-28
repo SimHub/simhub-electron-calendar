@@ -1,5 +1,12 @@
 import { Notification } from "electron";
 import moment from "moment";
+import {
+  reminderDropdownIsAllDay,
+  reminderDropdownIsNotAllDay,
+  reminderDropdownBtnValue,
+  reminderDropdownDynamicBtnValue,
+} from "./template/reminderDropdown.js";
+import { reminderDropdownListStyle } from "./utility/utils.js";
 const storage = require("electron-json-storage");
 
 export default class Reminder {
@@ -8,25 +15,21 @@ export default class Reminder {
   }
 
   static activate() {
-    // var _date = moment().toISOString(true).slice(0, -8);
-    var _date = moment().toISOString(true).slice(0, -13);
-    //
     storage.getAll(function (error, data) {
       if (error) throw error;
       delete data.calendar;
       Object.values(data).forEach((i) => {
         if (i.end !== undefined) {
-          let nDate = i.reminderDate;
-
+          let _date = i.isAllDay
+            ? moment().toISOString(true).slice(0, -19)
+            : moment().toISOString(true).slice(0, -13);
+          let nDate = i.isAllDay ? i.reminderDate.slice(0, -6) : i.reminderDate;
           if (i.reminderIsSet) {
-            console.log(nDate, _date);
-            // console.log(moment(_date), moment(nDate));
-            // console.log(moment(_date).isSame(nDate));
+            // console.log(nDate, _date);
             if (moment(_date).isSame(nDate)) {
               // console.log("REMINDER IS ACTIVE: ", i.reminderIsActive);
               storage.get("reminder_" + i.id, function (error, data) {
                 if (error) throw error;
-
                 // console.log("DATA: ", data);
                 if (!data.reminderIsActive) {
                   Reminder.notify(nDate, i.title);
@@ -46,104 +49,70 @@ export default class Reminder {
     setTimeout(this.activate.bind(this), 1000);
   }
 
-  static notificationReminderSelection(
-    storage = "",
-    id = "",
-    typeofpopup = ""
-  ) {
-    const popup = document.querySelector(".tui-full-calendar-popup");
-    const popupContainer = document.querySelector(
-      ".tui-full-calendar-popup-container"
-    );
-    const stateSection = document.querySelector(
-      ".tui-full-calendar-popup-section.tui-full-calendar-dropdown.tui-full-calendar-close.tui-full-calendar-section-state"
-    );
-    const closeBtn = document.querySelector(
-      ".tui-full-calendar-button.tui-full-calendar-popup-close"
-    );
+  static notificationReminderSelection(e = "", typeofpopup = "") {
+    setTimeout(() => {
+      console.log("ID: ", e.id);
+      console.log("E: ", e);
+      const popup = document.querySelector(".tui-full-calendar-popup");
+      const popupContainer = document.querySelector(
+        ".tui-full-calendar-popup-container"
+      );
+      const stateSection = document.querySelector(
+        ".tui-full-calendar-popup-section.tui-full-calendar-dropdown.tui-full-calendar-close.tui-full-calendar-section-state"
+      );
+      const closeBtn = document.querySelector(
+        ".tui-full-calendar-button.tui-full-calendar-popup-close"
+      );
 
-    const reminderStateSection = document.createElement("div");
-    reminderStateSection.classList.add(
-      "tui-full-calendar-popup-section",
-      "tui-full-calendar-dropdown",
-      "tui-full-calendar-close",
-      "tui-full-calendar-section-state"
-    );
+      const reminderStateSection = document.createElement("div");
+      reminderStateSection.classList.add(
+        "tui-full-calendar-popup-section",
+        "tui-full-calendar-dropdown",
+        "tui-full-calendar-close",
+        "tui-full-calendar-section-state"
+      );
 
-    const button = document.createElement("button");
-    button.id = "reminderBtn";
-    button.classList.add(
-      "tui-full-calendar-button",
-      "tui-full-calendar-dropdown-button",
-      "tui-full-calendar-popup-section-item"
-    );
-    button.style.whiteSpace = "nowrap";
-    button.style.overflow = "hidden";
-    button.style.textOverflow = "ellipsis";
-    // console.log(popup, popupContainer, stateSection);
+      const button = document.createElement("button");
+      button.id = "reminderBtn";
+      button.classList.add(
+        "tui-full-calendar-button",
+        "tui-full-calendar-dropdown-button",
+        "tui-full-calendar-popup-section-item"
+      );
+      button.style.whiteSpace = "nowrap";
+      button.style.overflow = "hidden";
+      button.style.textOverflow = "ellipsis";
+      // console.log(popup, popupContainer, stateSection);
 
-    const ul = document.createElement("ul");
-    ul.classList.add("tui-full-calendar-dropdown-menu");
-    ul.style.width = "175px";
-    // console.log([ul][0].children);
-    ul.innerHTML = `
-         <li class="tui-full-calendar-popup-section-item tui-full-calendar-dropdown-menu-item">
-       <span class="tui-full-calendar-icon tui-full-calendar-none"></span>
-                <span class="tui-full-calendar-content">No Reminder</span>
-                </li>
-
-       <li class="tui-full-calendar-popup-section-item tui-full-calendar-dropdown-menu-item">
-       <span class="tui-full-calendar-icon tui-full-calendar-none"></span>
-                <span class="tui-full-calendar-content">Event start</span>
-                </li>
-                <li class="tui-full-calendar-popup-section-item tui-full-calendar-dropdown-menu-item">
-                <span class="tui-full-calendar-icon tui-full-calendar-none"></span>
-                <span class="tui-full-calendar-content">30 Min. before</span>
-                </li>
-                <li class="tui-full-calendar-popup-section-item tui-full-calendar-dropdown-menu-item">
-                <span class="tui-full-calendar-icon tui-full-calendar-none"></span>
-                <span class="tui-full-calendar-content">1 Hour before</span>
-                </li>
-                <li class="tui-full-calendar-popup-section-item tui-full-calendar-dropdown-menu-item">
-                <span class="tui-full-calendar-icon tui-full-calendar-none"></span>
-                <span class="tui-full-calendar-content">1 Day before</span>
-                </li>
-  `;
-
-    reminderStateSection.appendChild(button);
-    reminderStateSection.appendChild(ul);
-    popupContainer.insertBefore(reminderStateSection, closeBtn);
-
-    const ulChildren = [ul][0].children;
-    // console.log(ulChildren);
-    for (let i = 0; i < ulChildren.length; i++) {
-      // console.log(ulChildren[i]);
-      ulChildren[i].style.width = "100%";
-      ulChildren[i].children[0].style.width = "0px";
-      ulChildren[i].children[1].style.width = "100%";
-    }
-
-    if (typeofpopup === "Update") {
-      if (storage !== "" && id !== "") {
-        storage.get(id, function (error, data) {
-          if (error) throw error;
-          // console.log("pupopUpdate Button: ", data.reminder);
-          let reminderBtn = data.reminder;
-          if (data.reminder === "") reminderBtn = "Reminder";
-          document.querySelector("button#reminderBtn").innerHTML = `
-  <span class="tui-full-calendar-icon tui-full-calendar-ic-alarm"></span>
-  <span id="tui-full-calendar-schedule-state" class="tui-full-calendar-content reminder">${reminderBtn}</span>
-  <span class="tui-full-calendar-icon tui-full-calendar-dropdown-arrow"></span></button>
-`;
-        });
+      const ul = document.createElement("ul");
+      ul.classList.add("tui-full-calendar-dropdown-menu", "reminderDropdown");
+      ul.style.width = "175px";
+      // console.log([ul][0].children);
+      ul.innerHTML = Reminder.reminderDropdownIsAllDay(e.isAllDay);
+      reminderStateSection.appendChild(button);
+      reminderStateSection.appendChild(ul);
+      popupContainer.insertBefore(reminderStateSection, closeBtn);
+      //### li styling
+      reminderDropdownListStyle(ul);
+      if (typeofpopup.toUpperCase() === "UPDATE") {
+        console.log("TYPEOFPOPUP: ", typeofpopup.toUpperCase());
+        if (storage !== "" && e !== "") {
+          storage.get(e.id, function (error, data) {
+            if (error) throw error;
+            console.log("pupopUpdate Button: ", data.reminder);
+            let reminderBtn = data.reminder;
+            if (data.reminder === "") reminderBtn = "Reminder";
+            document.querySelector(
+              "button#reminderBtn"
+            ).innerHTML = reminderDropdownDynamicBtnValue(reminderBtn);
+          });
+        }
+      } else {
+        document.querySelector(
+          "button#reminderBtn"
+        ).innerHTML = reminderDropdownBtnValue;
       }
-    } else {
-      document.querySelector("button#reminderBtn").innerHTML = `
-  <span class="tui-full-calendar-icon tui-full-calendar-ic-alarm"></span>
-  <span id="tui-full-calendar-schedule-state" class="tui-full-calendar-content reminder">Reminder</span>
-  <span class="tui-full-calendar-icon tui-full-calendar-dropdown-arrow"></span></button>
-`;
-    }
+    }, 100);
   }
 
   static getReminder() {
@@ -218,40 +187,6 @@ export default class Reminder {
     });
   }
 
-  /*
-   * refresh updatePopupWindow if isAllDay is checked/unchecked
-   */
-  static updatePopupWindowIsAllDayChecked(cal, _e) {
-    let triggerEventName = _e.hasOwnProperty("triggerEventName");
-    setTimeout(() => {
-      $(".tui-full-calendar-popup .tui-full-calendar-section-allday").on(
-        "click",
-        function () {
-          let checked = $("#tui-full-calendar-schedule-allday").prop("checked");
-          // Check type popupwindow updatePopupWindow or createNewPopupWindow
-          if (!triggerEventName) {
-            cal.updateSchedule(_e.id, _e.selectedCal.id, {
-              isAllDay: !checked,
-            });
-
-            let updateScheduleData = cal.getSchedule(_e.id, _e.selectedCal.id);
-            let newSchedule = {
-              calendar: _e.selectedCal,
-              changes: JSON.stringify(updateScheduleData._changed),
-              end: updateScheduleData.end,
-              schedule: updateScheduleData,
-              start: updateScheduleData.start,
-              triggerEventName: updateScheduleData.triggerEventName,
-            };
-            // instand update updatePopupWindow to show/hide timepicker if isAllday checked/unchecked
-            // cal.render();
-            cal._showCreationPopup(newSchedule);
-          }
-        }
-      );
-    }, 100);
-  }
-
   //Helper Func
   static momentSubstract(date, time1, time2) {
     let _oldDate = moment(date).subtract(time1, time2);
@@ -267,5 +202,13 @@ export default class Reminder {
       body: date,
     });
     return _n.show();
+  }
+
+  static reminderDropdownIsAllDay(isAllDay) {
+    if (isAllDay) {
+      return reminderDropdownIsAllDay;
+    } else {
+      return reminderDropdownIsNotAllDay;
+    }
   }
 } // End Class
