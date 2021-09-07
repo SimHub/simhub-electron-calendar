@@ -43,8 +43,8 @@
     "jquery": "^3.6.0",
     "moment": "^2.29.1",
     "popper.js": "^1.16.1",
+    "tui-calendar": "^1.13.1",
     "snyk": "^1.646.0",
-    "tui-calendar": "^1.13.0",
     "tui-code-snippet": "^2.3.3",
     "tui-dom": "^3.0.0"
   },
