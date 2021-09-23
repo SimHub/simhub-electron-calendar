@@ -40,11 +40,16 @@
     "moment": "^2.29.1",
     "popper.js": "^1.16.1",
 <<<<<<< HEAD
+    "tui-calendar": "^1.13.1",
+    "snyk": "^1.685.0",
+=======
+<<<<<<< HEAD
     "tui-calendar": "^1.14.0",
     "snyk": "^1.683.0",
 =======
     "tui-calendar": "^1.13.1",
     "snyk": "^1.685.0",
+>>>>>>> master
 >>>>>>> master
     "tui-code-snippet": "^2.3.3",
     "tui-dom": "^3.0.0"
