@@ -1,15 +1,14 @@
-node_modules
+node_modules/
+dist/
+temp/
 .DS_Store
 Thumbs.db
 *.log
+.env
+.env.*
+!.env.example
+coverage/
+test-results/
 
-/dist
-/temp
-
-# ignore electron-json-storage .json files
-/src/storage/*.json
-
-# ignore everything in 'app' folder what had been generated from 'src' folder
-/app/app.js
-/app/background.js
-/app/**/*.map
+# Local account-access audit; do not publish administration details.
+docs/local-access-review.md

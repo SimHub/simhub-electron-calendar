@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" fill="none">
+  <title>SimHub Calendar</title>
+  <defs>
+    <linearGradient id="tile" x1="170" y1="90" x2="850" y2="950" gradientUnits="userSpaceOnUse"><stop stop-color="#8C77ED"/><stop offset=".5" stop-color="#7058DB"/><stop offset="1" stop-color="#5140B8"/></linearGradient>
+    <linearGradient id="paper" x1="512" y1="276" x2="512" y2="784" gradientUnits="userSpaceOnUse"><stop stop-color="#FFFFFF"/><stop offset="1" stop-color="#F3F0FF"/></linearGradient>
+    <linearGradient id="ink" x1="410" y1="460" x2="625" y2="724" gradientUnits="userSpaceOnUse"><stop stop-color="#8A73E7"/><stop offset="1" stop-color="#5C46C4"/></linearGradient>
+  </defs>
+  <rect x="64" y="64" width="896" height="896" rx="208" fill="url(#tile)"/>
+  <rect x="66" y="66" width="892" height="892" rx="206" stroke="white" stroke-opacity=".16" stroke-width="4"/>
+  <rect x="248" y="294" width="528" height="506" rx="88" fill="#30226F" fill-opacity=".15"/>
+  <rect x="248" y="272" width="528" height="506" rx="88" fill="url(#paper)"/>
+  <path d="M382 236V314M642 236V314" stroke="white" stroke-width="44" stroke-linecap="round"/>
+  <path d="M284 396H740" stroke="#E7E1FA" stroke-width="18"/>
+  <path d="M610 488C572 462 486 450 447 492C392 553 470 576 518 588C620 612 632 675 555 702C514 716 456 706 421 681" stroke="url(#ink)" stroke-width="52" stroke-linecap="round"/>
+  <circle cx="670" cy="466" r="18" fill="#61B9A2"/>
+</svg>
