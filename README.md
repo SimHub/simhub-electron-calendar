@@ -10,7 +10,7 @@ Ein lokaler Desktop-Kalender mit deutscher Oberfläche, Monats-, Wochen- und Age
 
 *Die Abbildung zeigt Beispieldaten aus einem isolierten Testkalender.*
 
-**Lokal gespeichert · Ohne Cloud-Zwang · Optionale KI · Keine automatischen GitHub-Jobs**
+**Lokal gespeichert · Ohne Cloud-Zwang · Optionale KI · Offline nutzbar**
 
 ## Start
 
@@ -120,10 +120,16 @@ npm run pack
 
 Die gezielte `minimatch`-Override aktualisiert nur Versionen im gemeldeten verwundbaren Bereich. Vor Entfernen der Override Audit erneut prüfen. Legacy-Versionen anderer Major-Reihen werden nicht auf eine inkompatible API umgebogen.
 
-`npm run release` erzeugt plattformspezifische Pakete. Die lokale macOS-Paketierung ist zunächst unsigniert; produktive Veröffentlichung braucht eigene gültige Signierungszertifikate/Notarisierung. Keine automatische Veröffentlichung eingerichtet.
+## App bauen und weitergeben
 
-## Keine zusätzlichen GitHub-Gebühren
+| Befehl | Ergebnis |
+| --- | --- |
+| `npm start` | Startet die App aus dem Quellcode. |
+| `npm run pack` | Erzeugt eine gebündelte, direkt startbare App unter `dist/`. |
+| `npm run release` | Erzeugt zusätzlich ein Distributionspaket für die aktuelle Plattform, z. B. eine DMG auf macOS. |
 
-GitHub Actions ist für dieses Repository deaktiviert. Die Workflow-Dateien sind nur manuell startbar, beschränken sich auf öffentliche Repositories und legen keine Caches oder Artefakte an. Sie werden erst relevant, wenn du Actions ausdrücklich wieder aktivierst. Tests und Paketierung laufen lokal. Keine Codespaces, kostenpflichtigen Runner oder GitHub-Abonnements wurden angelegt. Vorhandene kontoweite Abos oder bereits entstandene Gebühren werden dadurch nicht gekündigt bzw. rückgängig gemacht.
+Auf einem Mac mit Apple Silicon liegt die gebündelte App nach `npm run pack` unter `dist/mac-arm64/Electron Calendar.app`. Sie läuft eigenständig, ohne separat installiertes Node.js. Zum lokalen Verwenden ist kein zusätzlicher Release-Build erforderlich. Ein Build für Intel-Macs oder andere Betriebssysteme muss separat erstellt und geprüft werden.
 
-[GitHub erklärt die Abrechnung von Actions und Speicher](https://docs.github.com/en/billing/concepts/product-billing/github-actions). Optionale externe KI-APIs haben eigene Anbieterpreise; standardmäßig sind sie deaktiviert.
+Eine DMG erleichtert die Weitergabe. Für eine öffentliche macOS-Veröffentlichung sollten App und DMG mit einem gültigen Developer-ID-Zertifikat signiert und notarisiert werden. Ohne entsprechende Konfiguration bleiben lokale Builds unsigniert. Der Release-Befehl veröffentlicht nichts automatisch auf GitHub.
+
+GitHub Actions ist in diesem Repository deaktiviert; Tests und Builds werden lokal ausgeführt. Die vorhandenen Workflows sind nur manuell startbar.
