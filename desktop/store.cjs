@@ -1,6 +1,6 @@
 const fs = require('node:fs/promises');
 const path = require('node:path');
-const { CALENDARS, validateData, validateEvent } = require('./model.cjs');
+const { CALENDARS, MAX_DATA_BYTES, validateData, validateEvent } = require('./model.cjs');
 class Store {
   constructor(directory) { this.directory = directory; this.file = path.join(directory, 'calendar-v2.json'); this.queue = Promise.resolve(); }
   async load() {
@@ -35,13 +35,15 @@ class Store {
   snapshot() { return structuredClone(this.data); }
   async persist(data) {
     const temp = `${this.file}.tmp`;
-    await fs.writeFile(temp, JSON.stringify(data), { mode: 0o600 });
+    const serialized = JSON.stringify(data);
+    if (Buffer.byteLength(serialized, 'utf8') > MAX_DATA_BYTES) throw new Error('Kalenderdaten überschreiten die maximal erlaubte Größe (20 MB).');
+    await fs.writeFile(temp, serialized, { mode: 0o600 });
     await fs.rename(temp, this.file);
   }
   mutate(change) {
     const task = this.queue.then(async () => {
       const next = this.snapshot();
-      const result = change(next);
+      const result = await change(next);
       const valid = validateData(next);
       await this.persist(valid);
       this.data = valid;
@@ -60,6 +62,28 @@ class Store {
   }
   remove(id) { return this.mutate(data => { data.events = data.events.filter(e => e.id !== id); }); }
   rename(id, name) { return this.mutate(data => { const c = data.calendars.find(c => c.id === id); if (!c) throw new Error('Kalender nicht gefunden.'); c.name = name; }); }
-  import(data) { const valid = validateData(data); return this.mutate(next => { Object.assign(next, valid); }); }
+  async export(filePath) {
+    const data = this.snapshot();
+    let serialized = JSON.stringify(data, null, 2);
+    if (Buffer.byteLength(serialized, 'utf8') > MAX_DATA_BYTES) serialized = JSON.stringify(data);
+    if (Buffer.byteLength(serialized, 'utf8') > MAX_DATA_BYTES) throw new Error('Kalenderdaten überschreiten die maximal erlaubte Größe (20 MB).');
+    await fs.writeFile(filePath, serialized, { mode: 0o600 });
+    return true;
+  }
+  import(data, { backup = false } = {}) {
+    const valid = validateData(data);
+    return this.mutate(async next => {
+      if (backup && this.data) {
+        const backupPath = path.join(this.directory, `before-import-${Date.now()}.json`);
+        const backupData = JSON.stringify(this.data);
+        if (Buffer.byteLength(backupData, 'utf8') > MAX_DATA_BYTES) throw new Error('Aktuelle Kalenderdaten überschreiten das Backup-Limit (20 MB).');
+        await fs.writeFile(backupPath, backupData, { mode: 0o600 });
+      }
+      for (const key of Object.keys(next)) {
+        if (!valid.hasOwnProperty(key)) delete next[key];
+      }
+      Object.assign(next, valid);
+    });
+  }
 }
 module.exports = { Store };

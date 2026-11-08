@@ -20,7 +20,7 @@
     "test": "node --test test/*.test.cjs",
     "check": "node scripts/check.cjs",
     "pack": "electron-builder --dir",
-    "release": "electron-builder",
+    "release": "electron-builder --publish never",
     "agent": "node desktop/agent.cjs",
     "test:desktop": "node test/electron.e2e.cjs",
     "icons": "electron scripts/generate-icons.cjs"

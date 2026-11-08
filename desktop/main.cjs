@@ -68,20 +68,19 @@ if (singleInstance) app.whenReady().then(async () => {
   handle('export', async () => {
     const result = await dialog.showSaveDialog(mainWindow, { title: 'Kalender sichern', defaultPath: 'simhub-calendar-backup.json', filters: [{ name: 'Kalender-Backup', extensions: ['json'] }] });
     if (result.canceled) return false;
-    await fs.writeFile(result.filePath, JSON.stringify(store.snapshot(), null, 2), { mode: 0o600 });
+    await store.export(result.filePath);
     return true;
   });
   handle('import', async () => {
     const result = await dialog.showOpenDialog(mainWindow, { title: 'Backup wiederherstellen', properties: ['openFile'], filters: [{ name: 'Kalender-Backup', extensions: ['json'] }] });
     if (result.canceled) return false;
     const file = result.filePaths[0];
-    if ((await fs.stat(file)).size > 20 * 1024 * 1024) throw new Error('Backup ist zu groß (max. 20 MB).');
-    const { validateData } = require('./model.cjs');
+    const { MAX_DATA_BYTES, validateData } = require('./model.cjs');
+    if ((await fs.stat(file)).size > MAX_DATA_BYTES) throw new Error('Backup ist zu groß (max. 20 MB).');
     const data = validateData(JSON.parse(await fs.readFile(file, 'utf8')));
     const confirmation = await dialog.showMessageBox(mainWindow, { type: 'warning', buttons: ['Abbrechen', 'Wiederherstellen'], defaultId: 0, cancelId: 0, message: `${data.events.length} Termine wiederherstellen?`, detail: 'Der aktuelle Kalender wird ersetzt. Vorher wird automatisch eine Sicherung im Datenordner angelegt.' });
     if (confirmation.response !== 1) return false;
-    await fs.writeFile(path.join(store.directory, `before-import-${Date.now()}.json`), JSON.stringify(store.snapshot()), { mode: 0o600 });
-    await store.import(data);
+    await store.import(data, { backup: true });
     return true;
   });
   Menu.setApplicationMenu(Menu.buildFromTemplate([

@@ -1,4 +1,6 @@
 const { randomUUID } = require('node:crypto');
+const MAX_DATA_BYTES = 20 * 1024 * 1024; // 20 MB
+
 const CALENDARS = [
   { id: '1', name: 'Persönlich', color: 'violet' },
   { id: '2', name: 'Arbeit', color: 'blue' },
@@ -39,4 +41,4 @@ function validateData(data) {
   if (new Set(events.map(e => e.id)).size !== events.length) throw new Error('Doppelte Termin-ID.');
   return { version: 2, calendars, events };
 }
-module.exports = { CALENDARS, validateEvent, validateData };
+module.exports = { CALENDARS, MAX_DATA_BYTES, validateEvent, validateData };

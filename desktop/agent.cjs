@@ -2,7 +2,7 @@
 // No datastore writes and no command execution. Draft files are opened by the user in the app.
 const fs = require('node:fs/promises');
 const path = require('node:path');
-const { CALENDARS, validateData } = require('./model.cjs');
+const { CALENDARS, MAX_DATA_BYTES, validateData } = require('./model.cjs');
 const { parseDraft } = require('./parser.cjs');
 const { propose } = require('./assistant.cjs');
 async function execute(request, env = process.env) {
@@ -12,7 +12,7 @@ async function execute(request, env = process.env) {
   if (env.SIMHUB_DATA_DIR) {
     if (!path.isAbsolute(env.SIMHUB_DATA_DIR)) throw new Error('SIMHUB_DATA_DIR muss absolut sein.');
     const file = path.join(env.SIMHUB_DATA_DIR, 'calendar-v2.json');
-    if ((await fs.stat(file)).size > 20 * 1024 * 1024) throw new Error('Kalender zu groß.');
+    if ((await fs.stat(file)).size > MAX_DATA_BYTES) throw new Error('Kalender zu groß.');
     data = validateData(JSON.parse(await fs.readFile(file, 'utf8')));
   }
   if (request.tool === 'calendar.list') {

@@ -39,3 +39,27 @@ test('restore validates the complete dataset before replacement', async t => {
   assert.throws(() => store.import({ version: 2, events: [], calendars: [] })); assert.equal(store.snapshot().events.length, 1);
   await store.import({ ...store.snapshot(), events: [] }); assert.equal(store.snapshot().events.length, 0);
 });
+test('import creates automatic backup and serializes against concurrent writes', async t => {
+  const { dir, store } = await fixture(t); await store.load();
+  await store.save({ ...event, title: 'Vorher' });
+  const p1 = store.save({ ...event, id: 'concurrent-1', title: 'Parallel Vorher' });
+  const p2 = store.import({ version: 2, calendars: store.snapshot().calendars, events: [{ ...event, id: 'imported-1', title: 'Nachher' }] }, { backup: true });
+  await Promise.all([p1, p2]);
+  const backups = (await fs.readdir(dir)).filter(f => f.startsWith('before-import-'));
+  assert.equal(backups.length, 1);
+  const backupContent = JSON.parse(await fs.readFile(path.join(dir, backups[0]), 'utf8'));
+  assert.equal(backupContent.events.length, 2);
+  assert.ok(backupContent.events.some(e => e.id === 'concurrent-1'));
+  assert.equal(store.snapshot().events.length, 1);
+  assert.equal(store.snapshot().events[0].id, 'imported-1');
+});
+test('rejects persist and export exceeding MAX_DATA_BYTES', async t => {
+  const { dir, store } = await fixture(t); await store.load();
+  const exportPath = path.join(dir, 'test-export.json');
+  await store.export(exportPath);
+  assert.ok(JSON.parse(await fs.readFile(exportPath, 'utf8')).version === 2);
+  const origSnapshot = store.snapshot.bind(store);
+  store.snapshot = () => ({ ...origSnapshot(), dummy: 'x'.repeat(21 * 1024 * 1024) });
+  await assert.rejects(store.export(path.join(dir, 'too-big.json')), /20 MB/);
+  store.snapshot = origSnapshot;
+});
