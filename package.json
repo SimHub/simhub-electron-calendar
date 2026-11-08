@@ -2,7 +2,7 @@
   "name": "electron-calendar",
   "productName": "Electron Calendar",
   "description": "Ein lokaler, sicherer Desktop-Kalender mit optionalem KI-Assistenten",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "private": true,
   "author": "SimHub <simhub.dev@gmail.com>",
   "copyright": "simon lackmann",
