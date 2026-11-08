@@ -52,6 +52,31 @@ if (singleInstance) app.whenReady().then(async () => {
   handle('localDraft', prompt => require('./parser.cjs').parseDraft(prompt, store.snapshot().calendars));
   handle('status', () => settings.status());
   handle('configure', input => settings.save(input));
+  handle('syncStatus', () => settings.syncStatus());
+  handle('configureSync', input => settings.saveSync(input));
+  handle('testSync', async input => {
+    const { CalDavClient } = require('./sync.cjs');
+    let creds = input;
+    if (!input.password) {
+      const saved = settings.syncCredentials();
+      if (saved) creds = { ...input, password: saved.password };
+    }
+    const client = new CalDavClient(creds);
+    return client.testConnection();
+  });
+  handle('syncNow', async () => {
+    const creds = settings.syncCredentials();
+    if (!creds) throw new Error('Synchronisation ist nicht konfiguriert oder deaktiviert.');
+    const { CalDavClient } = require('./sync.cjs');
+    const client = new CalDavClient(creds);
+    const remoteEvents = await client.fetchEvents(creds.calendarId, store.snapshot().calendars);
+    let importedCount = 0;
+    for (const event of remoteEvents) {
+      await store.save(event);
+      importedCount++;
+    }
+    return { ok: true, imported: importedCount };
+  });
   handle('assistant', async prompt => {
     if (assistantBusy) throw new Error('Ein KI-Vorschlag wird bereits erstellt.');
     assistantBusy = true;

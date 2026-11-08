@@ -12,4 +12,8 @@ contextBridge.exposeInMainWorld('calendarAPI', Object.freeze({
   localDraft: prompt => ipcRenderer.invoke('calendar:localDraft', prompt),
   configure: input => ipcRenderer.invoke('calendar:configure', input),
   status: () => ipcRenderer.invoke('calendar:status'),
+  syncStatus: () => ipcRenderer.invoke('calendar:syncStatus'),
+  configureSync: input => ipcRenderer.invoke('calendar:configureSync', input),
+  testSync: input => ipcRenderer.invoke('calendar:testSync', input),
+  syncNow: () => ipcRenderer.invoke('calendar:syncNow'),
 }));

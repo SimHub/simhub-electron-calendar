@@ -2,7 +2,15 @@ const fs = require('node:fs/promises');
 const path = require('node:path');
 const { configuration } = require('./assistant.cjs');
 class Settings {
-  constructor(directory, secureStorage, env = process.env) { this.queue = Promise.resolve(); this.file = path.join(directory, 'ai-settings.json'); this.secureStorage = secureStorage; this.env = env; this.saved = { provider: 'off', model: '', endpoint: '', encryptedKey: '' }; }
+  constructor(directory, secureStorage, env = process.env) {
+    this.queue = Promise.resolve();
+    this.file = path.join(directory, 'ai-settings.json');
+    this.syncFile = path.join(directory, 'sync-settings.json');
+    this.secureStorage = secureStorage;
+    this.env = env;
+    this.saved = { provider: 'off', model: '', endpoint: '', encryptedKey: '' };
+    this.savedSync = { enabled: false, provider: 'off', url: '', user: '', encryptedPassword: '', calendarId: '1' };
+  }
   async load() {
     try {
       if ((await fs.stat(this.file)).size > 16384) throw new Error('KI-Einstellungen zu groß.');
@@ -10,6 +18,21 @@ class Settings {
       if (!value || typeof value !== 'object') throw new Error('Ungültige KI-Einstellungen.');
       for (const name of ['provider', 'model', 'endpoint', 'encryptedKey']) if (typeof value[name] !== 'string') throw new Error('Ungültige KI-Einstellungen.');
       this.saved = value;
+    } catch (error) { if (error.code !== 'ENOENT') throw error; }
+
+    try {
+      if ((await fs.stat(this.syncFile)).size > 16384) throw new Error('Sync-Einstellungen zu groß.');
+      const syncVal = JSON.parse(await fs.readFile(this.syncFile, 'utf8'));
+      if (syncVal && typeof syncVal === 'object') {
+        this.savedSync = {
+          enabled: syncVal.enabled === true,
+          provider: typeof syncVal.provider === 'string' ? syncVal.provider : 'off',
+          url: typeof syncVal.url === 'string' ? syncVal.url : '',
+          user: typeof syncVal.user === 'string' ? syncVal.user : '',
+          encryptedPassword: typeof syncVal.encryptedPassword === 'string' ? syncVal.encryptedPassword : '',
+          calendarId: typeof syncVal.calendarId === 'string' ? syncVal.calendarId : '1'
+        };
+      }
     } catch (error) { if (error.code !== 'ENOENT') throw error; }
   }
   fromEnvironment() { return !!(this.env.SIMHUB_AI_PROVIDER || this.env.SIMHUB_AI_MODEL || this.env.SIMHUB_OLLAMA_MODEL); }
@@ -48,6 +71,61 @@ class Settings {
     await fs.writeFile(temp, JSON.stringify(value), { mode: 0o600 }); await fs.rename(temp, this.file);
     this.saved = value;
     return this.status();
+  }
+  syncStatus() {
+    return {
+      enabled: this.savedSync.enabled,
+      provider: this.savedSync.provider,
+      url: this.savedSync.url,
+      user: this.savedSync.user,
+      hasPassword: !!this.savedSync.encryptedPassword,
+      calendarId: this.savedSync.calendarId
+    };
+  }
+  syncCredentials() {
+    if (!this.savedSync.enabled || !this.savedSync.url) return null;
+    let password = '';
+    if (this.savedSync.encryptedPassword) {
+      if (!this.secureStorage.isEncryptionAvailable()) throw new Error('Schlüsselbund nicht verfügbar.');
+      password = this.secureStorage.decryptString(Buffer.from(this.savedSync.encryptedPassword, 'base64'));
+    }
+    return {
+      provider: this.savedSync.provider,
+      url: this.savedSync.url,
+      user: this.savedSync.user,
+      password,
+      calendarId: this.savedSync.calendarId
+    };
+  }
+  async saveSync(input) {
+    if (!input || typeof input !== 'object') throw new Error('Ungültige Synchronisations-Einstellungen.');
+    const enabled = input.enabled === true;
+    const provider = ['off', 'nextcloud', 'apple', 'custom'].includes(input.provider) ? input.provider : 'off';
+    const url = typeof input.url === 'string' ? input.url.trim() : '';
+    const user = typeof input.user === 'string' ? input.user.trim() : '';
+    const calendarId = typeof input.calendarId === 'string' ? input.calendarId.trim() : '1';
+    let password = typeof input.password === 'string' ? input.password.trim() : '';
+
+    if (enabled && (!url || (provider !== 'off' && !user))) {
+      throw new Error('Für die Synchronisation werden Server-URL und Benutzername benötigt.');
+    }
+
+    let encryptedPassword = this.savedSync.encryptedPassword;
+    if (password) {
+      if (!this.secureStorage.isEncryptionAvailable() || this.secureStorage.getSelectedStorageBackend?.() === 'basic_text') {
+        throw new Error('Sicherer Betriebssystem-Schlüsselbund für Passwortspeicherung nicht verfügbar.');
+      }
+      encryptedPassword = this.secureStorage.encryptString(password).toString('base64');
+    } else if (!enabled) {
+      encryptedPassword = '';
+    }
+
+    const value = { enabled, provider, url, user, encryptedPassword, calendarId };
+    const temp = `${this.syncFile}.tmp`;
+    await fs.writeFile(temp, JSON.stringify(value), { mode: 0o600 });
+    await fs.rename(temp, this.syncFile);
+    this.savedSync = value;
+    return this.syncStatus();
   }
 }
 module.exports = { Settings };

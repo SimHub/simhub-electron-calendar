@@ -191,7 +191,85 @@ function updateProviderFields() { const isAPI = $('ai-provider').value === 'api'
 $('ai-provider').addEventListener('change', updateProviderFields);
 $('ai-settings-form').addEventListener('submit', async event => { event.preventDefault(); $('ai-settings-error').textContent = ''; $('ai-settings-save').disabled = true; try { await call('configure', { provider: $('ai-provider').value, model: $('ai-model').value, endpoint: $('ai-endpoint').value, key: $('ai-key').value }); $('ai-key').value = ''; await aiStatus(); toast('KI-Einstellungen gespeichert.'); } catch (error) { $('ai-settings-error').textContent = error.message; } finally { $('ai-settings-save').disabled = false; } });
 $('settings-dialog').addEventListener('close', () => { $('ai-key').value = ''; });
-$('settings').addEventListener('click', () => { showDialog('settings-dialog'); aiStatus(); });
+async function syncStatusUI() {
+  try {
+    const status = await call('syncStatus');
+    $('sync-enabled').checked = status.enabled;
+    $('sync-fields').hidden = !status.enabled;
+    $('sync-provider').value = status.provider === 'off' ? 'nextcloud' : status.provider;
+    $('sync-url').value = status.url || '';
+    $('sync-user').value = status.user || '';
+    $('sync-password').value = '';
+    $('sync-password').placeholder = status.hasPassword ? 'Gespeichert · leer lassen, um beizubehalten' : 'Passwort oder App-Token eingeben';
+    $('sync-calendar-target').innerHTML = state.data.calendars.map(c => `<option value="${escapeHTML(c.id)}">${escapeHTML(c.name)}</option>`).join('');
+    if (status.calendarId) $('sync-calendar-target').value = status.calendarId;
+    const label = status.enabled ? `Aktiviert (${status.provider}) · ${status.user || 'Kein Benutzer'} an ${status.url}` : 'Synchronisation deaktiviert · Rein lokaler Betrieb';
+    $('settings-sync-status').textContent = label;
+  } catch (error) {
+    $('settings-sync-status').textContent = error.message;
+  }
+}
+$('sync-enabled').addEventListener('change', () => {
+  $('sync-fields').hidden = !$('sync-enabled').checked;
+});
+$('sync-provider').addEventListener('change', () => {
+  const p = $('sync-provider').value;
+  if (p === 'apple') $('sync-url').placeholder = 'https://caldav.icloud.com/';
+  else if (p === 'nextcloud') $('sync-url').placeholder = 'https://mein-nextcloud.de/remote.php/dav/calendars/benutzer/persoenlich/';
+  else $('sync-url').placeholder = 'https://caldav.beispiel.de/';
+});
+$('sync-settings-form').addEventListener('submit', async event => {
+  event.preventDefault();
+  $('sync-settings-error').textContent = '';
+  try {
+    await call('configureSync', {
+      enabled: $('sync-enabled').checked,
+      provider: $('sync-provider').value,
+      url: $('sync-url').value,
+      user: $('sync-user').value,
+      password: $('sync-password').value,
+      calendarId: $('sync-calendar-target').value
+    });
+    $('sync-password').value = '';
+    await syncStatusUI();
+    toast('Synchronisations-Einstellungen gespeichert.');
+  } catch (error) {
+    $('sync-settings-error').textContent = error.message;
+  }
+});
+$('sync-test-btn').addEventListener('click', async () => {
+  $('sync-settings-error').textContent = '';
+  $('sync-test-btn').disabled = true;
+  $('sync-test-btn').textContent = 'Prüfe …';
+  try {
+    await call('testSync', {
+      url: $('sync-url').value,
+      user: $('sync-user').value,
+      password: $('sync-password').value
+    });
+    toast('Verbindung erfolgreich hergestellt!');
+  } catch (error) {
+    $('sync-settings-error').textContent = 'Verbindung fehlgeschlagen: ' + error.message;
+  } finally {
+    $('sync-test-btn').disabled = false;
+    $('sync-test-btn').textContent = 'Verbindung testen';
+  }
+});
+$('sync-now-btn').addEventListener('click', async () => {
+  $('sync-now-btn').disabled = true;
+  $('sync-now-btn').textContent = 'Synchronisiere …';
+  try {
+    const res = await call('syncNow');
+    await reload();
+    toast(`Synchronisation abgeschlossen: ${res.imported} Termine abgeglichen.`);
+  } catch (error) {
+    toast('Sync-Fehler: ' + error.message, true);
+  } finally {
+    $('sync-now-btn').disabled = false;
+    $('sync-now-btn').textContent = 'Jetzt synchronisieren';
+  }
+});
+$('settings').addEventListener('click', () => { showDialog('settings-dialog'); aiStatus(); syncStatusUI(); });
 $('open-draft').addEventListener('click', async () => { try { const draft = await call('openDraft'); if (draft) { $('settings-dialog').close(); openEvent(draft); $('event-id').value = ''; $('event-warning').hidden = false; $('event-warning').textContent = 'Agenten-Entwurf. Bitte alle Angaben vor dem Speichern prüfen.'; } } catch (error) { toast(error.message, true); } });
 $('export').addEventListener('click', async () => { try { if (await call('export')) toast('Backup exportiert.'); } catch (error) { toast(error.message, true); } });
 $('import').addEventListener('click', async () => { try { if (await call('import')) { await reload(); toast('Backup wiederhergestellt.'); } } catch (error) { toast(error.message, true); } });
