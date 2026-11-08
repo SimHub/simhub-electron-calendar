@@ -6,10 +6,12 @@ class Settings {
     this.queue = Promise.resolve();
     this.file = path.join(directory, 'ai-settings.json');
     this.syncFile = path.join(directory, 'sync-settings.json');
+    this.appSettingsFile = path.join(directory, 'app-settings.json');
     this.secureStorage = secureStorage;
     this.env = env;
     this.saved = { provider: 'off', model: '', endpoint: '', encryptedKey: '' };
     this.savedSync = { enabled: false, provider: 'off', url: '', user: '', encryptedPassword: '', calendarId: '1' };
+    this.savedApp = { language: 'de' };
   }
   async load() {
     try {
@@ -18,6 +20,14 @@ class Settings {
       if (!value || typeof value !== 'object') throw new Error('Ungültige KI-Einstellungen.');
       for (const name of ['provider', 'model', 'endpoint', 'encryptedKey']) if (typeof value[name] !== 'string') throw new Error('Ungültige KI-Einstellungen.');
       this.saved = value;
+    } catch (error) { if (error.code !== 'ENOENT') throw error; }
+
+    try {
+      if ((await fs.stat(this.appSettingsFile)).size > 16384) throw new Error('App-Einstellungen zu groß.');
+      const appVal = JSON.parse(await fs.readFile(this.appSettingsFile, 'utf8'));
+      if (appVal && typeof appVal === 'object' && ['de', 'en'].includes(appVal.language)) {
+        this.savedApp = { language: appVal.language };
+      }
     } catch (error) { if (error.code !== 'ENOENT') throw error; }
 
     try {
@@ -71,6 +81,22 @@ class Settings {
     await fs.writeFile(temp, JSON.stringify(value), { mode: 0o600 }); await fs.rename(temp, this.file);
     this.saved = value;
     return this.status();
+  }
+  appStatus() {
+    return {
+      language: this.savedApp.language || 'de'
+    };
+  }
+  async saveAppSettings(input) {
+    if (!input || typeof input !== 'object' || !['de', 'en'].includes(input.language)) {
+      throw new Error('Ungültige Spracheinstellung (de oder en erlaubt).');
+    }
+    const value = { language: input.language };
+    const temp = `${this.appSettingsFile}.tmp`;
+    await fs.writeFile(temp, JSON.stringify(value), { mode: 0o600 });
+    await fs.rename(temp, this.appSettingsFile);
+    this.savedApp = value;
+    return this.appStatus();
   }
   syncStatus() {
     return {

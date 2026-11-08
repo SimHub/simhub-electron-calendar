@@ -33,7 +33,7 @@ function handle(name, callback) {
   });
 }
 if (singleInstance) app.whenReady().then(async () => {
-  const assets = { '/index.html': ['index.html', 'text/html'], '/app.js': ['app.js', 'text/javascript'], '/styles.css': ['styles.css', 'text/css'], '/brand.svg': ['brand.svg', 'image/svg+xml'] };
+  const assets = { '/index.html': ['index.html', 'text/html'], '/app.js': ['app.js', 'text/javascript'], '/i18n.js': ['i18n.js', 'text/javascript'], '/styles.css': ['styles.css', 'text/css'], '/brand.svg': ['brand.svg', 'image/svg+xml'] };
   protocol.handle('simhub', async request => {
     const url = new URL(request.url), asset = assets[url.pathname];
     if (url.host !== 'calendar' || !asset || request.method !== 'GET') return new Response('Not found', { status: 404 });
@@ -52,6 +52,8 @@ if (singleInstance) app.whenReady().then(async () => {
   handle('localDraft', prompt => require('./parser.cjs').parseDraft(prompt, store.snapshot().calendars));
   handle('status', () => settings.status());
   handle('configure', input => settings.save(input));
+  handle('appStatus', () => settings.appStatus());
+  handle('configureApp', input => settings.saveAppSettings(input));
   handle('syncStatus', () => settings.syncStatus());
   handle('configureSync', input => settings.saveSync(input));
   handle('testSync', async input => {

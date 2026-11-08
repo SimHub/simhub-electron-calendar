@@ -118,6 +118,19 @@ async function run() {
     });
     await page.reload();
     await page.locator('#event-count').filter({ hasText: '6 Termine' }).waitFor();
+
+    // Verify language toggle button (DE -> EN -> DE)
+    assert.equal(await page.locator('#lang-current').textContent(), 'DE');
+    await page.locator('#lang-toggle').click();
+    await page.locator('#lang-current').filter({ hasText: 'EN' }).waitFor();
+    await page.locator('#topbar-breadcrumb-title').filter({ hasText: 'My Calendar' }).waitFor();
+    await page.locator('#today').filter({ hasText: 'Today' }).waitFor();
+    assert.equal(await page.locator('#settings-lang-select').inputValue(), 'en');
+    // Switch back to DE
+    await page.locator('#lang-toggle').click();
+    await page.locator('#lang-current').filter({ hasText: 'DE' }).waitFor();
+    await page.locator('#topbar-breadcrumb-title').filter({ hasText: 'Mein Kalender' }).waitFor();
+
     await fs.mkdir(path.resolve('test-results'), { recursive: true });
     await page.screenshot({ path: path.resolve('test-results/calendar-desktop.png'), fullPage: true });
     await page.setViewportSize({ width: 800, height: 700 });

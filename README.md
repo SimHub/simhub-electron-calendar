@@ -30,6 +30,7 @@ Kein Webpack, keine CDN-Inhalte, keine Laufzeitbibliotheken im Renderer. Electro
 - Die Suche durchsucht Titel, Ort und Notizen über alle Termine und zeigt Ergebnisse als Liste. Kalenderfilter gelten auch für die Suche.
 - Termine anklicken zum Bearbeiten. Überschneidungen im selben Kalender werden angezeigt.
 - **✎** neben „Meine Kalender“ benennt Kalender um.
+- **🌐 Sprach-Umschaltung (Deutsch & Englisch):** Über den Button in der oberen Leiste (oder unter Einstellungen) kann die gesamte Benutzeroberfläche direkt zwischen Deutsch und Englisch gewechselt werden. Die gewählte Sprache wird dauerhaft in den App-Einstellungen gespeichert.
 - **Einstellungen & Backup** exportiert und importiert JSON. Beim Import erfolgt eine Bestätigung und eine automatische Sicherung des bisherigen Datenbestands.
 - **Synchronisation (CalDAV & Nextcloud):** Ermöglicht den sicheren Abgleich mit Nextcloud, Apple iCloud oder CalDAV-Servern.
 - Ganztägige Termine verwenden ein exklusives Ende: Ein Tag beginnt um 00:00 und endet um 00:00 des Folgetags.

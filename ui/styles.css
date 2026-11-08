@@ -3,3 +3,9 @@
 .sidebar{overflow-y:auto}.sidebar-bottom{flex-shrink:0}
 
 .brand-icon{background:none;border-radius:0;box-shadow:none;object-fit:contain;flex-shrink:0;width:43px;height:43px}
+
+.lang-toggle-btn{display:flex;align-items:center;gap:6px;border:1px solid var(--line);background:#fff;border-radius:20px;padding:5px 10px;font-size:11px;color:#555b6e;font-weight:600;box-shadow:0 1px 3px #0000000d;cursor:pointer}
+.lang-toggle-btn:hover{background:#f4f3fa;border-color:#d5d0f0;color:var(--accent)}
+.settings-lang-box{background:#f8f8fc;border:1px solid #eeeef5;border-radius:10px;padding:12px 14px;margin-bottom:18px}
+.settings-lang-box label{margin:0;display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:12px}
+.settings-lang-box select{width:auto;margin-top:0;padding:6px 12px;font-size:12px}

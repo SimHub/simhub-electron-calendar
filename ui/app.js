@@ -1,10 +1,22 @@
 'use strict';
 const $ = id => document.getElementById(id);
 const api = window.calendarAPI;
+
+let currentLang = 'de';
+function t(key, ...args) {
+  const dict = window.i18n?.[currentLang] || window.i18n?.['de'] || {};
+  const val = dict[key];
+  if (typeof val === 'function') return val(...args);
+  return val !== undefined ? val : key;
+}
+function currentLocale() {
+  return currentLang === 'en' ? 'en-US' : 'de-DE';
+}
+
 const dateKey = date => `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
 const localInput = date => `${dateKey(date)}T${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
-const shortTime = date => new Date(date).toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
-const longDate = date => date.toLocaleDateString('de-DE', { day: 'numeric', month: 'long' });
+const shortTime = date => new Date(date).toLocaleTimeString(currentLocale(), { hour: '2-digit', minute: '2-digit' });
+const longDate = date => date.toLocaleDateString(currentLocale(), { day: 'numeric', month: 'long' });
 const sameDay = (a, b) => dateKey(a) === dateKey(b);
 const plusDays = (date, amount) => { const d = new Date(date); d.setDate(d.getDate() + amount); return d; };
 const startDay = date => new Date(date.getFullYear(), date.getMonth(), date.getDate());
@@ -52,26 +64,27 @@ function renderCalendarFilters() {
 function chip(event) {
   const button = element('button', `event-chip color-${calendarFor(event).color}`);
   button.append(element('time', '', event.allDay ? '' : shortTime(event.start)), element('span', 'event-chip-title', event.title));
-  button.title = `${event.title} · ${event.allDay ? 'Ganztägig' : shortTime(event.start)}${event.location ? ' · ' + event.location : ''}`;
+  button.title = `${event.title} · ${event.allDay ? t('allDay') : shortTime(event.start)}${event.location ? ' · ' + event.location : ''}`;
   button.addEventListener('click', () => openEvent(event));
   return button;
 }
 function renderMonth() {
   const { start, count } = range();
   const weekdays = element('div', 'weekdays');
-  ['MO', 'DI', 'MI', 'DO', 'FR', 'SA', 'SO'].forEach(day => weekdays.append(element('div', 'weekday', day)));
+  const daysArr = currentLang === 'en' ? ['MO', 'TU', 'WE', 'TH', 'FR', 'SA', 'SU'] : ['MO', 'DI', 'MI', 'DO', 'FR', 'SA', 'SO'];
+  daysArr.forEach(day => weekdays.append(element('div', 'weekday', day)));
   const grid = element('div', state.view === 'week' ? 'month-grid week-grid' : 'month-grid');
   const today = new Date();
   for (let i = 0; i < count; i++) {
     const date = plusDays(start, i), events = eventsFor(date);
     const cell = element('div', `day-cell${date.getDay() === 0 || date.getDay() === 6 ? ' weekend' : ''}${date.getMonth() !== state.anchor.getMonth() ? ' outside' : ''}${sameDay(date, today) ? ' today' : ''}${sameDay(date, state.selected) ? ' selected' : ''}`);
     const number = element('button', 'day-number', date.getDate());
-    number.setAttribute('aria-label', `${date.toLocaleDateString('de-DE', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}, Termin erstellen`);
+    number.setAttribute('aria-label', t('createEventAria', date.toLocaleDateString(currentLocale(), { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })));
     number.addEventListener('click', () => { selectDay(date); openEvent(null, date); });
     cell.append(number);
     const limit = state.view === 'week' ? 100 : 3;
     events.slice(0, limit).forEach(event => cell.append(chip(event)));
-    if (events.length > limit) { const more = element('button', 'more-events', `+ ${events.length - limit} weitere`); more.addEventListener('click', () => { state.selected = date; state.anchor = date; state.view = 'agenda'; render(); }); cell.append(more); }
+    if (events.length > limit) { const more = element('button', 'more-events', t('moreEvents', events.length - limit)); more.addEventListener('click', () => { state.selected = date; state.anchor = date; state.view = 'agenda'; render(); }); cell.append(more); }
     cell.addEventListener('click', e => { if (e.target === cell) { selectDay(date); openEvent(null, date); } });
     grid.append(cell);
   }
@@ -82,46 +95,59 @@ function renderAgenda() {
   const list = element('div', 'agenda-list');
   const from = new Date(state.anchor.getFullYear(), state.anchor.getMonth(), 1), to = new Date(from.getFullYear(), from.getMonth() + 1, 1);
   const events = state.data.events.filter(e => visible(e) && (state.query || (new Date(e.start) < to && new Date(e.end) > from))).sort((a, b) => a.start.localeCompare(b.start));
-  if (!events.length) list.append(element('div', 'empty-search', state.query ? 'Keine passenden Termine. Versuche einen anderen Suchbegriff.' : 'Noch Raum für neue Pläne. Erstelle deinen ersten Termin mit N.'));
+  if (!events.length) list.append(element('div', 'empty-search', state.query ? t('emptySearch') : t('emptyAgenda')));
   let previousDate = '';
   for (const event of events) {
     const key = dateKey(new Date(event.start));
-    if (key !== previousDate) { list.append(element('h3', 'agenda-date', new Date(event.start).toLocaleDateString('de-DE', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }))); previousDate = key; }
+    if (key !== previousDate) { list.append(element('h3', 'agenda-date', new Date(event.start).toLocaleDateString(currentLocale(), { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }))); previousDate = key; }
     const button = element('button', `agenda-event color-${calendarFor(event).color}`), detail = element('div');
-    button.append(element('time', '', event.allDay ? 'Ganztägig' : `${shortTime(event.start)} – ${shortTime(event.end)}`));
+    button.append(element('time', '', event.allDay ? t('allDay') : `${shortTime(event.start)} – ${shortTime(event.end)}`));
     detail.append(element('strong', '', event.title), element('small', '', [calendarFor(event).name, event.location].filter(Boolean).join(' · ')));
     button.append(detail); button.addEventListener('click', () => openEvent(event)); list.append(button);
   }
   $('calendar').replaceChildren(list);
 }
 function renderDay() {
-  $('day-title').textContent = `${state.selected.toLocaleDateString('de-DE', { weekday: 'long' })}, ${longDate(state.selected)}`;
+  $('day-title').textContent = `${state.selected.toLocaleDateString(currentLocale(), { weekday: 'long' })}, ${longDate(state.selected)}`;
   const events = eventsFor(state.selected);
-  $('day-subtitle').textContent = `${events.length} ${events.length === 1 ? 'Termin' : 'Termine'} geplant`;
+  $('day-subtitle').textContent = t('eventsPlanned', events.length);
   $('day-events').replaceChildren();
   if (!events.length) {
-    const empty = element('div', 'empty-day'); empty.append(element('span', '', '◷'), element('h3', '', 'Noch alles offen.'), element('p', '', 'Dein Tag hat Platz für etwas Gutes.'));
+    const empty = element('div', 'empty-day'); empty.append(element('span', '', '◷'), element('h3', '', t('emptyDayTitle')), element('p', '', t('emptyDayDesc')));
     $('day-events').append(empty);
   }
   events.forEach(event => {
     const button = element('button', `day-event color-${calendarFor(event).color}`);
-    button.append(element('time', '', event.allDay ? 'GANZTÄGIG' : `${shortTime(event.start)} – ${shortTime(event.end)}`), element('strong', '', event.title), element('small', '', event.location || calendarFor(event).name));
+    button.append(element('time', '', event.allDay ? t('allDayUpper') : `${shortTime(event.start)} – ${shortTime(event.end)}`), element('strong', '', event.title), element('small', '', event.location || calendarFor(event).name));
     button.addEventListener('click', () => openEvent(event)); $('day-events').append(button);
   });
 }
 function render() {
   indexEvents();
-  $('range-title').textContent = state.view === 'week' ? `${longDate(range().start)} – ${longDate(plusDays(range().start, 6))}` : state.anchor.toLocaleDateString('de-DE', { month: 'long', year: 'numeric' });
+  $('range-title').textContent = state.view === 'week' ? `${longDate(range().start)} – ${longDate(plusDays(range().start, 6))}` : state.anchor.toLocaleDateString(currentLocale(), { month: 'long', year: 'numeric' });
   document.querySelectorAll('[data-view]').forEach(button => button.setAttribute('aria-pressed', button.dataset.view === state.view));
   if (state.view === 'agenda' || state.query) renderAgenda(); else renderMonth();
   renderDay();
-  $('event-count').textContent = `${state.data.events.length} Termine · lokal gespeichert`;
+  $('event-count').textContent = t('eventsCount', state.data.events.length);
 }
-async function reload() { state.data = await call('load'); renderCalendarFilters(); render(); }
+async function reload() {
+  try {
+    const appConf = await call('appStatus');
+    if (appConf?.language && ['de', 'en'].includes(appConf.language) && appConf.language !== currentLang) {
+      currentLang = appConf.language;
+      updateStaticTexts();
+    }
+  } catch {
+    // Graceful fallback if appStatus IPC is unavailable
+  }
+  state.data = await call('load');
+  renderCalendarFilters();
+  render();
+}
 function showDialog(id) { if (!$(id).open) $(id).showModal(); }
 function openEvent(event = null, date = state.selected) {
   $('event-form').reset(); $('event-error').textContent = ''; $('event-warning').hidden = true;
-  $('event-dialog-title').textContent = event ? 'Termin bearbeiten' : 'Neuer Termin';
+  $('event-dialog-title').textContent = event ? t('editEvent') : t('newEventTitle');
   $('event-id').value = event?.id || '';
   $('event-title').value = event?.title || '';
   const start = event ? new Date(event.start) : new Date(date.getFullYear(), date.getMonth(), date.getDate(), 9);
@@ -281,5 +307,84 @@ document.addEventListener('keydown', event => {
   if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k' && !document.querySelector('dialog[open]')) { event.preventDefault(); $('search').focus(); }
   if (event.key.toLowerCase() === 'n' && !event.metaKey && !event.ctrlKey && !event.altKey && !['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName) && !document.querySelector('dialog[open]')) { event.preventDefault(); openEvent(); }
 });
-$('today-label').textContent = new Date().toLocaleDateString('de-DE', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }).toLocaleUpperCase('de');
-reload().catch(error => { render(); toast(error.message, true); $('new-event').disabled = true; });
+function updateStaticTexts() {
+  document.documentElement.lang = currentLang;
+  $('lang-current').textContent = currentLang.toUpperCase();
+  $('settings-lang-select').value = currentLang;
+  $('brand-btn').setAttribute('aria-label', t('brandTitle'));
+  $('new-event-text').textContent = currentLang === 'en' ? ' New Event ' : ' Neuer Termin ';
+  $('nav-my-calendar-text').textContent = t('myCalendarNav');
+  $('nav-assistant-text').textContent = t('assistantNav');
+  $('privacy-title').textContent = t('privacyTitle');
+  $('privacy-desc').textContent = t('privacyText');
+  $('privacy-indicator').textContent = t('privacyIndicator');
+  $('settings-nav-text').textContent = t('settingsNav');
+  $('profile-title').textContent = t('profileRoom');
+  $('topbar-breadcrumb-title').textContent = t('topbarBreadcrumb');
+  $('saved-indicator-text').textContent = t('offlineReady');
+  $('help').setAttribute('aria-label', t('shortcutsHelp'));
+  $('heading-main-title').innerHTML = t('headingTitle').replace('.', '<span>.</span>');
+  $('heading-sub-title').textContent = t('headingDesc');
+  $('assistant-open').innerHTML = `${t('assistantShortcut')} <span>↗</span>`;
+  $('previous').setAttribute('aria-label', t('prevPeriod'));
+  $('next').setAttribute('aria-label', t('nextPeriod'));
+  $('today').textContent = t('today');
+  $('footer-today-dot').textContent = t('today');
+  $('search').setAttribute('placeholder', t('searchPlaceholder'));
+  $('search').setAttribute('aria-label', t('searchPlaceholder'));
+  document.querySelector('[data-view="month"]').textContent = t('viewMonth');
+  document.querySelector('[data-view="week"]').textContent = t('viewWeek');
+  document.querySelector('[data-view="agenda"]').textContent = t('viewAgenda');
+  $('footer-hint-text').textContent = t('clickToPlan');
+  $('day-panel-eyebrow').textContent = t('dayOverviewEyebrow');
+  $('focus-card-title').textContent = t('focusTitle');
+  $('focus-card-desc').textContent = t('focusDesc');
+  $('add-break').innerHTML = `${t('addBreak')} <span>＋</span>`;
+  $('footer-quote').textContent = t('footerLeft');
+  $('today-label').textContent = new Date().toLocaleDateString(currentLocale(), { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }).toLocaleUpperCase(currentLocale());
+
+  // Form & dialog static texts
+  $('st-eyebrow').textContent = t('workspaceLabel');
+  $('st-title').textContent = t('settingsNav').replace('⚙ ', '');
+  $('st-backup-title').textContent = currentLang === 'en' ? 'Back up your data' : 'Deine Daten sichern';
+  $('st-backup-desc').textContent = currentLang === 'en' ? 'Export all events and calendars as a JSON file. Store your backup in a safe place.' : 'Exportiere alle Termine und Kalender als JSON-Datei. Bewahre dein Backup an einem geschützten Ort auf.';
+  $('export').textContent = currentLang === 'en' ? '↓ Export backup' : '↓ Backup exportieren';
+  $('import').textContent = currentLang === 'en' ? '↑ Restore backup' : '↑ Backup wiederherstellen';
+  $('event-title-label').childNodes[0].textContent = t('eventTitleLabel');
+  $('event-title').placeholder = t('eventTitlePlaceholder');
+  $('event-start-label').childNodes[0].textContent = t('eventStartLabel');
+  $('event-end-label').childNodes[0].textContent = t('eventEndLabel');
+  $('event-cal-label').childNodes[0].textContent = t('eventCalendarLabel');
+  $('event-all-day-text').textContent = ` ${t('eventAllDayCheck')}`;
+  $('event-loc-label').childNodes[0].textContent = t('eventLocationLabel');
+  $('event-location').placeholder = t('eventLocationPlaceholder');
+  $('event-notes-label').childNodes[0].textContent = t('eventNotesLabel');
+  $('event-notes').placeholder = t('eventNotesPlaceholder');
+  $('delete-event').textContent = t('deleteEventBtn');
+  $('event-cancel-btn').textContent = t('cancelBtn');
+  $('save-event').textContent = t('saveBtn');
+}
+
+async function setLanguage(lang) {
+  if (!['de', 'en'].includes(lang)) return;
+  currentLang = lang;
+  try {
+    await call('configureApp', { language: lang });
+  } catch {
+    // If running in browser or detached mode, continue gracefully
+  }
+  updateStaticTexts();
+  renderCalendarFilters();
+  render();
+  toast(t('langChanged'));
+}
+
+$('lang-toggle').addEventListener('click', () => {
+  setLanguage(currentLang === 'de' ? 'en' : 'de');
+});
+$('settings-lang-select').addEventListener('change', e => {
+  setLanguage(e.target.value);
+});
+
+// Initial boot
+reload().catch(err => toast(err.message, true));
