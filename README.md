@@ -31,8 +31,22 @@ Kein Webpack, keine CDN-Inhalte, keine Laufzeitbibliotheken im Renderer. Electro
 - Termine anklicken zum Bearbeiten. Überschneidungen im selben Kalender werden angezeigt.
 - **✎** neben „Meine Kalender“ benennt Kalender um.
 - **Einstellungen & Backup** exportiert und importiert JSON. Beim Import erfolgt eine Bestätigung und eine automatische Sicherung des bisherigen Datenbestands.
+- **Synchronisation (CalDAV & Nextcloud):** Ermöglicht den sicheren Abgleich mit Nextcloud, Apple iCloud oder CalDAV-Servern.
 - Ganztägige Termine verwenden ein exklusives Ende: Ein Tag beginnt um 00:00 und endet um 00:00 des Folgetags.
 - **⌘/Strg K** fokussiert die Suche, **Esc** schließt Dialoge.
+
+## Synchronisation (Nextcloud, Apple & CalDAV)
+
+SimHub Calendar ist standardmäßig **100 % offline**. Wenn du Termine mit Familie, Partner oder Kollegen teilen oder auf mehreren Geräten nutzen möchtest, kannst du unter **Einstellungen & Backup → Synchronisation** einen CalDAV-Dienst einrichten:
+
+- **Nextcloud / ownCloud:** Ideal für volle Datenhoheit (selbst gehostet oder europäische Provider wie Hetzner, mailbox.org). Die Server-URL ist der Kalender-Pfad aus der Nextcloud-Weboberfläche (z. B. `https://mein-nextcloud.de/remote.php/dav/calendars/benutzer/persoenlich/`).
+- **Apple iCloud:** Unterstützt über Apples CalDAV-Endpunkt `https://caldav.icloud.com/` mit deiner Apple-ID und einem anwendungsspezifischen Passwort.
+- **Beliebiger CalDAV-Server:** Kompatibel mit Radicale, Baïkal, Fastmail, Posteo oder Google Kalender.
+
+### Sicherheit & Privatsphäre beim Sync
+- **Keine Fremdbibliotheken:** Der CalDAV-Client nutzt ausschließlich Standard-HTTPS im isolierten Electron-Hauptprozess. Die Dateigröße der App wächst dadurch praktisch nicht (~8 KB).
+- **Verschlüsselte Zugangsdaten:** Passwörter und App-Tokens werden über Electrons `safeStorage` im Schlüsselbund des Betriebssystems verschlüsselt in `sync-settings.json` gespeichert.
+- **Offline-First:** Auch bei aktivierter Synchronisation bleibt der Kalender offline voll funktionsfähig. Über **„Verbindung testen“** und **„Jetzt synchronisieren“** behältst du jederzeit die volle Kontrolle über den Datenabgleich.
 
 ## KI & Agenten
 
