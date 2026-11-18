@@ -12,3 +12,7 @@ test-results/
 
 # Local account-access audit; do not publish administration details.
 docs/local-access-review.md
+
+# Lokale KI- & Projekt-Kontexte (nur lokal behalten, nie auf GitHub)
+CONTEXT.md
+PROMPT.md
